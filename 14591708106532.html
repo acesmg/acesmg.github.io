@@ -1,0 +1,336 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  Stacked Generalization - 
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:zxcoder.xyz ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        <li id="menu_item_index"><a href="index.html">HOME</a></li>
+        <li id="menu_item_archives"><a href="archives.html">Archives</a></li>
+        <li id="menu_item_about"><a href="about.html">ABOUT</a></li>
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; </span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html">聚合方法</a></li>
+        
+            <li><a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html">线性模型</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>Stacked Generalization</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2016/3/28</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>聚合方法</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>　　使用多层模型，前一层的输出作为特征，当作后一层的输入。以两层模型为例。第一层使用两种分类器，生成两种meta-feature；第二层使用一个分类器，以这些meta-features为特征生成分类结果。训练集和测试集都要经历这两个层次。在第一层，对于单个分类器，可以采用k-fold来生成这个分类器对应的meta-feature。整个过程可以用以下两图表示，这里采用了2-fold。<br/>
+　　<img src="http://7xrz9i.com1.z0.glb.clouddn.com/ensemblestackedGeneralization-Train.png" alt=""/><br/>
+　　<img src="http://7xrz9i.com1.z0.glb.clouddn.com/ensemblestackedGeneralization-Test.png" alt=""/><br/>
+　　C1和C2是第一层采用的分类器。<br/>
+　　对<strong>训练集</strong>的操作：<br/>
+　　1.划分训练集P为两个fold，PA，PB。<br/>
+　　2.对于C1，生成F1：<br/>
+　　　　以PA为训练集训练它，然后将C1作用于PB，生成部分meta-feature F1B；<br/>
+　　　　以PB为训练集训练它，然后将C1作用于PA，生成部分meta-feature F1A；<br/>
+　　　　组合以上两部分meta-feature，生成F1，a column。<br/>
+　　3.对C2，生成F2：过程类似2。<br/>
+　　4.组合F1和F2，生成含有两种feature（Attribute）的新数据集F，y还是原来的训练集的y。<br/>
+　　对<strong>测试集</strong>：<br/>
+　　同样要生成两种meta-feature。<br/>
+　　1.可以用整个训练集分别训练C1和C2，然后将C1和C2作用于测试集。就像上图2那样。<br/>
+　　2.也可以把上图1中得到的两个(多个)C1都作用于测试集，投票或求评价得到TF1；用同样的方法得到TF2。<br/>
+　　3.组合TF1，TF2，生成TF，含两种属性。 </p>
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14592400407522.html" 
+          title="Previous Post: Boosting">&laquo; Boosting</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14591708106411.html" 
+          title="Next Post: Random Forest">Random Forest &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style"><span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_tsina"></a>
+<a class="jiathis_button_weixin"></a>
+<a class="jiathis_button_reddit"></a>
+<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+	summary:"",
+	shortUrl:false,
+	hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"acetseng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <div class="site-a-logo"><img src="http://7xrz9i.com1.z0.glb.clouddn.com/avatar.jpg" /></div>
+            
+                <h1></h1>
+                <div class="site-des">搬运者Ace</div>
+                <div class="social">
+
+
+
+
+
+
+
+<a class="weibo" target="_blank" href="http://weibo.com/acetseng" title="weibo">Weibo</a>
+
+<a class="github" target="_blank" href="https://github.com/AceTseng" title="GitHub">GitHub</a>
+
+  <a class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html"><strong>聚合方法</strong></a>
+        
+            <a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html"><strong>线性模型</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14592424184360.html">Bagging</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14592400407522.html">Boosting</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14591708106532.html">Stacked Generalization</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14591708106411.html">Random Forest</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14591708106259.html">Logistic 回归</a>
+			      </li>
+		     
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>

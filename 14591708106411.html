@@ -1,0 +1,344 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  Random Forest - 
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:zxcoder.xyz ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        <li id="menu_item_index"><a href="index.html">HOME</a></li>
+        <li id="menu_item_archives"><a href="archives.html">Archives</a></li>
+        <li id="menu_item_about"><a href="about.html">ABOUT</a></li>
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; </span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html">聚合方法</a></li>
+        
+            <li><a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html">线性模型</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>Random Forest</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2016/3/28</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>聚合方法</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>　　随机森林，以决策树为基本模型的Bagging策略。通过两个层次的随机性来降低基本模型的相关性，从而提高组合模型的性能。<br/>
+　　1.在训练每棵树时，从训练数据集中有放回地抽取样本；<br/>
+　　2.每次分裂时随机选取一个特征子集(随机子空间).<br/>
+<strong>算法：</strong><br/>
+输入：训练数据集\(T=\{(x_1,y_1),(x_2,y_2),...,(x_N,y_N)\}\)，其中\(x_i\in\chi \subseteq R^{n}\)，样本含有\(n\)个属性，\(y_i\in\{-1,+1\}\)。以及基本模型\(h(x)\)(决策树)、基本模型的数量\(M\)、特征子集的大小\(sn\)。<br/>
+输出：强模型\(H(x)\)。<br/>
+1.对于\(m=1,2,...M\)<br/>
+　　a.有放回地随机抽取训练数据集\(T_i\)；<br/>
+　　b.用\(T_i\)训练\(h_i(x)\)，每次分裂时随机选取特征子集；<br/>
+2.组合这M个模型，得强模型。</p>
+
+<p><strong>Caution:</strong><br/>
+1.对于分类问题，可以令特征子集的大小为\(sn=\sqrt{n}\)；对于回归问题可以令\(sn=\frac{n}{3}\)。<br/>
+2.对分类问题，最终模型可以是M个模型的Major Vote；对于回归问题，可以对它们的结果求平均。<br/>
+<strong>3.</strong>可以用随机森林来评估属性的重要程度。</p>
+
+<p><strong>Feature Importance</strong><br/>
+随机森林评估属性的重要性的算法。<br/>
+输入：训练数据集\(T\)，在\(T\)上得到的随机森林模型\(H(x)\)。<br/>
+输出：属性重要性。<br/>
+1.计算\(T\)中样本的平均Out-of-bag error \(oob\).<br/>
+2.对\(j=1,2,...F\)<br/>
+　　a.对\(T\)中所有样本的属性\(j\)做Permute(Shuffle)，得到临时样本集合\(T&#39;\)，求\(T&#39;\)的Out-of-bag error \(oob_j\).<br/>
+　　b.属性\(j\)的重要性得分是\(FS_j=oob-oob_j\)<br/>
+3.输出所有属性的\(FS\)。值越大越重要。</p>
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="14591708106532.html" 
+          title="Previous Post: Stacked Generalization">&laquo; Stacked Generalization</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14591708106259.html" 
+          title="Next Post: Logistic 回归">Logistic 回归 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style"><span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_tsina"></a>
+<a class="jiathis_button_weixin"></a>
+<a class="jiathis_button_reddit"></a>
+<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+	summary:"",
+	shortUrl:false,
+	hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"acetseng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <div class="site-a-logo"><img src="http://7xrz9i.com1.z0.glb.clouddn.com/avatar.jpg" /></div>
+            
+                <h1></h1>
+                <div class="site-des">搬运者Ace</div>
+                <div class="social">
+
+
+
+
+
+
+
+<a class="weibo" target="_blank" href="http://weibo.com/acetseng" title="weibo">Weibo</a>
+
+<a class="github" target="_blank" href="https://github.com/AceTseng" title="GitHub">GitHub</a>
+
+  <a class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html"><strong>聚合方法</strong></a>
+        
+            <a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html"><strong>线性模型</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14592424184360.html">Bagging</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14592400407522.html">Boosting</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14591708106532.html">Stacked Generalization</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14591708106411.html">Random Forest</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14591708106259.html">Logistic 回归</a>
+			      </li>
+		     
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>
