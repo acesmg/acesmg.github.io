@@ -4,7 +4,7 @@
   <title><![CDATA[]]></title>
   <link href="http://21stacks.top/atom.xml" rel="self"/>
   <link href="http://21stacks.top/"/>
-  <updated>2016-04-03T19:35:40+08:00</updated>
+  <updated>2016-04-03T20:13:55+08:00</updated>
   <id>http://21stacks.top/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -46,7 +46,7 @@
 <p>　　Boosting是一种Adaptive basis-function Model (ABM)。ABM模型可以用下面的式子概括：<br/>
 \[f(x)=w_0+\sum_{m=1}^{M} w_m \phi_m(x) \qquad(1)\]<br/>
 　　这里的\(\phi_m(x)\)是从数据中学习而来的第\(m\)个基函数。ABM通过多个模型的线性组合来得到<strong>非线性</strong>的模型。<br/>
-　　Boosting是一种求ABM的贪心算法。Boosting中的基函数也叫做weak learner。Weak learner可以是任意的分类或回归模型，最常采用的是CART。</p>
+　　Boosting是一种贪心算法。Boosting中的基函数也叫做weak learner。Weak learner可以是任意的分类或回归模型，最常采用的是CART。</p>
 
 <h2 id="toc_0">前向分步算法</h2>
 

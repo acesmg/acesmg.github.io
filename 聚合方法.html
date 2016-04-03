@@ -147,6 +147,93 @@
                 </div>
               </div><!-- article -->
         
+			<div class="article">
+                <a class="clearlink" href="14592400407522.html">
+                
+                  <h1>Boosting</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	　　Boosting是一种Adaptive basis-function Model (ABM)。ABM模型可以用下面的式子概括：
+$$f(x)=w_0+\sum_{m=1}^{M} w_m \phi_m(x) \qquad(1)$$
+　　ABM通过多个模型的线性组合来得到**非线性**的模型。Boosting是一种求ABM的贪心算法。Boosting中的基函数也叫做weak learner。Weak learner可以是任意的分类或回归模型，最常采用的是CART。
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/3/29</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>聚合方法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                      
+                        &nbsp;<a  class="ds-thread-count" data-thread-key="14592400407522.html" data-count-type="comments" href="14592400407522.html#ds-thread"></a>
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14591708106532.html">
+                
+                  <h1>Stacked Generalization</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>　　使用多层模型，前一层的输出作为特征，当作后一层的输入。以两层模型为例。第一层使用两种分类器，生成两种meta-feature；第二层使用一个分类器，以这些meta-features为特征生成分类结果。训练集和测试集都要经历这两个层次。在第一层，对于单个分类器，可以采用k-fold来生成这个分类器对应的meta-feature。整个过程可以用以下两图表示，这里采用了2-fold。<br/>
+　　<img src="http://7xrz9i.com1.z0.glb.clouddn.com/ensemblestackedGeneralization-Train.png" alt=""/><br/>
+　　<img src="http://7xrz9i.com1.z0.glb.clouddn.com/ensemblestackedGeneralization-Test.png" alt=""/><br/>
+　　C1和C2是第一层采用的分类器。<br/>
+　　对<strong>训练集</strong>的操作：<br/>
+　　1.划分训练集P为两个fold，PA，PB。<br/>
+　　2.对于C1，生成F1：<br/>
+　　　　以PA为训练集训练它，然后将C1作用于PB，生成部分meta-feature F1B；<br/>
+　　　　以PB为训练集训练它，然后将C1作用于PA，生成部分meta-feature F1A；<br/>
+　　　　组合以上两部分meta-feature，生成F1，a column。<br/>
+　　3.对C2，生成F2：过程类似2。<br/>
+　　4.组合F1和F2，生成含有两种feature（Attribute）的新数据集F，y还是原来的训练集的y。<br/>
+　　对<strong>测试集</strong>：<br/>
+　　同样要生成两种meta-feature。<br/>
+　　1.可以用整个训练集分别训练C1和C2，然后将C1和C2作用于测试集。就像上图2那样。<br/>
+　　2.也可以把上图1中得到的两个(多个)C1都作用于测试集，投票或求评价得到TF1；用同样的方法得到TF2。<br/>
+　　3.组合TF1，TF2，生成TF，含两种属性。 </p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/3/28</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>聚合方法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                      
+                        &nbsp;<a  class="ds-thread-count" data-thread-key="14591708106532.html" data-count-type="comments" href="14591708106532.html#ds-thread"></a>
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
               
 
 
