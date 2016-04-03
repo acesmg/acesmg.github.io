@@ -20,7 +20,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
 <script type="text/javascript">
   function before_search(){
-    var searchVal = 'site:zxcoder.xyz ' + document.getElementById('search_input').value;
+    var searchVal = 'site:21stacks.top ' + document.getElementById('search_input').value;
     document.getElementById('search_q').value = searchVal;
     return true;
   }
@@ -131,6 +131,13 @@
 　　a.对\(T\)中所有样本的属性\(j\)做Permute(Shuffle)，得到临时样本集合\(T&#39;\)，求\(T&#39;\)的Out-of-bag error \(oob_j\).<br/>
 　　b.属性\(j\)的重要性得分是\(FS_j=oob-oob_j\)<br/>
 3.输出所有属性的\(FS\)。值越大越重要。</p>
+
+<h2 id="toc_0">Reference</h2>
+
+<blockquote>
+<p>统计学习方法<br/>
+Machine Learning: A Probabilistic Perspective</p>
+</blockquote>
 
                         
                       </div>
@@ -309,7 +316,7 @@ var duoshuoQuery = {short_name:'acesmg'};
      
     </script>
 
-    
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"><div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"><div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
 <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
 
 

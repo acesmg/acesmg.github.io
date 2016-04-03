@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[]]></title>
-  <link href="http://zxcoder.xyz/atom.xml" rel="self"/>
-  <link href="http://zxcoder.xyz/"/>
-  <updated>2016-04-03T16:57:30+08:00</updated>
-  <id>http://zxcoder.xyz/</id>
+  <link href="http://21stacks.top/atom.xml" rel="self"/>
+  <link href="http://21stacks.top/"/>
+  <updated>2016-04-03T19:35:40+08:00</updated>
+  <id>http://21stacks.top/</id>
   <author>
     <name><![CDATA[]]></name>
     
@@ -14,9 +14,9 @@
   
   <entry>
     <title type="html"><![CDATA[Bagging]]></title>
-    <link href="http://zxcoder.xyz/14592424184360.html"/>
+    <link href="http://21stacks.top/14592424184360.html"/>
     <updated>2016-03-29T17:06:58+08:00</updated>
-    <id>http://zxcoder.xyz/14592424184360.html</id>
+    <id>http://21stacks.top/14592424184360.html</id>
     <content type="html"><![CDATA[
 <p>　　一种聚合学习模型。<br/>
 　　使用训练数据集的不同子集来训练多个模型，最终输出模型是这些模型的平均或者Major Vote。<br/>
@@ -39,9 +39,9 @@
   
   <entry>
     <title type="html"><![CDATA[Boosting]]></title>
-    <link href="http://zxcoder.xyz/14592400407522.html"/>
+    <link href="http://21stacks.top/14592400407522.html"/>
     <updated>2016-03-29T16:27:20+08:00</updated>
-    <id>http://zxcoder.xyz/14592400407522.html</id>
+    <id>http://21stacks.top/14592400407522.html</id>
     <content type="html"><![CDATA[
 <p>　　Boosting是一种Adaptive basis-function Model (ABM)。ABM模型可以用下面的式子概括：<br/>
 \[f(x)=w_0+\sum_{m=1}^{M} w_m \phi_m(x) \qquad(1)\]<br/>
@@ -203,6 +203,13 @@ L2Boosting学习的迭代过程，就是通过拟合残差来学习新的weak le
 \[f_M(x)=\sum_{m=1}^{M}\phi_m(x)\\\<br/>
 =\sum_{m=1}^{M}\sum_{j=1}^{J}c_{m,j}I(x\in R_{m,j})\]</p>
 
+<h2 id="toc_12">Reference</h2>
+
+<blockquote>
+<p>统计学习方法<br/>
+Machine Learning: A Probabilistic Perspective</p>
+</blockquote>
+
 <p>　　</p>
 
 <p>　</p>
@@ -212,9 +219,9 @@ L2Boosting学习的迭代过程，就是通过拟合残差来学习新的weak le
   
   <entry>
     <title type="html"><![CDATA[Stacked Generalization]]></title>
-    <link href="http://zxcoder.xyz/14591708106532.html"/>
+    <link href="http://21stacks.top/14591708106532.html"/>
     <updated>2016-03-28T21:13:30+08:00</updated>
-    <id>http://zxcoder.xyz/14591708106532.html</id>
+    <id>http://21stacks.top/14591708106532.html</id>
     <content type="html"><![CDATA[
 <p>　　使用多层模型，前一层的输出作为特征，当作后一层的输入。以两层模型为例。第一层使用两种分类器，生成两种meta-feature；第二层使用一个分类器，以这些meta-features为特征生成分类结果。训练集和测试集都要经历这两个层次。在第一层，对于单个分类器，可以采用k-fold来生成这个分类器对应的meta-feature。整个过程可以用以下两图表示，这里采用了2-fold。<br/>
 　　<img src="http://7xrz9i.com1.z0.glb.clouddn.com/ensemblestackedGeneralization-Train.png" alt=""/><br/>
@@ -239,9 +246,9 @@ L2Boosting学习的迭代过程，就是通过拟合残差来学习新的weak le
   
   <entry>
     <title type="html"><![CDATA[Random Forest]]></title>
-    <link href="http://zxcoder.xyz/14591708106411.html"/>
+    <link href="http://21stacks.top/14591708106411.html"/>
     <updated>2016-03-28T21:13:30+08:00</updated>
-    <id>http://zxcoder.xyz/14591708106411.html</id>
+    <id>http://21stacks.top/14591708106411.html</id>
     <content type="html"><![CDATA[
 <p>　　随机森林，以决策树为基本模型的Bagging策略。通过两个层次的随机性来降低基本模型的相关性，从而提高组合模型的性能。<br/>
 　　1.在训练每棵树时，从训练数据集中有放回地抽取样本；<br/>
@@ -269,14 +276,21 @@ L2Boosting学习的迭代过程，就是通过拟合残差来学习新的weak le
 　　b.属性\(j\)的重要性得分是\(FS_j=oob-oob_j\)<br/>
 3.输出所有属性的\(FS\)。值越大越重要。</p>
 
+<h2 id="toc_0">Reference</h2>
+
+<blockquote>
+<p>统计学习方法<br/>
+Machine Learning: A Probabilistic Perspective</p>
+</blockquote>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Logistic 回归]]></title>
-    <link href="http://zxcoder.xyz/14591708106259.html"/>
+    <link href="http://21stacks.top/14591708106259.html"/>
     <updated>2016-03-28T21:13:30+08:00</updated>
-    <id>http://zxcoder.xyz/14591708106259.html</id>
+    <id>http://21stacks.top/14591708106259.html</id>
     <content type="html"><![CDATA[
 
 ]]></content>
@@ -284,9 +298,9 @@ L2Boosting学习的迭代过程，就是通过拟合残差来学习新的weak le
   
   <entry>
     <title type="html"><![CDATA[线性回归]]></title>
-    <link href="http://zxcoder.xyz/14591708105958.html"/>
+    <link href="http://21stacks.top/14591708105958.html"/>
     <updated>2016-03-28T21:13:30+08:00</updated>
-    <id>http://zxcoder.xyz/14591708105958.html</id>
+    <id>http://21stacks.top/14591708105958.html</id>
     <content type="html"><![CDATA[
 
 ]]></content>
