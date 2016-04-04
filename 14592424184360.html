@@ -74,7 +74,7 @@
     <li><label>Categories</label></li>
 
         
-            <li><a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html">聚合方法</a></li>
+            <li><a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html">组合方法</a></li>
         
             <li><a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html">线性模型</a></li>
          
@@ -106,7 +106,7 @@
 
           <span>posted in&nbsp;</span> 
           
-              <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>聚合方法</a></span>
+              <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>组合方法</a></span>
            
          
           <span class="comments">
@@ -121,21 +121,23 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <p>　　一种聚合学习模型。<br/>
-　　使用训练数据集的不同子集来训练多个模型，最终输出模型是这些模型的平均或者Major Vote。<br/>
-　　抽取子集时是有放回的(With replacement)。<br/>
-　　设样本集大小为\(N\)，则单个样本被抽中(至少被抽中一次)的概率是：<br/>
-　　\[p=1-(1-\frac{1}{N})^{N}\]<br/>
-　　当\(N\)足够大时，\(p\approx 0.632\)。因此每抽取一个训练子集，原训练集中大约\(63\%\)的样本会被抽中。<br/>
-　　</p>
+      <p>　　一种组合学习模型。通过从原始训练数据集里有放回(with replacement)地抽取数据样本，来构造新的训练集。每得到一个新的训练集就在其上训练一个模型。重复多次，得数个模型。采用求平均或Major Vote来组合这些模型，得到最终的输出模型。<br/>
+　　新构造的训练集与原始训练集有着相同数量的样本，设为\(N\)。则每构造一个新训练集，原始训练集中的单个样本被抽取(即至少被抽中一次)的概率是：<br/>
+　　\[p=1-(1-\frac{1}{N})^{N}\]</p>
+
+<span id="more"></span><!-- more -->
+
+<p>　　注意到<br/>
+　　\[\lim_{N\rightarrow \infty}p=\lim_{N\rightarrow \infty}1-[(1+\frac{1}{-N})^{-N}]^{-1}=1-\frac{1}{e}\]<br/>
+　　因此当\(N\)足够大时有\(p\approx 0.632\)。因此每构造一个训练集，原始训练集里有大约\(63\%\)的样本会被抽中。</p>
 
 <h2 id="toc_0">缺陷</h2>
 
-<p>　　组合模型的相关性越低，组合后的效果越好。Bagging策略选择的子集之间的相关性(Correlation)通常较高，因此性能不佳。</p>
+<p>　　对于组合学习模型而言，基本模型之间的相关性越低，组合后的效果越好。Bagging策略的基本模型之间相关性较强，因此性能不佳。</p>
 
 <h2 id="toc_1">改进</h2>
 
-<p>　　设法降低训练集之间的相关性。<strong>随机森林</strong>是一种改进的Bagging。</p>
+<p>　　应设法降低训练集之间的相关性。<strong>随机森林</strong>是对Bagging的一种改进。</p>
 
       </div>
 
@@ -143,13 +145,16 @@
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
+          <a href="14592400407522.html" 
+          title="Previous Post: Boosting">&laquo; Boosting</a>
+      
         </p>
         </div>
         <div class="large-6 columns">
       <p class="text-right" style="padding:15px 0px;">
       
-          <a  href="14592400407522.html" 
-          title="Next Post: Boosting">Boosting &raquo;</a>
+          <a  href="14591708106411.html" 
+          title="Next Post: Random Forest">Random Forest &raquo;</a>
       
       </p>
         </div>
@@ -222,7 +227,7 @@ var jiathis_config={
 
       	<p class="cat-list">
         
-            <a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html"><strong>聚合方法</strong></a>
+            <a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html"><strong>组合方法</strong></a>
         
             <a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html"><strong>线性模型</strong></a>
          
@@ -241,25 +246,25 @@ var jiathis_config={
 	      
 		      
 			      <li class="post">
-			        <a href="14592424184360.html">Bagging</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
 			        <a href="14592400407522.html">Boosting</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14591708106532.html">Stacked Generalization</a>
+			        <a href="14592424184360.html">Bagging</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
 			        <a href="14591708106411.html">Random Forest</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14591708106532.html">Stacked Generalization</a>
 			      </li>
 		     
 		  
