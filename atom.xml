@@ -4,13 +4,105 @@
   <title><![CDATA[]]></title>
   <link href="http://21stacks.top/atom.xml" rel="self"/>
   <link href="http://21stacks.top/"/>
-  <updated>2016-04-05T00:37:35+08:00</updated>
+  <updated>2016-04-05T20:23:14+08:00</updated>
   <id>http://21stacks.top/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[Gradient Descent]]></title>
+    <link href="http://21stacks.top/14598347945676.html"/>
+    <updated>2016-04-05T13:39:54+08:00</updated>
+    <id>http://21stacks.top/14598347945676.html</id>
+    <content type="html"><![CDATA[
+<p>　　梯度下降算法是一种常见的无约束优化问题求解算法。其主要特点有：<br/>
+　　1.迭代式，逐步逼近；<br/>
+　　2.只能在待优化函数的可导邻域内寻优；<br/>
+　　3.沿梯度的反方向搜索；<br/>
+　　3.实现相对简单。<br/>
+　　设优化目标为<br/>
+\[\min_{x}F(x)\qquad (1)\]<br/>
+　　\(F(x)\)是\(R^{n}\)上一阶可导函数。现在要求一个\(x\in R^{n}\)，使\(F(x)\)达到极小值。</p>
+
+<span id="more"></span><!-- more -->
+
+<p>　　梯度下降算法基于这样一个事实：</p>
+
+<blockquote>
+<p>如果函数\(F(x)\)在点\(x=x_m\)的一个邻域内可微，则当\(x\)沿着这个点的梯度的反方向变化时，\(F(x)\)下降的速度最快。</p>
+</blockquote>
+
+<p>　　也就是说，\(x\)应按下式变化：<br/>
+\[x_{m+1}=x_m-\gamma \triangledown F(x_m)\qquad (2)\]<br/>
+　　其中\(\triangledown F(x_m)\)是\(F(x)\)在\(x_m\)处的梯度；\(\gamma\)是一个较小的系数，控制着\(x\)更新的步长。当\(\gamma\)足够小，有\(F(x_{m+1})\leq F(x_m)\)。梯度下降算法通过迭代的方式逐渐减小\(F(x)\)的值，在每一步迭代中要完成的工作就是求梯度值，以及步长\(\gamma\)。算法的描述如下。</p>
+
+<h4 id="toc_0">算法 Gradient Descent</h4>
+
+<p><strong>输入</strong>：目标函数\(F(x)\)，最大迭代次数\(M\)。<br/>
+<strong>输出</strong>：\(F(x)\)的极小值点\(x&#39;\)。</p>
+
+<p>1.初始化\(x_0\)，令其为\(R^{n}\)上的某个点。<br/>
+2.对\(m=1,2,...,M\)<br/>
+　　a.求梯度\(\triangledown F(x_m)\)；<br/>
+　　b.求步长\(\gamma\)；<br/>
+　　c.更新\(x\)，令\(x_{m+1}=x_m-\gamma\triangledown\)。<br/>
+3.输出\(x&#39;=x^{M}\)。</p>
+
+<p>　　也可以设定一个较小的值\(\varepsilon\)，当\(x\)或\(F(x)\)的更新小于它时，提前结束算法。</p>
+
+<h4 id="toc_1">步长</h4>
+
+<p>　　以上算法中没有对步骤2.b求步长\(\gamma\)的表述。对步长的求解有很多方法，可以直接预设其为一个很小的正实数、可以以\(\gamma\)为自变量对\(F(x)\)求导以得到一个确切的值、也可以采用线性搜索的方式求一个适当的值。通常，线性搜索是更合理的方式，其计算量不大，找到的值足够好。</p>
+
+<h4 id="toc_2">Backtracking Line Search (BLS)</h4>
+
+<p>　　BLS是一种迭代式的线性搜索方法。令\(\gamma\)为一个较大的值，然后通过一个系数\(\tau \in (0,1)\)来逐步减小\(\gamma\)。</p>
+
+<h5 id="toc_3">算法 BLS</h5>
+
+<p><strong>输入</strong>：\(F(x)\)、\(x_m\)，\(\triangledown F(x_m)=p\)，\(\tau \in (0,1)\)，一个控制参数\(c\in (0,1)\)。<br/>
+<strong>输出</strong>：\(\gamma&#39;\)。</p>
+
+<p>1.令\(\gamma\)为一个较大值；\(m= -\parallel p \parallel &lt;0\)；<br/>
+2.循环，令<br/>
+\[\gamma=\tau\gamma\]<br/>
+　直到\(F(x+\gamma m)\leq F(x)+\gamma c m\)。<br/>
+3.输出\(\gamma&#39;=\gamma\)。</p>
+
+<h4 id="toc_4">Why Gradient Descent ?</h4>
+
+<p>　　要求一个函数的极小值，最直观的想法莫过于求目标函数导函数的零点了。为什么我们还需要像梯度下降这样的迭代式算法呢？<br/>
+　　梯度下降算法最常用的常见是极小化机器学习模型的损失函数。对于大多数非线性模型而言，损失函数的优化不存在封闭解，因此不能用求导函数零点的方法来解。其次，对于那些存在封闭解的情况，在实践上通常不易计算。<br/>
+　　例如对于我们熟知的线性回归模型，其平方损失函数可以定义为<br/>
+\[J(\theta)=\frac{1}{2}\sum_{i=1}^{N}(x_i\theta-y_i)^2\]<br/>
+　　其中\(x_i\)是第\(i\)个训练样本，是一个\(M\)行向量；\(\Theta\)是回归模型的参数，是一个\(M\)维列向量。所以上式也可以写成<br/>
+\[J=\frac{1}{2}\sum_{i=1}^{N}[\sum_{j=1}^{M}x_{ij}\theta_j]^2\]<br/>
+优化目标为求<br/>
+\[\theta&#39;=arg\min_{\theta}J(\theta)\]<br/>
+对损失函数求导，让导数为0，对\(j=1,2,...M\)有，<br/>
+\[\frac{\partial J(\theta)}{\partial \theta_j}=\sum_{i=1}^{N}x_{ij} *(\sum_{k=1}^{M}x_{ik}\theta_k-y_i)=0\]<br/>
+整合成矩阵形式有：<br/>
+\[\frac{\partial J(\theta)}{\partial \theta}=X^{T}X\theta-X^{T}Y=0\]<br/>
+于是得到解<br/>
+\[\theta&#39;=(X^{T}X)^{-1}X^{T}Y\]<br/>
+　　上式表明，为了求损失函数的极小值点，要求矩阵\(X^{T}X\)的逆矩阵。对于一个\(n\times n\)的矩阵，求逆矩阵运算的时间复杂度为\(O(n^3)\)，当\(n\)较大时，耗时很久。</p>
+
+<h4 id="toc_5">Wrap it up</h4>
+
+<p>　　如果待优化的目标函数是凸函数，则梯度下降算法可以得到全局最优解(Global Optimum)。否则，求得的大多是局部最优。步长和初始点的选择都会影响梯度下降算法的寻优结果。相比于牛顿法，梯度下降的收敛需要更多的迭代次数，但计算更简单。相比于群智能算法，梯度下降算法寻优能力较弱，且只适用于可微目标函数。</p>
+
+<h4 id="toc_6">Reference</h4>
+
+<blockquote>
+<p>李航 统计学习方法<br/>
+<a href="https://en.wikipedia.org/wiki/Gradient_descent">Wikipedia: Gradient Descent</a></p>
+</blockquote>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Boosting]]></title>
@@ -22,7 +114,7 @@
 \[f(x)=w_0+\sum_{m=1}^{M} w_m \phi_m(x) \qquad(1)\]<br/>
 　　这里的\(\phi_m(x)\)是从数据中学习而来的第\(m\)个基本模型(基函数)。ABM通过多个模型的线性组合来得到<strong>非线性</strong>的模型。事实上，决策树就是一种ABM。一棵具有\(M\)个叶子节点的决策树可以表示为：<br/>
 \[T(x)=\sum_{m=1}^{M}w_mI(x\in R_m)\qquad (2)\]<br/>
-　　这里\(R_m\)是决策树的第\(m\)个叶节点；\(w_m\)表示第\(m\)个叶节点的标示值(输出)；当样本x属于第\(m\)个叶节点时，函数\(I(x \in R_m)\)输出1，否则输出0。<br/>
+　　\(R_m\)是决策树的第\(m\)个叶节点；\(w_m\)表示第\(m\)个叶节点的标示值(输出)；当样本x属于第\(m\)个叶节点时，函数\(I(x \in R_m)\)输出1，否则输出0。<br/>
 　　Boosting是除了决策树以外的另一种常见的ABM模型。Boosting中的基本模型也叫做weak learner。被使用最多的基本模型是CART。</p>
 
 <span id="more"></span><!-- more -->
@@ -229,7 +321,7 @@ Machine Learning: A Probabilistic Perspective</p>
     <updated>2016-03-28T21:13:30+08:00</updated>
     <id>http://21stacks.top/14591708106411.html</id>
     <content type="html"><![CDATA[
-<p>　　随机森林，以决策树为基本模型的Bagging策略。通过两个层次的随机性来降低基本模型的相关性，从而提高组合模型的性能。<br/>
+<p>　　随机森林是以决策树为基本模型的Bagging策略。通过两个层次的随机性来降低基本模型的相关性，从而提高组合模型的性能。<br/>
 　　1.在训练每棵树时，从训练数据集中有放回地抽取样本；<br/>
 　　2.每次分裂时随机选取一个特征子集(随机子空间).</p>
 
@@ -249,14 +341,15 @@ Machine Learning: A Probabilistic Perspective</p>
 <strong>3.</strong>可以用随机森林来评估属性的重要程度。</p>
 
 <p><strong>Feature Importance</strong><br/>
-随机森林评估属性的重要性的算法。<br/>
-输入：训练数据集\(T\)，在\(T\)上得到的随机森林模型\(H(x)\)。<br/>
-输出：属性重要性。<br/>
-1.计算\(T\)中样本的平均Out-of-bag error \(oob\).<br/>
-2.对\(j=1,2,...F\)<br/>
+　　随机森林在建立每一棵树时都临时抽取一个训练集。因此原始训练集里的样本\(x\)可能只参与了一部分树的建立，而在建立另一些树的时候没有被使用。对于样本\(x\)，如果用那些它没有参与建立的树来处理它(分类或回归)，就会存在误差；在所有它没参与建立的树上的误差之和，就是Out-of-bag error (oob)。随机森林利用oob来评估属性的重要性，其算法描述如下。<br/>
+　　<br/>
+<strong>输入</strong>：训练数据集\(T\)，在\(T\)上得到的随机森林模型\(H(x)\)。<br/>
+<strong>输出</strong>：属性重要性。<br/>
+1.计算\(T\)中样本的平均误差\(oob\).<br/>
+2.对\(j=1,2,...n\)<br/>
 　　a.对\(T\)中所有样本的属性\(j\)做Permute(Shuffle)，得到临时样本集合\(T&#39;\)，求\(T&#39;\)的Out-of-bag error \(oob_j\).<br/>
-　　b.属性\(j\)的重要性得分是\(FS_j=oob-oob_j\)<br/>
-3.输出所有属性的\(FS\)。值越大越重要。</p>
+　　b.属性\(j\)的重要性得分是\(S_j=oob-oob_j\)<br/>
+3.输出所有属性的得分\(S\)。值越大越重要。</p>
 
 <h2 id="toc_0">Reference</h2>
 
@@ -314,6 +407,61 @@ Machine Learning: A Probabilistic Perspective</p>
     <updated>2016-03-28T21:13:30+08:00</updated>
     <id>http://21stacks.top/14591708105958.html</id>
     <content type="html"><![CDATA[
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[去过东江湖]]></title>
+    <link href="http://21stacks.top/14598276464760.html"/>
+    <updated>2016-04-05T11:40:46+08:00</updated>
+    <id>http://21stacks.top/14598276464760.html</id>
+    <content type="html"><![CDATA[
+<p><img src="http://7xrz9i.com1.z0.glb.clouddn.com/%E4%B8%9C%E6%B1%9F%E6%B9%96.jpg" alt=""/></p>
+
+<blockquote>
+<p>2015年9月12日 手机摄于东江湖.</p>
+</blockquote>
+
+<p>　　我总认为，近处的风景随时去看都可以，因此在长春待了四年，从未到过长白山。我还认为，太远的风景不值得舟车劳累长途跋涉，如今身在广州，长白山不去也罢。</p>
+
+<span id="more"></span><!-- more -->
+
+<p>　　生于湘南林邑，而这是我首次得以近览东江湖，若不是亲人邀请盛情难却，也不得成行。九月的天气已近秋，加之数日的连绵细雨，湖上竟刮起刺骨寒风。我们一群老少爷们在这风中冻得瑟瑟发抖，唯姨奶奶一人岿然屹立，迎风眺望，那意气风发的劲头着实让人惊叹。年过八旬的姨奶奶是奶奶的妹妹，年轻时在南车工作，退休后学起了国画、京剧，还独自一人游遍大江南北。这种气质，我羡慕，但我学不来。<br/>
+　　等我不搬砖了，就找条小巷子，开个照相馆，就叫老曾照相馆。你看，人老去的样子千姿百态，也不知道会有几人光顾我的照相馆。管他呢，到那时候老子肯定很有钱。<br/>
+　　<br/>
+　　<br/>
+　　<br/>
+　　<br/>
+　　</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[广美的气质]]></title>
+    <link href="http://21stacks.top/14598440012972.html"/>
+    <updated>2016-04-05T16:13:21+08:00</updated>
+    <id>http://21stacks.top/14598440012972.html</id>
+    <content type="html"><![CDATA[
+<p><img src="http://7xrz9i.com1.z0.glb.clouddn.com/cold-guangmeiDSCF1485%E5%89%AF%E6%9C%AC.jpg" alt=""/></p>
+
+<span id="more"></span><!-- more -->
+
+<p><img src="http://7xrz9i.com1.z0.glb.clouddn.com/cold-guangmeiDSCF1490%E5%89%AF%E6%9C%AC.jpg" alt=""/></p>
+
+<p><img src="http://7xrz9i.com1.z0.glb.clouddn.com/cold-guangmeiDSCF1480%E5%89%AF%E6%9C%AC.jpg" alt=""/></p>
+
+<blockquote>
+<p>2014年12月13日 摄于广州美术学院.</p>
+</blockquote>
+
+<p>　　十多年前我在一所县级中学里上初中，考试总是无缘无故地拿年级第一，那时候我梦想成为画家。后来去了市里读高中，我努力了好几把都没能考进年级前十，所以那时候我喜欢去网吧玩游戏。上大学了，班上同学信号与系统这门课都学得特好，但我还是觉得编程更有意思。<br/>
+　　人都各有成长，但总会在某个时期，痴迷于那种和别人不一样的自我。<br/>
+　　<br/>
+　　<br/>
+　　<br/>
+　　</p>
 
 ]]></content>
   </entry>

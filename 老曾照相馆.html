@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Random Forest - 
+  老曾照相馆 - 
   
   </title>
   
@@ -94,128 +94,109 @@
        
 
  <script type="text/javascript">
-  $(function(){
-    $('#menu_item_index').addClass('is_active');
-  });
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
 </script>
 <div class="row">
-  <div class="large-8 medium-8 columns">
-      <div class="markdown-body article-wrap">
-       <div class="article">
-          
-          <h1>Random Forest</h1>
-     
-        <div class="read-more clearfix">
-          <span class="date">2016/3/28</span>
-
-          <span>posted in&nbsp;</span> 
-          
-              <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>组合方法</a></span>
-           
-         
-          <span class="comments">
-            
-
-            
-              &nbsp;<a  class="ds-thread-count" data-thread-key="14591708106411.html" data-count-type="comments" href="14591708106411.html#ds-thread"></a>
-            
-          </span>
-
-        </div>
-      </div><!-- article -->
-
-      <div class="article-content">
-      <p>　　随机森林是以决策树为基本模型的Bagging策略。通过两个层次的随机性来降低基本模型的相关性，从而提高组合模型的性能。<br/>
-　　1.在训练每棵树时，从训练数据集中有放回地抽取样本；<br/>
-　　2.每次分裂时随机选取一个特征子集(随机子空间).</p>
-
-<span id="more"></span><!-- more -->
-
-<p><strong>算法：</strong><br/>
-输入：训练数据集\(T=\{(x_1,y_1),(x_2,y_2),...,(x_N,y_N)\}\)，其中\(x_i\in\chi \subseteq R^{n}\)，样本含有\(n\)个属性，\(y_i\in\{-1,+1\}\)。以及基本模型\(h(x)\)(决策树)、基本模型的数量\(M\)、特征子集的大小\(sn\)。<br/>
-输出：强模型\(H(x)\)。<br/>
-1.对于\(m=1,2,...M\)<br/>
-　　a.有放回地随机抽取训练数据集\(T_i\)；<br/>
-　　b.用\(T_i\)训练\(h_i(x)\)，每次分裂时随机选取特征子集；<br/>
-2.组合这M个模型，得强模型。</p>
-
-<p><strong>Caution:</strong><br/>
-1.对于分类问题，可以令特征子集的大小为\(sn=\sqrt{n}\)；对于回归问题可以令\(sn=\frac{n}{3}\)。<br/>
-2.对分类问题，最终模型可以是M个模型的Major Vote；对于回归问题，可以对它们的结果求平均。<br/>
-<strong>3.</strong>可以用随机森林来评估属性的重要程度。</p>
-
-<p><strong>Feature Importance</strong><br/>
-　　随机森林在建立每一棵树时都临时抽取一个训练集。因此原始训练集里的样本\(x\)可能只参与了一部分树的建立，而在建立另一些树的时候没有被使用。对于样本\(x\)，如果用那些它没有参与建立的树来处理它(分类或回归)，就会存在误差；在所有它没参与建立的树上的误差之和，就是Out-of-bag error (oob)。随机森林利用oob来评估属性的重要性，其算法描述如下。<br/>
-　　<br/>
-<strong>输入</strong>：训练数据集\(T\)，在\(T\)上得到的随机森林模型\(H(x)\)。<br/>
-<strong>输出</strong>：属性重要性。<br/>
-1.计算\(T\)中样本的平均误差\(oob\).<br/>
-2.对\(j=1,2,...n\)<br/>
-　　a.对\(T\)中所有样本的属性\(j\)做Permute(Shuffle)，得到临时样本集合\(T&#39;\)，求\(T&#39;\)的Out-of-bag error \(oob_j\).<br/>
-　　b.属性\(j\)的重要性得分是\(S_j=oob-oob_j\)<br/>
-3.输出所有属性的得分\(S\)。值越大越重要。</p>
-
-<h2 id="toc_0">Reference</h2>
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="14598276464760.html">
+                
+                  <h1>去过东江湖</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p><img src="http://7xrz9i.com1.z0.glb.clouddn.com/%E4%B8%9C%E6%B1%9F%E6%B9%96.jpg" alt=""/></p>
 
 <blockquote>
-<p>统计学习方法<br/>
-Machine Learning: A Probabilistic Perspective</p>
+<p>2015年9月12日 手机摄于东江湖.</p>
 </blockquote>
 
-      </div>
-
-      <div class="row">
-        <div class="large-6 columns">
-        <p class="text-left" style="padding:15px 0px;">
-      
-          <a href="14592424184360.html" 
-          title="Previous Post: Bagging">&laquo; Bagging</a>
-      
-        </p>
-        </div>
-        <div class="large-6 columns">
-      <p class="text-right" style="padding:15px 0px;">
-      
-          <a  href="14591708106532.html" 
-          title="Next Post: Stacked Generalization">Stacked Generalization &raquo;</a>
-      
-      </p>
-        </div>
-      </div>
-      <div class="comments-wrap">
-        <div class="share-comments">
-          
-<!-- JiaThis Button BEGIN -->
-<div class="jiathis_style">
-<a class="jiathis_button_tsina"></a>
-<a class="jiathis_button_weixin"></a>
-<a class="jiathis_button_fb"></a>
-<a class="jiathis_button_twitter"></a>
-<a class="jiathis_button_googleplus"></a>
-<a class="jiathis_button_copy"></a>
-</div>
-<script type="text/javascript" >
-var jiathis_config={
-	summary:"",
-	shortUrl:false,
-	hideMore:true
-}
-</script>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
-<!-- JiaThis Button END -->
-
-          
-
-          
-              <div class="ds-thread" data-thread-key="14591708106411.html" data-url="http://21stacks.top/14591708106411.html" data-title="Random Forest"></div>
-          
-        </div>
-      </div>
-    </div><!-- article-wrap -->
-  </div><!-- large 8 -->
+<p>　　我总认为，近处的风景随时去看都可以，因此在长春待了四年，从未到过长白山。我还认为，太远的风景不值得舟车劳累长途跋涉，如今身在广州，长白山不去也罢。</p>
 
 
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                   <a href="14598276464760.html">Read more</a>&nbsp;&nbsp; 
+                    <span class="date">2016/4/5</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E8%80%81%E6%9B%BE%E7%85%A7%E7%9B%B8%E9%A6%86.html'>老曾照相馆</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
 
+                      
+                        &nbsp;<a  class="ds-thread-count" data-thread-key="14598276464760.html" data-count-type="comments" href="14598276464760.html#ds-thread"></a>
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14598440012972.html">
+                
+                  <h1>广美的气质</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p><img src="http://7xrz9i.com1.z0.glb.clouddn.com/cold-guangmeiDSCF1485%E5%89%AF%E6%9C%AC.jpg" alt=""/></p>
+
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                   <a href="14598440012972.html">Read more</a>&nbsp;&nbsp; 
+                    <span class="date">2016/4/5</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E8%80%81%E6%9B%BE%E7%85%A7%E7%9B%B8%E9%A6%86.html'>老曾照相馆</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                      
+                        &nbsp;<a  class="ds-thread-count" data-thread-key="14598440012972.html" data-count-type="comments" href="14598440012972.html#ds-thread"></a>
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			
+			</p>
+			  </div>
+			</div>
+		</div>
+	</div><!-- large 8 -->
 
  <div class="large-4 medium-4 columns">
   <div class="hide-for-small">

@@ -77,6 +77,10 @@
             <li><a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html">组合方法</a></li>
         
             <li><a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html">线性模型</a></li>
+        
+            <li><a href="%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html">优化算法</a></li>
+        
+            <li><a href="%E8%80%81%E6%9B%BE%E7%85%A7%E7%9B%B8%E9%A6%86.html">老曾照相馆</a></li>
          
 
       </ul>
@@ -125,7 +129,7 @@
 \[f(x)=w_0+\sum_{m=1}^{M} w_m \phi_m(x) \qquad(1)\]<br/>
 　　这里的\(\phi_m(x)\)是从数据中学习而来的第\(m\)个基本模型(基函数)。ABM通过多个模型的线性组合来得到<strong>非线性</strong>的模型。事实上，决策树就是一种ABM。一棵具有\(M\)个叶子节点的决策树可以表示为：<br/>
 \[T(x)=\sum_{m=1}^{M}w_mI(x\in R_m)\qquad (2)\]<br/>
-　　这里\(R_m\)是决策树的第\(m\)个叶节点；\(w_m\)表示第\(m\)个叶节点的标示值(输出)；当样本x属于第\(m\)个叶节点时，函数\(I(x \in R_m)\)输出1，否则输出0。<br/>
+　　\(R_m\)是决策树的第\(m\)个叶节点；\(w_m\)表示第\(m\)个叶节点的标示值(输出)；当样本x属于第\(m\)个叶节点时，函数\(I(x \in R_m)\)输出1，否则输出0。<br/>
 　　Boosting是除了决策树以外的另一种常见的ABM模型。Boosting中的基本模型也叫做weak learner。被使用最多的基本模型是CART。</p>
 
 <span id="more"></span><!-- more -->
@@ -302,6 +306,9 @@ Machine Learning: A Probabilistic Perspective</p>
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
+          <a href="14598347945676.html" 
+          title="Previous Post: Gradient Descent">&laquo; Gradient Descent</a>
+      
         </p>
         </div>
         <div class="large-6 columns">
@@ -384,6 +391,10 @@ var jiathis_config={
             <a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html"><strong>组合方法</strong></a>
         
             <a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html"><strong>线性模型</strong></a>
+        
+            <a href="%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html"><strong>优化算法</strong></a>
+        
+            <a href="%E8%80%81%E6%9B%BE%E7%85%A7%E7%9B%B8%E9%A6%86.html"><strong>老曾照相馆</strong></a>
          
         </p>
 
@@ -398,6 +409,12 @@ var jiathis_config={
                 <div class="side-content">
                 <ul class="posts-list">
 	      
+		      
+			      <li class="post">
+			        <a href="14598347945676.html">Gradient Descent</a>
+			      </li>
+		     
+		  
 		      
 			      <li class="post">
 			        <a href="14592400407522.html">Boosting</a>
@@ -423,10 +440,10 @@ var jiathis_config={
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="14591708106259.html">Logistic 回归</a>
-			      </li>
-		     
+		  
+		      
+		  
+		      
 		  
 		      
 		   

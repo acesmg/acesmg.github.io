@@ -77,6 +77,10 @@
             <li><a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html">组合方法</a></li>
         
             <li><a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html">线性模型</a></li>
+        
+            <li><a href="%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html">优化算法</a></li>
+        
+            <li><a href="%E8%80%81%E6%9B%BE%E7%85%A7%E7%9B%B8%E9%A6%86.html">老曾照相馆</a></li>
          
 
       </ul>
@@ -99,6 +103,49 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="14598347945676.html">
+                
+                  <h1>Gradient Descent</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>　　梯度下降算法是一种常见的无约束优化问题求解算法。其主要特点有：<br/>
+　　1.迭代式，逐步逼近；<br/>
+　　2.只能在待优化函数的可导邻域内寻优；<br/>
+　　3.沿梯度的反方向搜索；<br/>
+　　3.实现相对简单。<br/>
+　　设优化目标为<br/>
+\[\min_{x}F(x)\qquad (1)\]<br/>
+　　\(F(x)\)是\(R^{n}\)上一阶可导函数。现在要求一个\(x\in R^{n}\)，使\(F(x)\)达到极小值。</p>
+
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                   <a href="14598347945676.html">Read more</a>&nbsp;&nbsp; 
+                    <span class="date">2016/4/5</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html'>优化算法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                      
+                        &nbsp;<a  class="ds-thread-count" data-thread-key="14598347945676.html" data-count-type="comments" href="14598347945676.html#ds-thread"></a>
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="14592400407522.html">
                 
                   <h1>Boosting</h1>
@@ -110,7 +157,7 @@
 \[f(x)=w_0+\sum_{m=1}^{M} w_m \phi_m(x) \qquad(1)\]<br/>
 　　这里的\(\phi_m(x)\)是从数据中学习而来的第\(m\)个基本模型(基函数)。ABM通过多个模型的线性组合来得到<strong>非线性</strong>的模型。事实上，决策树就是一种ABM。一棵具有\(M\)个叶子节点的决策树可以表示为：<br/>
 \[T(x)=\sum_{m=1}^{M}w_mI(x\in R_m)\qquad (2)\]<br/>
-　　这里\(R_m\)是决策树的第\(m\)个叶节点；\(w_m\)表示第\(m\)个叶节点的标示值(输出)；当样本x属于第\(m\)个叶节点时，函数\(I(x \in R_m)\)输出1，否则输出0。<br/>
+　　\(R_m\)是决策树的第\(m\)个叶节点；\(w_m\)表示第\(m\)个叶节点的标示值(输出)；当样本x属于第\(m\)个叶节点时，函数\(I(x \in R_m)\)输出1，否则输出0。<br/>
 　　Boosting是除了决策树以外的另一种常见的ABM模型。Boosting中的基本模型也叫做weak learner。被使用最多的基本模型是CART。</p>
 
 
@@ -185,7 +232,7 @@
                       
                       <div class="a-content-text">
                         
-                        	<p>　　随机森林，以决策树为基本模型的Bagging策略。通过两个层次的随机性来降低基本模型的相关性，从而提高组合模型的性能。<br/>
+                        	<p>　　随机森林是以决策树为基本模型的Bagging策略。通过两个层次的随机性来降低基本模型的相关性，从而提高组合模型的性能。<br/>
 　　1.在训练每棵树时，从训练数据集中有放回地抽取样本；<br/>
 　　2.每次分裂时随机选取一个特征子集(随机子空间).</p>
 
@@ -251,40 +298,6 @@
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="14591708106259.html">
-                
-                  <h1>Logistic 回归</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/3/28</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html'>线性模型</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14591708106259.html" data-count-type="comments" href="14591708106259.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -339,6 +352,10 @@
             <a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html"><strong>组合方法</strong></a>
         
             <a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html"><strong>线性模型</strong></a>
+        
+            <a href="%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html"><strong>优化算法</strong></a>
+        
+            <a href="%E8%80%81%E6%9B%BE%E7%85%A7%E7%9B%B8%E9%A6%86.html"><strong>老曾照相馆</strong></a>
          
         </p>
 
@@ -353,6 +370,12 @@
                 <div class="side-content">
                 <ul class="posts-list">
 	      
+		      
+			      <li class="post">
+			        <a href="14598347945676.html">Gradient Descent</a>
+			      </li>
+		     
+		  
 		      
 			      <li class="post">
 			        <a href="14592400407522.html">Boosting</a>
@@ -378,10 +401,10 @@
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="14591708106259.html">Logistic 回归</a>
-			      </li>
-		     
+		  
+		      
+		  
+		      
 		  
 		      
 		   
