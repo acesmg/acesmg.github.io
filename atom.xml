@@ -4,7 +4,7 @@
   <title><![CDATA[]]></title>
   <link href="http://21stacks.top/atom.xml" rel="self"/>
   <link href="http://21stacks.top/"/>
-  <updated>2016-04-05T20:23:14+08:00</updated>
+  <updated>2016-04-07T16:52:02+08:00</updated>
   <id>http://21stacks.top/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -13,7 +13,63 @@
   <generator uri="http://www.mweb.im/">MWeb</generator>
   
   <entry>
-    <title type="html"><![CDATA[Gradient Descent]]></title>
+    <title type="html"><![CDATA[平方损失函数的背后]]></title>
+    <link href="http://21stacks.top/14600116978074.html"/>
+    <updated>2016-04-07T14:48:17+08:00</updated>
+    <id>http://21stacks.top/14600116978074.html</id>
+    <content type="html"><![CDATA[
+<h3 id="toc_0">定义</h3>
+
+<p>　　损失函数用于衡量一个模型对数据的拟合程度。最常见的损失函数莫过于平方损失函数，其形式化的表述为<br/>
+\[C(\theta)=\frac{1}{2}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(1)\]</p>
+
+<span id="more"></span><!-- more -->
+
+<p>　　其中\((x_i, y_i)\)是数据样本，\(x_i\in R^n\)；\(h_{\theta}(x)\)是以\(\theta\)为参数的一个模型，假设(hypothesis)。在前面加一个系数\(\frac{1}{2}\)的为了方便处理某些运算。平方损失函数与Sum of Square Error (SSE)、以及Residual Sum of Square (RSS)是同一个东西。本文剩余部分统一采用SSE的写法。注意还有一个常见的概念，平均平方误差(Mean Square Error, MSE)，它是SSE在数据上的平均值。MSE是一种与数据集大小无关的误差衡量，除此之外跟SSE并没有什么软区别。<br/>
+\[MSE=\frac{1}{2N}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(2)\]</p>
+
+<h3 id="toc_1">直观含义</h3>
+
+<p>　　从式(1)可以清楚地看到，SSE直观地表示了模型\(h_{\theta}(x)\)对\(y\)的拟合程度的好坏。\(SSE\geq 0\)，且拟合程度越好SSE越小，一个完美拟合的模型会使SSE为0。在对数据集建立分类或回归模型时，我们追求的目标是尽可能地找到一个模型，使得<br/>
+\[y=h_{\theta}(x)\qquad(3)\]<br/>
+　　很多算法对模型的学习策略都是通过极小化SSE来实现的。不幸的是，我们总不能完美找到一个这样的模型。不能的意思有两层。一是说能力不够，受制于所选模型特性等因素，并不总能得到一个完美的拟合，例如无法用感知机模型对线性不可分的数据完美地划分。 二是说不应该，在训练数据集上完美拟合的模型通常是过拟合的泛化能力不好的模型。后者的主要原因是训练数据中存在的噪声，以及模型自身的缺陷。因此通常情况下，由模型得出的预测值与\(y\)之间的关系是这样的<br/>
+\[y=h_{\theta}(x)+\epsilon\qquad(4)\]<br/>
+　　\(\epsilon\)表示\(\hat{y}=h_{\theta}(x)\)对\(y\)的误差。</p>
+
+<h3 id="toc_2">从参数估计的角度来看</h3>
+
+<p>　　为什么通过极小化SSE得到的模型是好的？除了直观感觉，我们也可以从参数估计的角度做一些推理。这里我们关注的是式(4)中的误差<br/>
+\[\epsilon=y-h_{\theta}(x)\qquad(5)\]<br/>
+　　对于一组数据\(\{(x_1,y_1),(x_2,y_2),...,(x_i,y_i),...,(x_N,y_N)\}\)，可以得到一组误差值\(\{\epsilon_1,\epsilon_2,...,\epsilon_i,...,\epsilon_N \}\)。通常认为这个误差集里的数据是源于总体分布\(f(x|\theta)\)的抽样，它们独立同分布。因此所有\(\epsilon\)的联合概率密度为<br/>
+\[f(\epsilon_1,...,\epsilon_N|\theta)=f(\epsilon_1|\theta)f(\epsilon_2|\theta)\cdot\cdot\cdot f(\epsilon_N|\theta)\qquad(6)\]<br/>
+　　记\(L(\epsilon_1,...,\epsilon_N|\theta)=f(\epsilon_1,...,\epsilon_N|\theta)\)为似然函数，\(\theta\)是待估计的参数。若\(L(\epsilon_1,...,\epsilon_N|\theta_1)&gt;L(\epsilon_1,...,\epsilon_N|\theta_2)\)，我们说当已知\(\{\epsilon_1,...,\epsilon_N\}\)时，待估计参数\(\theta\)是\(\theta_1\)的可能性大于\(\theta_2\)。因此我们有了一个优化目标：要寻求一个\(\theta&#39;\)，使\(L\)尽可能大。<br/>
+进一步假设\(\epsilon_i\)符合一个均值为0的高斯分布(Or, what else can it be ?)；其方差为某\(\sigma^2\)。即\(\epsilon\)的分布的概率密度函数为<br/>
+\[f(\epsilon|\theta)=(\frac{1}{2\pi\sigma^2})^{\frac{1}{2}}exp(-\frac{\epsilon^2}{2\sigma^2})\qquad(7)\]<br/>
+于是，似然函数可写成<br/>
+\[L(\theta)=\prod_{i=1}^{N}(\frac{1}{2\pi\sigma^2})^{\frac{1}{2}}exp(-\frac{\epsilon_i^2}{2\sigma^2})\qquad(8)\]<br/>
+为了方便处理，对式(8)左右两边去自然对数，\(g(z)=lnz\)是\(z\)的单调递增函数，因此优化目标不变。整理得<br/>
+\[lnL(\theta)=-\frac{1}{2\sigma^2}\sum_{i=1}^{N}\epsilon^2-\frac{N}{2}ln(2\pi\sigma^2)\qquad(9)\]<br/>
+将式(5)代入(9)，得<br/>
+\[lnL(\theta)=-\frac{1}{2\sigma^2}\sum_{i=1}^{N}(y_i-h_{\theta(x_i)})^2-\frac{N}{2}ln(2\pi\sigma^2)\qquad(10)\]<br/>
+式(10)中，等号右边的第二项与\(\theta\)无关，因此要极大化\(lnL(\theta)\)就是要极大化等号右边第一项。由于\(\sigma^2\)是某个正实数，因此我们的优化目标就相当于求<br/>
+\[\theta&#39;=arg\min_{\theta}\frac{1}{2}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(11)\]<br/>
+式(11)正是极小化SSE的方法所寻求的。对于线性回归模型，\(h_{\theta}(x)=\theta^Tx\)，代入(11)得<br/>
+\[\theta&#39;=arg\min_{\theta}\frac{1}{2}\sum_{i=1}^{N}(y_i-\theta^Tx_i)^2\qquad(12)\]<br/>
+求解(12)式既可以采用求导函数零点的方式，也可以使用迭代式的解法如<a href="http://acesmg.github.io/14598347945676.html">梯度下降法</a>。</p>
+
+<h3 id="toc_3">Reference</h3>
+
+<blockquote>
+<p>陈希孺，概率论与数理统计<br/>
+Wikipedia: <a href="https://en.wikipedia.org/wiki/Maximum_likelihood">Maximum Likelihood</a><br/>
+Murphy, Machine Learning: A Probabilistic Perspective.</p>
+</blockquote>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[梯度下降]]></title>
     <link href="http://21stacks.top/14598347945676.html"/>
     <updated>2016-04-05T13:39:54+08:00</updated>
     <id>http://21stacks.top/14598347945676.html</id>
@@ -75,7 +131,7 @@
 <h4 id="toc_4">Why Gradient Descent ?</h4>
 
 <p>　　要求一个函数的极小值，最直观的想法莫过于求目标函数导函数的零点了。为什么我们还需要像梯度下降这样的迭代式算法呢？<br/>
-　　梯度下降算法最常用的常见是极小化机器学习模型的损失函数。对于大多数非线性模型而言，损失函数的优化不存在封闭解，因此不能用求导函数零点的方法来解。其次，对于那些存在封闭解的情况，在实践上通常不易计算。<br/>
+　　梯度下降算法最常用的场景是极小化机器学习模型的损失函数。对于大多数非线性模型而言，损失函数的优化不存在封闭解，因此不能用求导函数零点的方法来解。对于线性模型(待优化参数的线性函数)，存在封闭解，但求封闭解的计算复杂度较高，在实践上通常不易计算。<br/>
 　　例如对于我们熟知的线性回归模型，其平方损失函数可以定义为<br/>
 \[J(\theta)=\frac{1}{2}\sum_{i=1}^{N}(x_i\theta-y_i)^2\]<br/>
 　　其中\(x_i\)是第\(i\)个训练样本，是一个\(M\)行向量；\(\Theta\)是回归模型的参数，是一个\(M\)维列向量。所以上式也可以写成<br/>
@@ -316,7 +372,7 @@ Machine Learning: A Probabilistic Perspective</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Random Forest]]></title>
+    <title type="html"><![CDATA[随机森林]]></title>
     <link href="http://21stacks.top/14591708106411.html"/>
     <updated>2016-03-28T21:13:30+08:00</updated>
     <id>http://21stacks.top/14591708106411.html</id>
@@ -419,15 +475,14 @@ Machine Learning: A Probabilistic Perspective</p>
     <content type="html"><![CDATA[
 <p><img src="http://7xrz9i.com1.z0.glb.clouddn.com/%E4%B8%9C%E6%B1%9F%E6%B9%96.jpg" alt=""/></p>
 
+<span id="more"></span><!-- more -->
+
 <blockquote>
 <p>2015年9月12日 手机摄于东江湖.</p>
 </blockquote>
 
-<p>　　我总认为，近处的风景随时去看都可以，因此在长春待了四年，从未到过长白山。我还认为，太远的风景不值得舟车劳累长途跋涉，如今身在广州，长白山不去也罢。</p>
-
-<span id="more"></span><!-- more -->
-
-<p>　　生于湘南林邑，而这是我首次得以近览东江湖，若不是亲人邀请盛情难却，也不得成行。九月的天气已近秋，加之数日的连绵细雨，湖上竟刮起刺骨寒风。我们一群老少爷们在这风中冻得瑟瑟发抖，唯姨奶奶一人岿然屹立，迎风眺望，那意气风发的劲头着实让人惊叹。年过八旬的姨奶奶是奶奶的妹妹，年轻时在南车工作，退休后学起了国画、京剧，还独自一人游遍大江南北。这种气质，我羡慕，但我学不来。<br/>
+<p>　　我总认为，近处的风景随时去看都可以，因此在长春待了四年，从未到过长白山。我还认为，太远的风景不值得舟车劳累长途跋涉，如今身在广州，长白山不去也罢。<br/>
+　　生于湘南林邑，而这是我首次得以近览东江湖，若不是亲人邀请盛情难却，也不得成行。九月的天气已近秋，加之数日的连绵细雨，湖上竟刮起刺骨寒风。我们一群老少爷们在这风中冻得瑟瑟发抖，唯姨奶奶一人岿然屹立，迎风眺望，那意气风发的劲头着实让人惊叹。年过八旬的姨奶奶是奶奶的妹妹，年轻时在南车工作，退休后学起了国画、京剧，还独自一人游遍大江南北。这种气质，我羡慕，但我学不来。<br/>
 　　等我不搬砖了，就找条小巷子，开个照相馆，就叫老曾照相馆。你看，人老去的样子千姿百态，也不知道会有几人光顾我的照相馆。管他呢，到那时候老子肯定很有钱。<br/>
 　　<br/>
 　　<br/>

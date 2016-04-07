@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  梯度下降 - 
+  零碎 - 
   
   </title>
   
@@ -96,174 +96,70 @@
        
 
  <script type="text/javascript">
-  $(function(){
-    $('#menu_item_index').addClass('is_active');
-  });
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
 </script>
 <div class="row">
-  <div class="large-8 medium-8 columns">
-      <div class="markdown-body article-wrap">
-       <div class="article">
-          
-          <h1>梯度下降</h1>
-     
-        <div class="read-more clearfix">
-          <span class="date">2016/4/5</span>
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="14600116978074.html">
+                
+                  <h1>平方损失函数的背后</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h3 id="toc_0">定义</h3>
 
-          <span>posted in&nbsp;</span> 
-          
-              <span class="posted-in"><a href='%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html'>Optimization</a></span>
-           
-         
-          <span class="comments">
-            
-
-            
-              &nbsp;<a  class="ds-thread-count" data-thread-key="14598347945676.html" data-count-type="comments" href="14598347945676.html#ds-thread"></a>
-            
-          </span>
-
-        </div>
-      </div><!-- article -->
-
-      <div class="article-content">
-      <p>　　梯度下降算法是一种常见的无约束优化问题求解算法。其主要特点有：<br/>
-　　1.迭代式，逐步逼近；<br/>
-　　2.只能在待优化函数的可导邻域内寻优；<br/>
-　　3.沿梯度的反方向搜索；<br/>
-　　3.实现相对简单。<br/>
-　　设优化目标为<br/>
-\[\min_{x}F(x)\qquad (1)\]<br/>
-　　\(F(x)\)是\(R^{n}\)上一阶可导函数。现在要求一个\(x\in R^{n}\)，使\(F(x)\)达到极小值。</p>
-
-<span id="more"></span><!-- more -->
-
-<p>　　梯度下降算法基于这样一个事实：</p>
-
-<blockquote>
-<p>如果函数\(F(x)\)在点\(x=x_m\)的一个邻域内可微，则当\(x\)沿着这个点的梯度的反方向变化时，\(F(x)\)下降的速度最快。</p>
-</blockquote>
-
-<p>　　也就是说，\(x\)应按下式变化：<br/>
-\[x_{m+1}=x_m-\gamma \triangledown F(x_m)\qquad (2)\]<br/>
-　　其中\(\triangledown F(x_m)\)是\(F(x)\)在\(x_m\)处的梯度；\(\gamma\)是一个较小的系数，控制着\(x\)更新的步长。当\(\gamma\)足够小，有\(F(x_{m+1})\leq F(x_m)\)。梯度下降算法通过迭代的方式逐渐减小\(F(x)\)的值，在每一步迭代中要完成的工作就是求梯度值，以及步长\(\gamma\)。算法的描述如下。</p>
-
-<h4 id="toc_0">算法 Gradient Descent</h4>
-
-<p><strong>输入</strong>：目标函数\(F(x)\)，最大迭代次数\(M\)。<br/>
-<strong>输出</strong>：\(F(x)\)的极小值点\(x&#39;\)。</p>
-
-<p>1.初始化\(x_0\)，令其为\(R^{n}\)上的某个点。<br/>
-2.对\(m=1,2,...,M\)<br/>
-　　a.求梯度\(\triangledown F(x_m)\)；<br/>
-　　b.求步长\(\gamma\)；<br/>
-　　c.更新\(x\)，令\(x_{m+1}=x_m-\gamma\triangledown\)。<br/>
-3.输出\(x&#39;=x^{M}\)。</p>
-
-<p>　　也可以设定一个较小的值\(\varepsilon\)，当\(x\)或\(F(x)\)的更新小于它时，提前结束算法。</p>
-
-<h4 id="toc_1">步长</h4>
-
-<p>　　以上算法中没有对步骤2.b求步长\(\gamma\)的表述。对步长的求解有很多方法，可以直接预设其为一个很小的正实数、可以以\(\gamma\)为自变量对\(F(x)\)求导以得到一个确切的值、也可以采用线性搜索的方式求一个适当的值。通常，线性搜索是更合理的方式，其计算量不大，找到的值足够好。</p>
-
-<h4 id="toc_2">Backtracking Line Search (BLS)</h4>
-
-<p>　　BLS是一种迭代式的线性搜索方法。令\(\gamma\)为一个较大的值，然后通过一个系数\(\tau \in (0,1)\)来逐步减小\(\gamma\)。</p>
-
-<h5 id="toc_3">算法 BLS</h5>
-
-<p><strong>输入</strong>：\(F(x)\)、\(x_m\)，\(\triangledown F(x_m)=p\)，\(\tau \in (0,1)\)，一个控制参数\(c\in (0,1)\)。<br/>
-<strong>输出</strong>：\(\gamma&#39;\)。</p>
-
-<p>1.令\(\gamma\)为一个较大值；\(m= -\parallel p \parallel &lt;0\)；<br/>
-2.循环，令<br/>
-\[\gamma=\tau\gamma\]<br/>
-　直到\(F(x+\gamma m)\leq F(x)+\gamma c m\)。<br/>
-3.输出\(\gamma&#39;=\gamma\)。</p>
-
-<h4 id="toc_4">Why Gradient Descent ?</h4>
-
-<p>　　要求一个函数的极小值，最直观的想法莫过于求目标函数导函数的零点了。为什么我们还需要像梯度下降这样的迭代式算法呢？<br/>
-　　梯度下降算法最常用的场景是极小化机器学习模型的损失函数。对于大多数非线性模型而言，损失函数的优化不存在封闭解，因此不能用求导函数零点的方法来解。对于线性模型(待优化参数的线性函数)，存在封闭解，但求封闭解的计算复杂度较高，在实践上通常不易计算。<br/>
-　　例如对于我们熟知的线性回归模型，其平方损失函数可以定义为<br/>
-\[J(\theta)=\frac{1}{2}\sum_{i=1}^{N}(x_i\theta-y_i)^2\]<br/>
-　　其中\(x_i\)是第\(i\)个训练样本，是一个\(M\)行向量；\(\Theta\)是回归模型的参数，是一个\(M\)维列向量。所以上式也可以写成<br/>
-\[J=\frac{1}{2}\sum_{i=1}^{N}[\sum_{j=1}^{M}x_{ij}\theta_j]^2\]<br/>
-优化目标为求<br/>
-\[\theta&#39;=arg\min_{\theta}J(\theta)\]<br/>
-对损失函数求导，让导数为0，对\(j=1,2,...M\)有，<br/>
-\[\frac{\partial J(\theta)}{\partial \theta_j}=\sum_{i=1}^{N}x_{ij} *(\sum_{k=1}^{M}x_{ik}\theta_k-y_i)=0\]<br/>
-整合成矩阵形式有：<br/>
-\[\frac{\partial J(\theta)}{\partial \theta}=X^{T}X\theta-X^{T}Y=0\]<br/>
-于是得到解<br/>
-\[\theta&#39;=(X^{T}X)^{-1}X^{T}Y\]<br/>
-　　上式表明，为了求损失函数的极小值点，要求矩阵\(X^{T}X\)的逆矩阵。对于一个\(n\times n\)的矩阵，求逆矩阵运算的时间复杂度为\(O(n^3)\)，当\(n\)较大时，耗时很久。</p>
-
-<h4 id="toc_5">Wrap it up</h4>
-
-<p>　　如果待优化的目标函数是凸函数，则梯度下降算法可以得到全局最优解(Global Optimum)。否则，求得的大多是局部最优。步长和初始点的选择都会影响梯度下降算法的寻优结果。相比于牛顿法，梯度下降的收敛需要更多的迭代次数，但计算更简单。相比于群智能算法，梯度下降算法寻优能力较弱，且只适用于可微目标函数。</p>
-
-<h4 id="toc_6">Reference</h4>
-
-<blockquote>
-<p>李航 统计学习方法<br/>
-<a href="https://en.wikipedia.org/wiki/Gradient_descent">Wikipedia: Gradient Descent</a></p>
-</blockquote>
-
-      </div>
-
-      <div class="row">
-        <div class="large-6 columns">
-        <p class="text-left" style="padding:15px 0px;">
-      
-          <a href="14600116978074.html" 
-          title="Previous Post: 平方损失函数的背后">&laquo; 平方损失函数的背后</a>
-      
-        </p>
-        </div>
-        <div class="large-6 columns">
-      <p class="text-right" style="padding:15px 0px;">
-      
-          <a  href="14592400407522.html" 
-          title="Next Post: Boosting">Boosting &raquo;</a>
-      
-      </p>
-        </div>
-      </div>
-      <div class="comments-wrap">
-        <div class="share-comments">
-          
-<!-- JiaThis Button BEGIN -->
-<div class="jiathis_style">
-<a class="jiathis_button_tsina"></a>
-<a class="jiathis_button_weixin"></a>
-<a class="jiathis_button_fb"></a>
-<a class="jiathis_button_twitter"></a>
-<a class="jiathis_button_googleplus"></a>
-<a class="jiathis_button_copy"></a>
-</div>
-<script type="text/javascript" >
-var jiathis_config={
-	summary:"",
-	shortUrl:false,
-	hideMore:true
-}
-</script>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
-<!-- JiaThis Button END -->
-
-          
-
-          
-              <div class="ds-thread" data-thread-key="14598347945676.html" data-url="http://21stacks.top/14598347945676.html" data-title="梯度下降"></div>
-          
-        </div>
-      </div>
-    </div><!-- article-wrap -->
-  </div><!-- large 8 -->
+<p>　　损失函数用于衡量一个模型对数据的拟合程度。最常见的损失函数莫过于平方损失函数，其形式化的表述为<br/>
+\[C(\theta)=\frac{1}{2}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(1)\]</p>
 
 
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                   <a href="14600116978074.html">Read more</a>&nbsp;&nbsp; 
+                    <span class="date">2016/4/7</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E9%9B%B6%E7%A2%8E.html'>零碎</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
 
+                      
+                        &nbsp;<a  class="ds-thread-count" data-thread-key="14600116978074.html" data-count-type="comments" href="14600116978074.html#ds-thread"></a>
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			
+			</p>
+			  </div>
+			</div>
+		</div>
+	</div><!-- large 8 -->
 
  <div class="large-4 medium-4 columns">
   <div class="hide-for-small">
