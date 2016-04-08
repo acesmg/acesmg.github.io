@@ -4,7 +4,7 @@
   <title><![CDATA[]]></title>
   <link href="http://21stacks.top/atom.xml" rel="self"/>
   <link href="http://21stacks.top/"/>
-  <updated>2016-04-07T16:52:02+08:00</updated>
+  <updated>2016-04-07T16:53:17+08:00</updated>
   <id>http://21stacks.top/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -13,19 +13,19 @@
   <generator uri="http://www.mweb.im/">MWeb</generator>
   
   <entry>
-    <title type="html"><![CDATA[平方损失函数的背后]]></title>
+    <title type="html"><![CDATA[SSE的背后]]></title>
     <link href="http://21stacks.top/14600116978074.html"/>
     <updated>2016-04-07T14:48:17+08:00</updated>
     <id>http://21stacks.top/14600116978074.html</id>
     <content type="html"><![CDATA[
 <h3 id="toc_0">定义</h3>
 
-<p>　　损失函数用于衡量一个模型对数据的拟合程度。最常见的损失函数莫过于平方损失函数，其形式化的表述为<br/>
+<p>　　Sum of Square Error (SSE)代价函数用于衡量一个模型对数据的拟合程度。其形式化的表述为<br/>
 \[C(\theta)=\frac{1}{2}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(1)\]</p>
 
 <span id="more"></span><!-- more -->
 
-<p>　　其中\((x_i, y_i)\)是数据样本，\(x_i\in R^n\)；\(h_{\theta}(x)\)是以\(\theta\)为参数的一个模型，假设(hypothesis)。在前面加一个系数\(\frac{1}{2}\)的为了方便处理某些运算。平方损失函数与Sum of Square Error (SSE)、以及Residual Sum of Square (RSS)是同一个东西。本文剩余部分统一采用SSE的写法。注意还有一个常见的概念，平均平方误差(Mean Square Error, MSE)，它是SSE在数据上的平均值。MSE是一种与数据集大小无关的误差衡量，除此之外跟SSE并没有什么软区别。<br/>
+<p>　　其中\((x_i, y_i)\)是数据样本，\(x_i\in R^n\)；\(h_{\theta}(x)\)是以\(\theta\)为参数的模型，假设(hypothesis)。在前面加一个系数\(\frac{1}{2}\)的为了方便处理某些运算。注意还有一个常见的概念，平均平方误差(Mean Square Error, MSE)，它是SSE在数据集上的均值，是以平方损失函数为基础的经验风险函数。MSE是一种与数据集大小无关的误差衡量，本质上跟SSE并没有什么软区别。<br/>
 \[MSE=\frac{1}{2N}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(2)\]</p>
 
 <h3 id="toc_1">直观含义</h3>
@@ -34,16 +34,16 @@
 \[y=h_{\theta}(x)\qquad(3)\]<br/>
 　　很多算法对模型的学习策略都是通过极小化SSE来实现的。不幸的是，我们总不能完美找到一个这样的模型。不能的意思有两层。一是说能力不够，受制于所选模型特性等因素，并不总能得到一个完美的拟合，例如无法用感知机模型对线性不可分的数据完美地划分。 二是说不应该，在训练数据集上完美拟合的模型通常是过拟合的泛化能力不好的模型。后者的主要原因是训练数据中存在的噪声，以及模型自身的缺陷。因此通常情况下，由模型得出的预测值与\(y\)之间的关系是这样的<br/>
 \[y=h_{\theta}(x)+\epsilon\qquad(4)\]<br/>
-　　\(\epsilon\)表示\(\hat{y}=h_{\theta}(x)\)对\(y\)的误差。</p>
+　　\(\epsilon\)表示\(\hat{y}=h_{\theta}(x)\)对\(y\)的误差。在回归分析中称\(\epsilon=y-h_{\theta}(x)\)为残差，而式(1)也被称为残差平方和(Residual Sum of Square, RSS)。可以采用最小二乘法来求解极小化RSS问题。若模型是参数\(\theta\)的线性函数，可以求得封闭解；否则可以采用迭代方式求解。</p>
 
 <h3 id="toc_2">从参数估计的角度来看</h3>
 
 <p>　　为什么通过极小化SSE得到的模型是好的？除了直观感觉，我们也可以从参数估计的角度做一些推理。这里我们关注的是式(4)中的误差<br/>
 \[\epsilon=y-h_{\theta}(x)\qquad(5)\]<br/>
-　　对于一组数据\(\{(x_1,y_1),(x_2,y_2),...,(x_i,y_i),...,(x_N,y_N)\}\)，可以得到一组误差值\(\{\epsilon_1,\epsilon_2,...,\epsilon_i,...,\epsilon_N \}\)。通常认为这个误差集里的数据是源于总体分布\(f(x|\theta)\)的抽样，它们独立同分布。因此所有\(\epsilon\)的联合概率密度为<br/>
-\[f(\epsilon_1,...,\epsilon_N|\theta)=f(\epsilon_1|\theta)f(\epsilon_2|\theta)\cdot\cdot\cdot f(\epsilon_N|\theta)\qquad(6)\]<br/>
-　　记\(L(\epsilon_1,...,\epsilon_N|\theta)=f(\epsilon_1,...,\epsilon_N|\theta)\)为似然函数，\(\theta\)是待估计的参数。若\(L(\epsilon_1,...,\epsilon_N|\theta_1)&gt;L(\epsilon_1,...,\epsilon_N|\theta_2)\)，我们说当已知\(\{\epsilon_1,...,\epsilon_N\}\)时，待估计参数\(\theta\)是\(\theta_1\)的可能性大于\(\theta_2\)。因此我们有了一个优化目标：要寻求一个\(\theta&#39;\)，使\(L\)尽可能大。<br/>
-进一步假设\(\epsilon_i\)符合一个均值为0的高斯分布(Or, what else can it be ?)；其方差为某\(\sigma^2\)。即\(\epsilon\)的分布的概率密度函数为<br/>
+　　对于一组数据\(\{(x_1,y_1),(x_2,y_2),...,(x_i,y_i),...,(x_N,y_N)\}\)，可以得到一组误差值\(\{\epsilon_1,\epsilon_2,...,\epsilon_i,...,\epsilon_N \}\)。通常认为这个误差集里的数据是源于总体分布\(f(x;\theta)\)的抽样，它们独立同分布。因此所有\(\epsilon\)的联合概率密度为<br/>
+\[f(\epsilon_1,...,\epsilon_N;\theta)=f(\epsilon_1;\theta)f(\epsilon_2;\theta)\cdot\cdot\cdot f(\epsilon_N;\theta)\qquad(6)\]<br/>
+　　记\(L(\epsilon_1,...,\epsilon_N;\theta)=f(\epsilon_1,...,\epsilon_N;\theta)\)为似然函数，\(\theta\)是待估计的参数。若\(L(\epsilon_1,...,\epsilon_N;\theta_1)&gt;L(\epsilon_1,...,\epsilon_N;\theta_2)\)，我们说当已知\(\{\epsilon_1,...,\epsilon_N\}\)时，待估计参数\(\theta\)是\(\theta_1\)的可能性大于\(\theta_2\)。因此我们有了一个优化目标：要寻求一个\(\theta&#39;\)，使\(L\)尽可能大。<br/>
+　　进一步假设\(\epsilon_i\)是均值为0的高斯噪声(Or, what else can it be ?)；其方差为某\(\sigma^2\)。即\(\epsilon\)的分布的概率密度函数为<br/>
 \[f(\epsilon|\theta)=(\frac{1}{2\pi\sigma^2})^{\frac{1}{2}}exp(-\frac{\epsilon^2}{2\sigma^2})\qquad(7)\]<br/>
 于是，似然函数可写成<br/>
 \[L(\theta)=\prod_{i=1}^{N}(\frac{1}{2\pi\sigma^2})^{\frac{1}{2}}exp(-\frac{\epsilon_i^2}{2\sigma^2})\qquad(8)\]<br/>
@@ -53,16 +53,18 @@
 \[lnL(\theta)=-\frac{1}{2\sigma^2}\sum_{i=1}^{N}(y_i-h_{\theta(x_i)})^2-\frac{N}{2}ln(2\pi\sigma^2)\qquad(10)\]<br/>
 式(10)中，等号右边的第二项与\(\theta\)无关，因此要极大化\(lnL(\theta)\)就是要极大化等号右边第一项。由于\(\sigma^2\)是某个正实数，因此我们的优化目标就相当于求<br/>
 \[\theta&#39;=arg\min_{\theta}\frac{1}{2}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(11)\]<br/>
-式(11)正是极小化SSE的方法所寻求的。对于线性回归模型，\(h_{\theta}(x)=\theta^Tx\)，代入(11)得<br/>
+式(11)正是极小化SSE的方法所寻求的，也就是说，极小化SSE等价于极大似然估计。前文假设\(\epsilon\)服从高斯分布。高斯分布属于指数族分布。参考文献[4]指出，当观测样本来源于指数族分布，辅以适当条件，最小二乘法就等价于极大似然估计。<br/>
+　　对于线性回归模型，\(h_{\theta}(x)=\theta^Tx\)，代入(11)得<br/>
 \[\theta&#39;=arg\min_{\theta}\frac{1}{2}\sum_{i=1}^{N}(y_i-\theta^Tx_i)^2\qquad(12)\]<br/>
-求解(12)式既可以采用求导函数零点的方式，也可以使用迭代式的解法如<a href="http://acesmg.github.io/14598347945676.html">梯度下降法</a>。</p>
+求解(12)式既可以采用求导函数零点求封闭解，也可以使用迭代式的解法如<a href="http://acesmg.github.io/14598347945676.html">梯度下降法</a>。</p>
 
 <h3 id="toc_3">Reference</h3>
 
 <blockquote>
-<p>陈希孺，概率论与数理统计<br/>
-Wikipedia: <a href="https://en.wikipedia.org/wiki/Maximum_likelihood">Maximum Likelihood</a><br/>
-Murphy, Machine Learning: A Probabilistic Perspective.</p>
+<p>[1] 陈希孺，概率论与数理统计<br/>
+[2] Wikipedia: <a href="https://en.wikipedia.org/wiki/Maximum_likelihood">Maximum Likelihood</a><br/>
+[3] Murphy, Machine Learning: A Probabilistic Perspective.<br/>
+[4] A.Charnes etc, <a href="http://www.tandfonline.com/doi/abs/10.1080/01621459.1976.10481508">The Equivalence of Generalized Least Squares and Maximum Likelihood Estimates in the Exponential Family</a></p>
 </blockquote>
 
 ]]></content>
@@ -153,8 +155,8 @@ Murphy, Machine Learning: A Probabilistic Perspective.</p>
 <h4 id="toc_6">Reference</h4>
 
 <blockquote>
-<p>李航 统计学习方法<br/>
-<a href="https://en.wikipedia.org/wiki/Gradient_descent">Wikipedia: Gradient Descent</a></p>
+<p>[1] 李航 统计学习方法<br/>
+[2] <a href="https://en.wikipedia.org/wiki/Gradient_descent">Wikipedia: Gradient Descent</a></p>
 </blockquote>
 
 ]]></content>
@@ -333,8 +335,8 @@ Z_m=\sum_{i=1}^{N} w_{m,i}exp(-y_i \alpha_m h_m(x_i))\]<br/>
 <h2 id="toc_12">Reference</h2>
 
 <blockquote>
-<p>统计学习方法<br/>
-Machine Learning: A Probabilistic Perspective</p>
+<p>[1] 李航，统计学习方法<br/>
+[2] Murphy, Machine Learning: A Probabilistic Perspective</p>
 </blockquote>
 
 <p>　　</p>
@@ -384,8 +386,8 @@ Machine Learning: A Probabilistic Perspective</p>
 <span id="more"></span><!-- more -->
 
 <p><strong>算法：</strong><br/>
-输入：训练数据集\(T=\{(x_1,y_1),(x_2,y_2),...,(x_N,y_N)\}\)，其中\(x_i\in\chi \subseteq R^{n}\)，样本含有\(n\)个属性，\(y_i\in\{-1,+1\}\)。以及基本模型\(h(x)\)(决策树)、基本模型的数量\(M\)、特征子集的大小\(sn\)。<br/>
-输出：强模型\(H(x)\)。<br/>
+<strong>输入</strong>：训练数据集\(T=\{(x_1,y_1),(x_2,y_2),...,(x_N,y_N)\}\)，其中\(x_i\in\chi \subseteq R^{n}\)，样本含有\(n\)个属性，\(y_i\in\{-1,+1\}\)。以及基本模型\(h(x)\)(决策树)、基本模型的数量\(M\)、特征子集的大小\(sn\)。<br/>
+<strong>输出</strong>：强模型\(H(x)\)。<br/>
 1.对于\(m=1,2,...M\)<br/>
 　　a.有放回地随机抽取训练数据集\(T_i\)；<br/>
 　　b.用\(T_i\)训练\(h_i(x)\)，每次分裂时随机选取特征子集；<br/>
@@ -410,8 +412,8 @@ Machine Learning: A Probabilistic Perspective</p>
 <h2 id="toc_0">Reference</h2>
 
 <blockquote>
-<p>统计学习方法<br/>
-Machine Learning: A Probabilistic Perspective</p>
+<p>[1] 李航 统计学习方法<br/>
+[2] Murphy, Machine Learning: A Probabilistic Perspective</p>
 </blockquote>
 
 ]]></content>
