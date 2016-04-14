@@ -1,0 +1,440 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  粒子群优化算法 - 
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:21stacks.top ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        <li id="menu_item_index"><a href="index.html">HOME</a></li>
+        <li id="menu_item_archives"><a href="archives.html">Archives</a></li>
+        <li id="menu_item_about"><a href="about.html">ABOUT</a></li>
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; </span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html">组合方法</a></li>
+        
+            <li><a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html">线性模型</a></li>
+        
+            <li><a href="%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html">Optimization</a></li>
+        
+            <li><a href="%E9%9B%B6%E7%A2%8E.html">零碎</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>粒子群优化算法</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2016/4/13</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html'>Optimization</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+              &nbsp;<a  class="ds-thread-count" data-thread-key="14605499748686.html" data-count-type="comments" href="14605499748686.html#ds-thread"></a>
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>　　粒子群优化算法(Partlcle Swarm Optimization, PSO)是一种基于群体智能的搜索算法。 PSO具有参数配置简单、搜索性能好、可适应性强等优势，因而得到了广泛的应用。本文将从优化问题的基本概念说起，介绍基本PSO算法原理以及它的一些变体，并简单描述其应用场景。</p>
+
+<h2 id="toc_0">Motivation</h2>
+
+<h3 id="toc_1">什么是优化问题</h3>
+
+<p>　　优化，就是要在多种方案中寻找最好的方案。比如有的妹子们出门见男盆友之前恨不得把所有衣服都试一遍，以找到一种最满意的搭配。不过一般情况下她们可能看哪件衣服都觉得不完美，然后要么选择一件还算顺眼的凑活一下，要么愉快地开始了网购...就像妹子们选衣服那样，典型的优化问题通常是不太可能在可接受的时间之内找到一个全局最优解(Global Optimum)的，所以只能想办法在合理的时间内找到一个可接受的解(Local Optimum)。旅行商问题(TSP)、神经网络的训练、无线传感器网络(WSN)的任务调度等，都是常见的优化问题。</p>
+
+<span id="more"></span><!-- more -->
+
+<h3 id="toc_2">优化算法</h3>
+
+<p>　　先明确几个概念。<br/>
+　　什么是<strong>可行解</strong>？回到妹子挑衣服的问题，只要还能穿的衣服，不管好不好看挨不挨冻，都算是可行解。<br/>
+　　什么是<strong>解空间</strong>？所有可行解所构成的集合就是解空间，这个“空间”是抽象的，可能很多维，甚至可能是离散而非连续的。优化算法要做的，就是在解空间中的各个可行解中，尽可能地找到更好的解。这是一个搜索过程，所以优化算法也叫搜索算法(不是Searching Engine那种搜索)。<br/>
+　　什么是<strong>目标函数</strong>？不同的优化算法有着不同的搜索策略，因此可能在不同的问题上表现出各自的优越性。另外需要明确，怎样的解算是一个好的解？我们必须确定一个标准来评价解的好坏。这通常要根据问题本身的特性来建立一个目标函数(Objective Function)。相比于试衣服时的标准(好看)而言，我们的目标函数是要有明确的数学定义的。因此或许对于前面这个例子，可以改用回头率、男朋友的心跳频率等可量化的标准来作为目标函数。于是优化算法要做的就是对目标函数的解空间寻优。在训练神经网络时，以损失函数(Cost Function)\(J(W,b)\)为目标函数，优化目标就是要极小化损失函数的值。<br/>
+　　典型的优化算法有经典的模拟退火、梯度下降等。还有遗传算法、蚁群算法、粒子群优化算法等群智能算法，它们基于对生物群体行为的认知、抽象、借鉴。啊...神奇的大自然...</p>
+
+<h2 id="toc_3">粒子群优化算法简介</h2>
+
+<h3 id="toc_4">起源</h3>
+
+<p>　　粒子群算法源于对鸟群行为的研究。群居的鸟类通常要倾巢出动去寻找食物。对于在鸟群中的一只小小鸟(它名叫Birdy)来说，它处在空间中的某个位置(可以用经度，维度，海拔来衡量)；它在飞行着，因此有速度(包括速率大小和方向)；它当前的速度和位置，决定了它下一时刻会处在什么位置。Birdy是一直有主见的鸟，它有着自己的当前飞行速度；它很聪明，能记住自己曾经到过的位置中哪些可能有丰富的食物；而且它是跟着三姑四婆七舅姥爷一起出门的，它也知道大家各自找到的位置中哪个是食物最丰富的。Birdy的飞行就依靠着三个信息的指引，最终它和亲戚们合力找到了一个可以满足它们食物需求的地方。对以上的描述做一个抽象。在解空间中随机放置一定数量的粒子，每一个粒子所在的位置就是它所代表的解；同时粒子是在运动的，它有速度，会在解空间中移动。每个粒子的移动过程就是根据当前速度和位置去往下一刻的位置。粒子们作为一个群体是相互协同和制约的。每一个粒子要根据三个因素来确定它下一刻的速度：自己当前的速度，这代表了它本身的搜索能力；自己目前为止找到的最好位置，这是它的认知部分；目前位置整个群体所能找到的最好位置，这是社会部分。 </p>
+
+<h2 id="toc_5">细节</h2>
+
+<p>　　PSO中单个粒子速度和位置的更新可以用下面两式表达：<br/>
+\[V^{i+1}=\omega V^{i}+c_1r_1(pbest-X^{i})+c_2r_2(gbest-X^{i})\qquad(1)\]<br/>
+\[X^{i+1}=X^{i}+V^{i+1}\qquad(2)\]<br/>
+　　其中V是粒子的速度，X则是粒子的位置，它们都是多维的向量或矩阵；i表示迭代次数。公式(1)右边的多项式中的三项分别是当前速度，代表粒子本身的搜索能力；当前位置与粒子自身的历史最佳位置(pbest)的差距，代表其自我认知；当前位置与整个群体的历史最佳位置(gbest)的差距，代表粒子的社会性。粒子下一刻的速度是这个三个速度的和。\(\omega\)、\(c_1\)和\(c_2\)是预先设置的参数，调整它们的大小可以改变后两个部分的影响力(权重)。\(r_1\)和\(r_2\)是两个(0,1)之间的随机数，每次更新速度都要重新生成。粒子的位置更新由公式(2)表示，这一步只需给位置加上一个更新后的速度。粒子群算法的执行过程要经历很多次迭代，每一次迭代的过程就是更新粒子速度和位置的过程，并且如果产生了更好的位置，还要更新pbest和gbest。下面两图分别表示二维平面上粒子的速度和位置更新过程。<br/>
+<img src="http://7xrz9i.com1.z0.glb.clouddn.com/psoPSO%E9%80%9F%E5%BA%A6%E6%9B%B4%E6%96%B0.jpg?imageView/2/w/500" alt=""/><br/>
+<img src="http://7xrz9i.com1.z0.glb.clouddn.com/psoPSO%E4%BD%8D%E7%BD%AE%E6%9B%B4%E6%96%B0.jpg?imageView/2/w/500" alt="&quot;图1&quot;"/><br/>
+　　\(c_1\)、\(c_2\)的常用设置都是2.0。\(\omega\) 的值通常设为(0,1)之间的一个数，它也可以随着迭代次数增加而不断减小。随着迭代的进行，个体位置\(X\)与\(pbest\)和\(gbest\)的差距会越来越小。也就是说，后两项对速度的影响会越来越小。而且速度在每一次迭代都会被乘以一个小于零的\(\omega\) ，因此速度会趋于零。当速度不断趋于零的时候，粒子的位置变动也越来越慢，直至停滞不动。这就是粒子群的收敛过程。<br/>
+下面的伪代码概括了PSO的执行过程。<br/>
+{% codeblock %}<br/>
+配置参数：种群规模 SwarmSize; 最大迭代次数 MaxIter<br/>
+Init: 生成SwarmSize个粒子，随机初始化它们的位置和速度<br/>
+Get fitness for each particle<br/>
+Get gbest<br/>
+Set pbest as the current position for each particle<br/>
+IterNum=0<br/>
+while IterNum&lt;MaxIter<br/>
+    for each particle<br/>
+      renew V<br/>
+      renew X<br/>
+    renew pbest<br/>
+    renew gbest<br/>
+return gbest<br/>
+{% endcodeblock %}<br/>
+　　对于PSO这类基于群体智能的搜索算法，应该尽量保证个体的多样性。所谓多样性，就是说个体之间存在着差异，各种各样的个体都有。公式(1)中的随机数\(r_1\)和\(r_2\)就是一种提高多样性的机制。个体的多样性越好，它们在解空间中的分布就越广，群体的搜索能力就越强，陷入局部最优解的可能性就越小。这里存在着两个矛盾：一方面我们希望尽可能地保持粒子的多样性，以提高群体都搜索能力；另一方面我们希望粒子的运动是趋于收敛的，也就是希望粒子的位置会在合理的时间内逐渐趋同。很多对于PSO算法的改进就是着眼于对这个矛盾的均衡。</p>
+
+<h2 id="toc_6">改进</h2>
+
+<p>　　对于PSO的改进大多围绕提高粒子多样性和保持一定的收敛速度来进行。这里主要介绍三种：引入变异、邻域PSO、综合学习(Comprehensive Learning)。</p>
+
+<h3 id="toc_7">引入变异</h3>
+
+<p>　　变异的概念来源于生物进化(依旧是神奇的大自然)。在物种进化的过程中主要起作用的因素有：自然选择，适者生存，优胜劣汰；个体之间的基因交流，重组出新的基因；个体自身的变异产生新的基因。变异发生的概率很低，但对于物种多样性有着非常重要的意义。对于生物进化的认知、抽象、运用，得出了著名的遗传算法(Genetic Algorithm, GA)。我们可以从GA中借鉴变异操作，来提高PSO中群体的多样性。我们预先设定一个较小的变异率参数muRate(比如0.02)，在每次迭代中随机产生一个数，如果这个数小于muRate，则进行变异操作。具体的变异操作可以是对位置X增减一个随机值，可以随机重置某些维度，甚至可以重新随机初始化整个粒子。变异操作为陷入局部最优解的群体提供了跳变，从而提高了群体的搜索能力。</p>
+
+<h3 id="toc_8">邻域PSO</h3>
+
+<p>　　实验表明，公式(1)中的最后一项，即历史最优解，对于整个群体的影响力非常大。它很有可能把群体带向一个并不是很好的位置，使得群体陷于局部最优解。因此可以通过减缓历史最优解信息的传递速度，来保持粒子多样性。这个思想产生了各种基于邻域的PSO算法。它们的共同特点是，把最后一项的群体历史最优改成个体邻域内的历史最优解:<br/>
+\[V^{i+1}=\omega V^{i}+c_1r_1(pbest-X^{i})+c_2r_2(lbest-X^{i})\qquad(3)\]<br/>
+对于一个粒子来说，lbest就是它处在的邻域范围内的各个粒子目前为止所得到的最优解。常见的邻域有环形邻域、随机邻域、von Neumann邻域。</p>
+
+<h3 id="toc_9">综合学习</h3>
+
+<p>　　综合学习策略(Comprehensive Learning，CL)是由梁静(J.J.Liang，现在应该在郑州大学)提出来的。CL同样认为在基本PSO算法中，gbest的影响力过于强大，容易很快把群体带到一个局部最优解位置，因此应该想办法限制gbest的影响。怎么限制？大姐说了，咱直接把它去掉。于是就得到了一个只有两项的速度更新公式:<br/>
+\[V^{i+1}=\omega V^{i}+cr(pbest_f-X^{i})\qquad(4)\]<br/>
+这里的pbest也不再是原来的pbest。它是一个组合体，虽然形态和普通的pbest还是一样的，但它的不同维度可能来自不同的粒子。通过把较好的粒子的某些维度重组在一起，得到了新的\(pbest_f\)。它掌握着来自整个群体的好的信息，因此有能力指引着群体去往更好的位置。而当种群中个体越来越接近，它们的速度也逐渐趋于零，于是慢慢地收敛了。关于CL的更多细节请参考附录[1]。<br/>
+　　以上的改进都会在一定程度上使群体的收敛速度变慢，因此需要更多的迭代次数。对于解空间不复杂的问题，综合学习的优势并不突出。而当被用来解决各种复杂多峰的优化问题时，它在寻优能力方面的优势就很明显了。</p>
+
+<h2 id="toc_10">组合优化</h2>
+
+<p>　　以上描述的都是对于连续问题的优化算法。针对离散问题，PSO也有对应的版本。对于离散PSO(PBSO)，粒子的位置是离散的值。基本BPSO的粒子的编码为0-1编码，即粒子中的每一维度非0即1。而速度的各个维度依然的连续的，因此我们需要一个函数，将连续的速度值映射成离散的位置值。最常用的映射函数是\(sigmoid\)函数，于是使用以下两个公式更新粒子的位置：<br/>
+\[S({V_j}^{i})=\frac{1}{1+e^{-{V_j}^{i}}}\qquad(5)\]<br/>
+\[{X_j}^{i+1}=\begin{cases}<br/>
+0 &amp; \text{ if } random\geqslant S({V_j}^{i}) \\\ <br/>
+1 &amp; \text{ if } random&lt; S({V_j}^{i})<br/>
+\end{cases}\qquad(6)\]  </p>
+
+<p>这里\(V^{i}_{j}\)表示在第i次迭代时粒子速度的第j维。\(sigmoid\)函数的形态入下图所示：<br/>
+<img src="http://7xrz9i.com1.z0.glb.clouddn.com/psoSigmoid.png" alt=""/><br/>
+观察其函数形态可以发现，当速度趋于0的时候，其函数值趋于0.5。这也就是说，对应维度的位置值是0还是1，是等可能的。这并不符合我们所预期的目标：当速度趋于收敛的时候位置也趋于不变。因此一个更合理的方案是采用一种在输入为0时其函数值也为0的函数，例如\(T(X)=\left | tanh(X) \right |\)。这类函数的形态像一个V形：<br/>
+<img src="http://7xrz9i.com1.z0.glb.clouddn.com/psoVshaped.png" alt=""/><br/>
+如果采用V形函数，则位置更新方式也要跟着改为下式，使得当速度趋于0时，位置趋于不变：<br/>
+\[{X_j}^{i+1}=\begin{cases}<br/>
+0 &amp; \text{ if } random\leqslant T({V_j}^{i}) and {V_j}^{i}\leqslant 0\\\ <br/>
+1 &amp; \text{ if } random\leqslant T({V_j}^{i}) and {V_j}^{i}&gt; 0 \\\ <br/>
+{X_j}^{i} &amp; \text{ if } random&gt; T({V_j}^{i}) <br/>
+\end{cases}\]<br/>
+　　这里还要重点安利一种神奇的离散PSO框架，那就是我师兄(兼现任带头大哥)提出的基于集合的离散PSO(Set-based PSO，SPSO)。SPSO的框架非常灵活，可以很好地整合其他算法思想，比如结合综合学习策略；且其编码方式可以自如地根据实际问题来设计。详见附录[2]。</p>
+
+<h1 id="toc_11">应用</h1>
+
+<p>PSO的应用场景非常广泛，可谓上天下海无所不能。</p>
+
+<h2 id="toc_12">人工神经网络</h2>
+
+<p>　　对于神经网络的训练，最小化损失函数是个显而易见的优化问题，因此可以用PSO之类的优化算法来做。详见本博客的<a href="http://zxcoder.xyz/2016/03/18/Neural-Network-PSO/">另一篇博文</a>。</p>
+
+<h2 id="toc_13">K-中心聚类</h2>
+
+<p>　　K-means的最大缺陷之一就是对于初始选择中心的敏感性，使用<a href="">PSO聚类</a>可以很好地解决这个问题。</p>
+
+<blockquote>
+<p><a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1637688&amp;newsearch=true&amp;queryText=comprehensive%20learning%20particle%20swarm">1. Comprehensive Learing PSO</a><br/>
+<a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=5299261&amp;newsearch=true&amp;queryText=set-based%20particle%20swarm">2. Set-based PSO</a><br/>
+　　</p>
+</blockquote>
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14600116978074.html" 
+          title="Next Post: SSE的背后">SSE的背后 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<a class="jiathis_button_tsina"></a>
+<a class="jiathis_button_weixin"></a>
+<a class="jiathis_button_fb"></a>
+<a class="jiathis_button_twitter"></a>
+<a class="jiathis_button_googleplus"></a>
+<a class="jiathis_button_copy"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+	summary:"",
+	shortUrl:false,
+	hideMore:true
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+          
+
+          
+              <div class="ds-thread" data-thread-key="14605499748686.html" data-url="http://21stacks.top/14605499748686.html" data-title="粒子群优化算法"></div>
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <div class="site-a-logo"><img src="http://7xrz9i.com1.z0.glb.clouddn.com/avatar1.jpg" /></div>
+            
+                <h1></h1>
+                <div class="site-des">搬运者Ace</div>
+                <div class="social">
+
+
+
+
+
+
+
+<a class="weibo" target="_blank" href="http://weibo.com/acetseng" title="weibo">Weibo</a>
+
+<a class="github" target="_blank" href="https://github.com/AceTseng" title="GitHub">GitHub</a>
+
+  <a class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html"><strong>组合方法</strong></a>
+        
+            <a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html"><strong>线性模型</strong></a>
+        
+            <a href="%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html"><strong>Optimization</strong></a>
+        
+            <a href="%E9%9B%B6%E7%A2%8E.html"><strong>零碎</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="14605499748686.html">粒子群优化算法</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14600116978074.html">SSE的背后</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14598347945676.html">梯度下降</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14592400407522.html">Boosting</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14592424184360.html">Bagging</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2016 AceTseng
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+
+
+<script type="text/javascript">
+var duoshuoQuery = {short_name:'acesmg'};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"><div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"><div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
+  </body>
+</html>
