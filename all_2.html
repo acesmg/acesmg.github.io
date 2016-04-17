@@ -74,9 +74,15 @@
     <li><label>Categories</label></li>
 
         
-            <li><a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html">聚合方法</a></li>
+            <li><a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html">组合方法</a></li>
         
             <li><a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html">线性模型</a></li>
+        
+            <li><a href="%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html">Optimization</a></li>
+        
+            <li><a href="%E9%9B%B6%E7%A2%8E.html">零碎</a></li>
+        
+            <li><a href="ProgrammingLanguage.html">ProgrammingLanguage</a></li>
          
 
       </ul>
@@ -99,31 +105,14 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14591708106532.html">
+                <a class="clearlink" href="14591708105958.html">
                 
-                  <h1>Stacked Generalization</h1>
+                  <h1>线性回归</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>　　使用多层模型，前一层的输出作为特征，当作后一层的输入。以两层模型为例。第一层使用两种分类器，生成两种meta-feature；第二层使用一个分类器，以这些meta-features为特征生成分类结果。训练集和测试集都要经历这两个层次。在第一层，对于单个分类器，可以采用k-fold来生成这个分类器对应的meta-feature。整个过程可以用以下两图表示，这里采用了2-fold。<br/>
-　　<img src="http://7xrz9i.com1.z0.glb.clouddn.com/ensemblestackedGeneralization-Train.png" alt=""/><br/>
-　　<img src="http://7xrz9i.com1.z0.glb.clouddn.com/ensemblestackedGeneralization-Test.png" alt=""/><br/>
-　　C1和C2是第一层采用的分类器。<br/>
-　　对<strong>训练集</strong>的操作：<br/>
-　　1.划分训练集P为两个fold，PA，PB。<br/>
-　　2.对于C1，生成F1：<br/>
-　　　　以PA为训练集训练它，然后将C1作用于PB，生成部分meta-feature F1B；<br/>
-　　　　以PB为训练集训练它，然后将C1作用于PA，生成部分meta-feature F1A；<br/>
-　　　　组合以上两部分meta-feature，生成F1，a column。<br/>
-　　3.对C2，生成F2：过程类似2。<br/>
-　　4.组合F1和F2，生成含有两种feature（Attribute）的新数据集F，y还是原来的训练集的y。<br/>
-　　对<strong>测试集</strong>：<br/>
-　　同样要生成两种meta-feature。<br/>
-　　1.可以用整个训练集分别训练C1和C2，然后将C1和C2作用于测试集。就像上图2那样。<br/>
-　　2.也可以把上图1中得到的两个(多个)C1都作用于测试集，投票或求评价得到TF1；用同样的方法得到TF2。<br/>
-　　3.组合TF1，TF2，生成TF，含两种属性。 </p>
-
+                        	
                         
                       </div>
                   </div>
@@ -134,7 +123,7 @@
                     <span class="date">2016/3/28</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>聚合方法</a></span>
+          					    <span class="posted-in"><a href='%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html'>线性模型</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -142,7 +131,7 @@
                       
 
                       
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14591708106532.html" data-count-type="comments" href="14591708106532.html#ds-thread"></a>
+                        &nbsp;<a  class="ds-thread-count" data-thread-key="14591708105958.html" data-count-type="comments" href="14591708105958.html#ds-thread"></a>
                        
                   </span>
                   </div>
@@ -160,7 +149,7 @@
 			  </div>
 			  <div class="large-6 columns">
 			<p class="text-right" style="padding-top:25px;">
-			 <a href="all_3.html">&raquo; Next Page</a> 
+			
 			</p>
 			  </div>
 			</div>
@@ -200,9 +189,15 @@
 
       	<p class="cat-list">
         
-            <a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html"><strong>聚合方法</strong></a>
+            <a href="%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html"><strong>组合方法</strong></a>
         
             <a href="%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html"><strong>线性模型</strong></a>
+        
+            <a href="%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html"><strong>Optimization</strong></a>
+        
+            <a href="%E9%9B%B6%E7%A2%8E.html"><strong>零碎</strong></a>
+        
+            <a href="ProgrammingLanguage.html"><strong>ProgrammingLanguage</strong></a>
          
         </p>
 
@@ -219,33 +214,43 @@
 	      
 		      
 			      <li class="post">
-			        <a href="14592424184360.html">Bagging</a>
+			        <a href="14608736410354.html">整数除法、取余、舍入，Python VS Java</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14592400407522.html">Boosting</a>
+			        <a href="14608664015957.html">美好的Python</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14591708106532.html">Stacked Generalization</a>
+			        <a href="14605499748686.html">粒子群优化算法</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14591708106411.html">Random Forest</a>
+			        <a href="14600116978074.html">SSE的背后</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="14591708106259.html">Logistic 回归</a>
+			        <a href="14598347945676.html">梯度下降</a>
 			      </li>
 		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
 		  
 		      
 		   

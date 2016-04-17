@@ -81,6 +81,8 @@
             <li><a href="%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html">Optimization</a></li>
         
             <li><a href="%E9%9B%B6%E7%A2%8E.html">零碎</a></li>
+        
+            <li><a href="ProgrammingLanguage.html">ProgrammingLanguage</a></li>
          
 
       </ul>
@@ -102,6 +104,489 @@
 	<div class="large-8 medium-8 columns">
 		<div class="markdown-body home-categories">
 		
+			<div class="article">
+                <a class="clearlink" href="14608736410354.html">
+                
+                  <h1>整数除法、取余、舍入，Python VS Java</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>　　关于除法，你也许觉得没什么值得谈论的，毕竟小学的时候体育老师就教过我们了。然而对于编程中使用的除法，我觉得还是有很多值得注意的细节的。为什么我想深究一下？因为我日常主要使用Java和Python编程，而它们的除法在细节上有很多不同之处，全是坑啊…所以接下来我也将着重于Java和Python，但是相信我，就算你不用Java和Python，也会有所收获的。</p>
+
+<h3 id="toc_0">1.整数除法</h3>
+
+<p>　　对两个不能整除的整数做除法，就要面对舍入的问题。和大多数编程语言一样，Java的基本舍入策略是向零取整(round to zero)，也就是向绝对值变小的方向取整。举几个香甜的小栗子：3/2=1, -3/2=-1。而对于Python而言，情况就有所不同了，例如：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;-1/10
+-1
+</code></pre>
+
+<p>　　显然如果按照Java的取整策略，-1/10应该得0，而Python给出的结果是-1。事实上Python的取整方式是向下取整，也就是向着数轴上负无穷的方向取整。<br/>
+　　好吧，Java和Python的取整方式不同，那又怎样，夺大点事儿呀…<br/>
+　　那么如果我们要在Python下得到向零取整的结果，咋整？一种比较直接的方式是：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;int(float(-1)/10)
+0
+</code></pre>
+
+<h3 id="toc_1">2.取余</h3>
+
+<p>　　Java和Python整数除法都遵循下面这个公式：<br/>
+\[(\frac{a}{b})*b+c=a\]<br/>
+　　也就是说：<br/>
+\[a \% b=c=a-(\frac{a}{b})*b\]<br/>
+　　这里用\(\frac{a}{b}\)表示整数除法。既然它们的取整方式不一样，那么取余也会受到影响。对Java，\(-2\%3=-2\)；而对于Python，\(-2\%3=1\)。<br/>
+在某些实际应用中，我们可能需要获得一个整数的各位的数字。如果输入的整数的正的，Java和Python都可以用相同的方法来解决： </p>
+
+<pre><code class="language-python">#Python
+def func(a):
+    pos, res=1, []
+    while a/pos:
+        res += (a/pos)%10,
+        pos *= 10
+    return res
+</code></pre>
+
+<p>　　Java代码也差不多就是这样了。但如果输入的整数是一个负数，Java版本的代码还是可以得到正确的结果，而Python不能。那怎样用Python正确地搞定这个问题嘞？可以先取绝对值和符号，当作正数来处理，最后再在结果里搭上符号。 </p>
+
+<h3 id="toc_2">3. Follow-ups</h3>
+
+<h4 id="toc_3">3.1 Python中的另一个除法操作</h4>
+
+<p>　　我们知道，在Python中，基本的除号<code>/</code>是被重载了的。当两个操作数都是整数时，进行整数除法，得到整数结果，否则进行浮点数除法（真除法），得到浮点数结果。从Python 2.2开始，另一个除号被引入：<code>//</code>，它只执行整数除法。注意，<code>//</code>的结果类型依操作数而定。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;1.0/2
+0.0
+&gt;&gt;&gt;1.0//2.0
+0.0
+&gt;&gt;&gt;1//2
+&gt;0
+</code></pre>
+
+<p>另外，如果想同时得到商和余数，可以使用内建的函数divmod，结果是一个tuple。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;divmod(7, 2)
+(3, 1)
+&gt;&gt;&gt;divmod(7.0, 2)
+(3.0, 1.0)
+</code></pre>
+
+<h4 id="toc_4">3.2 Python中的舍入</h4>
+
+<p>　　除了缺省的舍入方式，Python还有多种舍入可供选择。<br/>
+<strong>Floor rounding:</strong></p>
+
+<pre><code class="language-python">&gt;&gt;&gt;import math
+&gt;&gt;&gt;math.floor(1.2)
+1.0
+&gt;&gt;&gt;math.floor(-1.2)
+-2.0
+</code></pre>
+
+<p><strong>Ceiling rounding:</strong></p>
+
+<pre><code class="language-python">&gt;&gt;&gt;math.ceil(1.2)
+2.0
+&gt;&gt;&gt;math.ceil(-1.2)
+-1.0
+</code></pre>
+
+<p><strong>Round-off:</strong></p>
+
+<pre><code class="language-python">&gt;&gt;&gt;round(0.5)
+1.0
+&gt;&gt;&gt;round(-0.4)
+-0.0
+&gt;&gt;&gt;round(-0.5)
+-1.0
+</code></pre>
+
+<p>内嵌的<code>round</code>函数也可以指定一个保留小数位数的参数：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;round(0.21, 1)
+0.2
+&gt;&gt;&gt;round(0.21, 2)
+0.21
+</code></pre>
+
+<p><strong>Caution !</strong></p>
+
+<pre><code class="language-python">&gt;&gt;&gt;round(2.675, 2)
+2.67
+</code></pre>
+
+<p>咦？bug啦？！当然不是。这里要明确一件事：计算机只认识0,1。就是说，我们输入的十进制数，在计算机内部都是用二进制来表示的。有的十进制数可以用二进制准确地表示，比如十进制的0.125可以表示为0b0.001；然而很多的小数是没法用二进制数精确表示的，计算机里存储的是它们的近似值，例如十进制的0.1，用二进制表示，可以近似为: <code>0b0.00011001100110011001100110011001100110011001100110011010</code>，所以当我们把它换回十进制数以输出或者使用，得到的值就是<code>0.1000000000000000055511151231257827021181583404541015625</code>。也就是说，0.1在计算机里并不是刚好等于1/10的。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;0.1 + 0.2
+0.30000000000000004
+</code></pre>
+
+<p>同样，当我们运行<strong>round( )</strong>函数，也是对计算机中实际存储的值近似取舍。2.67实际上近似为<code>2.67499999999999982236431605997495353221893310546875</code>，你看第三位小数是4，那么<code>round(2.675, 2)</code>就相当于<code>round(2.674, 2)</code>，结果当然是2.67。值得注意的是，这种现象是广泛存在于各种计算机和各种编程语言的，不是bug。</p>
+
+<h4 id="toc_5">3.3 Java中的舍入</h4>
+
+<p>　　Java提供了floor和ceil方法来实现向下和向上取整。</p>
+
+<pre><code class="language-java">Math.floor(2.9)
+Math.ceil(2.1)
+</code></pre>
+
+<p>　　这俩函数简单方便，居家旅行必备。另外Java中也有个round函数，可以实现各种复杂的取整。</p>
+
+<pre><code class="language-Java">System.out.println(Math.round(0.5));
+//输出 1
+System.out.println(Math.round(-0.5));
+//输出 0
+System.out.println(Math.round(-0.51));
+//输出 -1
+</code></pre>
+
+<p>　　这什么鬼？<br/>
+　　Keep Calm and Carry On！<br/>
+　　数学上有多种不同的取整方法，比如我们体育老师教的四舍五入。各种取整方法的共同点就是要对真值作近似，于是就会引入偏差。四舍五入显然并不是一种公平的策略（想想0~4的舍和5~9的得）。<br/>
+　　有一个叫做银行家舍入(Banker’s Rounding)的东西，不造你听过没，反正我是最近才知道的。事实上.NET和VB6都是默认采用这种方式，而且IEEE 754默认采用之。Banker’s Rounding 也就是<strong>round to even</strong>策略。<br/>
+假设当前考虑那位的数字是d（d就是将不被保留的第一位），如果d<5，则舍(round to zero)；如果d>5，则入(round away from zero)；而当d==5时，就要根据d前后的数位来确定往哪边取了。<br/>
+1) 如果d之后存在非零的数位，则入；<br/>
+2) 如果d之后不存在非零的数位，则看d之前的一位，用c表示：<br/>
+　　a.如果c是奇数，则入；<br/>
+　　b.如果c是偶数，则舍。</p>
+
+<p>再来一把栗子，对下列数保留0位小数，则第一位小数就是d，整数位就是c：</p>
+
+<pre><code class="language-java">BankRound(0.4)==0,　　BankRound(0.6)==1
+BankRound(-0.4)==0,　　BankRound(-0.6)==-1
+BankRound(1.5)==2.0,　　BankRound(-1.5)==-2.0
+BankRound(2.5)==2.0,　　BankRound(-2.5)==-2.0
+BankRound(1.51)==2.0,　　BankRound(-1.51)==-2.0
+BankRound(2.51)==3.0,　　BankRound(-2.51)==-3.0
+</code></pre>
+
+<p>　　可以看出，Banker’s Rounding对正数和负数的处理是对称的，因此不会引入符号带来的偏差。另外它以均等的几率来舍入数位（考虑c, c有各一半的几率为奇数和偶数），所以多次舍入后与真值的差别较小。<br/>
+　　扯了这么多，跟Java的<strong>Math.round( )</strong>有什么关系呢？我也是写到这才发现，好像没什么软关系。因为它并没有遵循Banker’s rounding。而是按照以下策略进行取整：</p>
+
+<p>1)当考虑的数位d不是5，d<5就舍，d>5则入。<br/>
+2)当d是5：<br/>
+　　a.如果d的右边有非零数位，则入；<br/>
+　　b.如果d的右边没有非零数位，则** round to ceiling**，即对负数舍，对正数入。</p>
+
+<p><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Math.html">Java文档里是这么表述的</a></p>
+
+<p>还有, 在Java里可以使用<strong>BigDecimal</strong>和<strong>RoundingMode</strong>实现更通用的取整方式。</p>
+
+<pre><code class="language-java">double d = -2.5;
+BigDecimal bd = new BigDecimal(d);
+double nd = bd.setScale(0, RoundingMode.HALF_EVEN).doubleValue();
+System.out.println(nd);
+//输出 -2.0
+</code></pre>
+
+<p><strong>setScale</strong>的第一个参数是保留的小数位数，第二个参数是舍入模式。可选的舍入模式有：<br/>
+<strong>HALF_EVEN</strong>, 也就是<strong>银行家</strong>舍入；<br/>
+<strong>HALF_UP</strong>, 四舍五入；<br/>
+<strong>HALF_DOWN</strong>, 五舍六入；<br/>
+<strong>CEILING、FLOOR</strong>, 向正无穷、负无穷方向；<br/>
+<strong>UP、DOWN</strong>*, 向零和远离零；<br/>
+<strong>UNNECESSARY</strong>, 断言舍入后的值和原值相等，也就是不需要舍入。如果断言错了，抛出<strong>ArithmeticException</strong>异常。</p>
+
+<p>先写到这，有话好好说。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/4/17</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='ProgrammingLanguage.html'>ProgrammingLanguage</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                      
+                        &nbsp;<a  class="ds-thread-count" data-thread-key="14608736410354.html" data-count-type="comments" href="14608736410354.html#ds-thread"></a>
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14608664015957.html">
+                
+                  <h1>美好的Python</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>人生苦短，我用Python。本文旨在收集记录分享简洁漂亮的Python写法，欢迎补充。</p>
+
+<h4 id="toc_0">字典/集合推导式(dict/set comprehension)</h4>
+
+<p>类似于列表推导式：</p>
+
+<pre><code class="language-python">my_dict = {i: i * i for i in xrange(100)} 
+my_set = {i * 15 for i in xrange(100)}
+#这俩在写法上的区别只是字典推导式多了一个&#39;:&#39;
+</code></pre>
+
+<p><strong>Caution：</strong><br/>
+区别一下三种写法：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;my_set = {i*15 for i in xrange(100)}
+&gt;&gt;&gt;my_list = [i*15 for i in xrange(100)]
+&gt;&gt;&gt;my_generator = (i*15 for i in xrange(100))
+
+&gt;&gt;&gt;print &quot;my_set&quot;, type(my_set)
+my_set &lt;type &#39;set&#39;&gt;
+&gt;&gt;&gt;print &quot;my_list&quot;, type(my_list)
+my_list &lt;type &#39;list&#39;&gt;
+&gt;&gt;&gt;print &quot;my_generator&quot;, type(my_generator)
+my_generator &lt;type &#39;generator&#39;&gt;
+</code></pre>
+
+<h4 id="toc_1">枚举 (enumerate)</h4>
+
+<p>要在枚举过程中使用序号，可以采用<code>enumerate</code>优雅地实现：</p>
+
+<pre><code class="language-python">#i从0开始,每次加1
+for i, item in enumerate(iterable):
+    print i, item
+#i从2开始
+for i, item in enumerate(iterable, 2):
+    print i, item
+</code></pre>
+
+<h3 id="toc_2">强制浮点数除法</h3>
+
+<p>如果我们对两个整数做<code>/</code>除法，Python 2 返回的是一个整数，如需返回浮点数的结果，在Python 2.x中通常会这么做：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;1.0/2
+0.5
+</code></pre>
+
+<p>可以这样更漂亮地实现：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;from __future__ import division 
+&gt;&gt;&gt;1/2
+0.5
+</code></pre>
+
+<p>而在Python 3中，<code>/</code>是真除，默认精确到小数点后一位。</p>
+
+<h4 id="toc_3">使用literal_eval()</h4>
+
+<p>我们都知道eval:</p>
+
+<pre><code class="language-python">expr = &quot;[1, 2, 3]&quot; 
+my_list = eval(expr)
+</code></pre>
+
+<p>但估计没几个人知道literal_eval( ):</p>
+
+<pre><code class="language-python">import ast 
+my_list = ast.literal_eval(expr)
+</code></pre>
+
+<p>(看起来好像并没有变漂亮呢，但ast.literal_eval()更安全。)</p>
+
+<h4 id="toc_4">用dir( )查看一个Python对象</h4>
+
+<pre><code class="language-python">&gt;&gt;&gt; foo = [1, 2, 3, 4]
+&gt;&gt;&gt; dir(foo) 
+[&#39;__add__&#39;, &#39;__class__&#39;, &#39;__contains__&#39;, 
+&#39;__delattr__&#39;, &#39;__delitem__&#39;, &#39;__delslice__&#39;, ... , 
+&#39;extend&#39;, &#39;index&#39;, &#39;insert&#39;, &#39;pop&#39;, &#39;remove&#39;, 
+&#39;reverse&#39;, &#39;sort&#39;]
+</code></pre>
+
+<h4 id="toc_5">调试脚本</h4>
+
+<p>利用pdb模块可以轻松地在脚本中设置断点：</p>
+
+<pre><code class="language-python">import pdb
+pdb.set_trace()
+</code></pre>
+
+<p>你可以在脚本的任何位置加上<code>pdb.set_trace()</code>来设置断点。</p>
+
+<h4 id="toc_6">简化if 结构</h4>
+
+<p>当有多个值需要检验的时候，通常会这么写：</p>
+
+<pre><code class="language-python">if n==1 or n==4 or n==5 or n==6:
+</code></pre>
+
+<p>更漂亮的写法是：</p>
+
+<pre><code class="language-python">if n in [1,4,5,6]:
+</code></pre>
+
+<h4 id="toc_7">反转列表/字符串</h4>
+
+<p>你可以这样快速地反转一个列表：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;a=[1,2,3]
+&gt;&gt;&gt;a[::-1]
+[3,2,1]
+</code></pre>
+
+<p>这样会生成一个新的列表，原列表不变。如果你想在原地反转列表，可以这样：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; a.reverse()
+&gt;&gt;&gt; a
+[3, 2, 1]
+</code></pre>
+
+<p>字符串类型string是不可变类型，因此也就没有对应的reverse( )咯。</p>
+
+<h4 id="toc_8">行内if</h4>
+
+<pre><code class="language-python">a = 1 if b&gt;c else -1
+print a if b&gt;c else d
+</code></pre>
+
+<h4 id="toc_9">交换两个变量</h4>
+
+<pre><code class="language-python">a, b = b, a
+</code></pre>
+
+<h4 id="toc_10">连续赋值</h4>
+
+<pre><code class="language-python">a, b, c = 1, 2, 3
+</code></pre>
+
+<h3 id="toc_11">串联</h3>
+
+<pre><code class="language-python">&gt;&gt;&gt;a=[1,2]
+&gt;&gt;&gt;b=[3,4]
+&gt;&gt;&gt;a+b
+[1,2,3,4]
+&gt;&gt;&gt;print str(1) + &quot; a&quot;
+1 a
+&gt;&gt;&gt;print `1` + &quot; b&quot;
+1 b
+&gt;&gt;&gt;print 1, &quot; c&quot;
+1 c
+</code></pre>
+
+<h4 id="toc_12">地板除 (Python 2.2以后)</h4>
+
+<pre><code>&gt;&gt;&gt;5//2
+2
+&gt;&gt;&gt;5.0//2
+2.0
+</code></pre>
+
+<h4 id="toc_13">乘方</h4>
+
+<pre><code>#a**b, 得a的b次方
+&gt;&gt;&gt;2**5
+32
+</code></pre>
+
+<h4 id="toc_14">级联比较</h4>
+
+<pre><code class="language-python">if a&lt;b&lt;c:
+    blabla...
+if a&lt;b&gt;c:
+    blabla...
+</code></pre>
+
+<h4 id="toc_15">同时遍历两个列表：</h4>
+
+<pre><code class="language-python">names=[&#39;Tom&#39;,&#39;Jerry&#39;]
+ages=[23,17]
+for name, age in zip(names, ages):
+    print name, age
+</code></pre>
+
+<h4 id="toc_16">建立并初始化列表</h4>
+
+<pre><code class="language-python">#一维
+a=[0]*4
+#二维, 3行4列
+b=[[0]*4 for i in range(3)]
+</code></pre>
+
+<h4 id="toc_17">join( )</h4>
+
+<pre><code class="language-python">&gt;&gt;&gt;a=[&#39;my&#39;, &#39;life&#39;, &#39;is&#39;, &#39;awesome&#39;]
+&gt;&gt;&gt;print &#39;!&#39;.join(a)
+my!life!is!awesome
+</code></pre>
+
+<h4 id="toc_18">获取字典内的元素</h4>
+
+<pre><code class="language-python">#bad practice：
+dix = {&#39;Tom&#39;:23}
+try:
+    name = dix[&#39;Tom&#39;]
+except KeyError:
+    name = &#39;Default&#39;
+    
+#good practice：
+name = dix.get(&#39;Tom&#39;, &#39;Default&#39;)
+</code></pre>
+
+<h4 id="toc_19">截取列表的一部分</h4>
+
+<pre><code class="language-python">&gt;&gt;&gt;a = [1,2,3,4,5,6]
+&gt;&gt;&gt;a[:3]
+[1,2,3]
+&gt;&gt;&gt;a[1:5]
+[2,3,4,5]
+&gt;&gt;&gt;a[-3:]
+[4,5,6]
+&gt;&gt;&gt;a[::2]
+[1,3,5]
+&gt;&gt;&gt;a[1::2]
+[2,4,6]
+</code></pre>
+
+<p>对于a[x:y:z], x和y分别是下标起点和下标终点+1，z是间隔值。于是就能理解为啥a[::-1]能得到一个反转的列表了。</p>
+
+<h4 id="toc_20">向列表添加元素</h4>
+
+<pre><code class="language-python">my_list = [1,2,3]
+my_list += 4,
+#my_list变成了[1,2,3,4]
+my_list += [5]
+#my_list变成了[1,2,3,4,5]
+</code></pre>
+
+<h4 id="toc_21">不断更新中...</h4>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/4/17</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='ProgrammingLanguage.html'>ProgrammingLanguage</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                      
+                        &nbsp;<a  class="ds-thread-count" data-thread-key="14608664015957.html" data-count-type="comments" href="14608664015957.html#ds-thread"></a>
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
 			<div class="article">
                 <a class="clearlink" href="14605499748686.html">
                 
@@ -226,85 +711,6 @@
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="14592400407522.html">
-                
-                  <h1>Boosting</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>　　Boosting是一种Adaptive Basis-function Model (ABM)。ABM模型可以用式(1)高度概括：<br/>
-\[f(x)=w_0+\sum_{m=1}^{M} w_m \phi_m(x) \qquad(1)\]<br/>
-　　这里的\(\phi_m(x)\)是从数据中学习而来的第\(m\)个基本模型(基函数)。ABM通过多个模型的线性组合来得到<strong>非线性</strong>的模型。事实上，决策树就是一种ABM。一棵具有\(M\)个叶子节点的决策树可以表示为：<br/>
-\[T(x)=\sum_{m=1}^{M}w_mI(x\in R_m)\qquad (2)\]<br/>
-　　\(R_m\)是决策树的第\(m\)个叶节点；\(w_m\)表示第\(m\)个叶节点的标示值(输出)；当样本x属于第\(m\)个叶节点时，函数\(I(x \in R_m)\)输出1，否则输出0。<br/>
-　　Boosting是除了决策树以外的另一种常见的ABM模型。Boosting中的基本模型也叫做weak learner。被使用最多的基本模型是CART。</p>
-
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="14592400407522.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/3/29</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>组合方法</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14592400407522.html" data-count-type="comments" href="14592400407522.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14592424184360.html">
-                
-                  <h1>Bagging</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>　　一种组合学习模型。通过从原始训练数据集里有放回(with replacement)地抽取数据样本，来构造新的训练集。每得到一个新的训练集就在其上训练一个模型。重复多次，得数个模型。采用求平均或Major Vote来组合这些模型，得到最终的输出模型。<br/>
-　　新构造的训练集与原始训练集有着相同数量的样本，设为\(N\)。则每构造一个新训练集，原始训练集中的单个样本被抽取(即至少被抽中一次)的概率是：<br/>
-　　\[p=1-(1-\frac{1}{N})^{N}\]</p>
-
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="14592424184360.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/3/29</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>组合方法</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14592424184360.html" data-count-type="comments" href="14592424184360.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -363,6 +769,8 @@
             <a href="%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html"><strong>Optimization</strong></a>
         
             <a href="%E9%9B%B6%E7%A2%8E.html"><strong>零碎</strong></a>
+        
+            <a href="ProgrammingLanguage.html"><strong>ProgrammingLanguage</strong></a>
          
         </p>
 
@@ -377,6 +785,18 @@
                 <div class="side-content">
                 <ul class="posts-list">
 	      
+		      
+			      <li class="post">
+			        <a href="14608736410354.html">整数除法、取余、舍入，Python VS Java</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14608664015957.html">美好的Python</a>
+			      </li>
+		     
+		  
 		      
 			      <li class="post">
 			        <a href="14605499748686.html">粒子群优化算法</a>
@@ -396,16 +816,8 @@
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="14592400407522.html">Boosting</a>
-			      </li>
-		     
 		  
 		      
-			      <li class="post">
-			        <a href="14592424184360.html">Bagging</a>
-			      </li>
-		     
 		  
 		      
 		  

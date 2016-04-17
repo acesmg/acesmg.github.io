@@ -81,6 +81,8 @@
             <li><a href="%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html">Optimization</a></li>
         
             <li><a href="%E9%9B%B6%E7%A2%8E.html">零碎</a></li>
+        
+            <li><a href="ProgrammingLanguage.html">ProgrammingLanguage</a></li>
          
 
       </ul>
@@ -102,6 +104,85 @@
 	<div class="large-8 medium-8 columns">
 		<div class="markdown-body home-categories">
 		
+			<div class="article">
+                <a class="clearlink" href="14592400407522.html">
+                
+                  <h1>Boosting</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>　　Boosting是一种Adaptive Basis-function Model (ABM)。ABM模型可以用式(1)高度概括：<br/>
+\[f(x)=w_0+\sum_{m=1}^{M} w_m \phi_m(x) \qquad(1)\]<br/>
+　　这里的\(\phi_m(x)\)是从数据中学习而来的第\(m\)个基本模型(基函数)。ABM通过多个模型的线性组合来得到<strong>非线性</strong>的模型。事实上，决策树就是一种ABM。一棵具有\(M\)个叶子节点的决策树可以表示为：<br/>
+\[T(x)=\sum_{m=1}^{M}w_mI(x\in R_m)\qquad (2)\]<br/>
+　　\(R_m\)是决策树的第\(m\)个叶节点；\(w_m\)表示第\(m\)个叶节点的标示值(输出)；当样本x属于第\(m\)个叶节点时，函数\(I(x \in R_m)\)输出1，否则输出0。<br/>
+　　Boosting是除了决策树以外的另一种常见的ABM模型。Boosting中的基本模型也叫做weak learner。被使用最多的基本模型是CART。</p>
+
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                   <a href="14592400407522.html">Read more</a>&nbsp;&nbsp; 
+                    <span class="date">2016/3/29</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>组合方法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                      
+                        &nbsp;<a  class="ds-thread-count" data-thread-key="14592400407522.html" data-count-type="comments" href="14592400407522.html#ds-thread"></a>
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14592424184360.html">
+                
+                  <h1>Bagging</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>　　一种组合学习模型。通过从原始训练数据集里有放回(with replacement)地抽取数据样本，来构造新的训练集。每得到一个新的训练集就在其上训练一个模型。重复多次，得数个模型。采用求平均或Major Vote来组合这些模型，得到最终的输出模型。<br/>
+　　新构造的训练集与原始训练集有着相同数量的样本，设为\(N\)。则每构造一个新训练集，原始训练集中的单个样本被抽取(即至少被抽中一次)的概率是：<br/>
+　　\[p=1-(1-\frac{1}{N})^{N}\]</p>
+
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                   <a href="14592424184360.html">Read more</a>&nbsp;&nbsp; 
+                    <span class="date">2016/3/29</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>组合方法</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                      
+                        &nbsp;<a  class="ds-thread-count" data-thread-key="14592424184360.html" data-count-type="comments" href="14592424184360.html#ds-thread"></a>
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
 			<div class="article">
                 <a class="clearlink" href="14591708106411.html">
                 
@@ -210,40 +291,6 @@
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="14591708105958.html">
-                
-                  <h1>线性回归</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/3/28</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B.html'>线性模型</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14591708105958.html" data-count-type="comments" href="14591708105958.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -255,7 +302,7 @@
 			  </div>
 			  <div class="large-6 columns">
 			<p class="text-right" style="padding-top:25px;">
-			
+			 <a href="all_2.html">&raquo; Next Page</a> 
 			</p>
 			  </div>
 			</div>
@@ -302,6 +349,8 @@
             <a href="%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html"><strong>Optimization</strong></a>
         
             <a href="%E9%9B%B6%E7%A2%8E.html"><strong>零碎</strong></a>
+        
+            <a href="ProgrammingLanguage.html"><strong>ProgrammingLanguage</strong></a>
          
         </p>
 
@@ -316,6 +365,18 @@
                 <div class="side-content">
                 <ul class="posts-list">
 	      
+		      
+			      <li class="post">
+			        <a href="14608736410354.html">整数除法、取余、舍入，Python VS Java</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14608664015957.html">美好的Python</a>
+			      </li>
+		     
+		  
 		      
 			      <li class="post">
 			        <a href="14605499748686.html">粒子群优化算法</a>
@@ -335,16 +396,8 @@
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="14592400407522.html">Boosting</a>
-			      </li>
-		     
 		  
 		      
-			      <li class="post">
-			        <a href="14592424184360.html">Bagging</a>
-			      </li>
-		     
 		  
 		      
 		  

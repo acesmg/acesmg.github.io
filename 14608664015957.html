@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Bagging - 
+  美好的Python - 
   
   </title>
   
@@ -105,21 +105,21 @@
       <div class="markdown-body article-wrap">
        <div class="article">
           
-          <h1>Bagging</h1>
+          <h1>美好的Python</h1>
      
         <div class="read-more clearfix">
-          <span class="date">2016/3/29</span>
+          <span class="date">2016/4/17</span>
 
           <span>posted in&nbsp;</span> 
           
-              <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>组合方法</a></span>
+              <span class="posted-in"><a href='ProgrammingLanguage.html'>ProgrammingLanguage</a></span>
            
          
           <span class="comments">
             
 
             
-              &nbsp;<a  class="ds-thread-count" data-thread-key="14592424184360.html" data-count-type="comments" href="14592424184360.html#ds-thread"></a>
+              &nbsp;<a  class="ds-thread-count" data-thread-key="14608664015957.html" data-count-type="comments" href="14608664015957.html#ds-thread"></a>
             
           </span>
 
@@ -127,23 +127,243 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <p>　　一种组合学习模型。通过从原始训练数据集里有放回(with replacement)地抽取数据样本，来构造新的训练集。每得到一个新的训练集就在其上训练一个模型。重复多次，得数个模型。采用求平均或Major Vote来组合这些模型，得到最终的输出模型。<br/>
-　　新构造的训练集与原始训练集有着相同数量的样本，设为\(N\)。则每构造一个新训练集，原始训练集中的单个样本被抽取(即至少被抽中一次)的概率是：<br/>
-　　\[p=1-(1-\frac{1}{N})^{N}\]</p>
+      <p>人生苦短，我用Python。本文旨在收集记录分享简洁漂亮的Python写法，欢迎补充。</p>
 
-<span id="more"></span><!-- more -->
+<h4 id="toc_0">字典/集合推导式(dict/set comprehension)</h4>
 
-<p>　　注意到<br/>
-　　\[\lim_{N\rightarrow \infty}p=\lim_{N\rightarrow \infty}1-[(1+\frac{1}{-N})^{-N}]^{-1}=1-\frac{1}{e}\]<br/>
-　　因此当\(N\)足够大时有\(p\approx 0.632\)。因此每构造一个训练集，原始训练集里有大约\(63\%\)的样本会被抽中。</p>
+<p>类似于列表推导式：</p>
 
-<h2 id="toc_0">缺陷</h2>
+<pre><code class="language-python">my_dict = {i: i * i for i in xrange(100)} 
+my_set = {i * 15 for i in xrange(100)}
+#这俩在写法上的区别只是字典推导式多了一个&#39;:&#39;
+</code></pre>
 
-<p>　　对于组合学习模型而言，基本模型之间的相关性越低，组合后的效果越好。Bagging策略的基本模型之间相关性较强，因此性能不佳。</p>
+<p><strong>Caution：</strong><br/>
+区别一下三种写法：</p>
 
-<h2 id="toc_1">改进</h2>
+<pre><code class="language-python">&gt;&gt;&gt;my_set = {i*15 for i in xrange(100)}
+&gt;&gt;&gt;my_list = [i*15 for i in xrange(100)]
+&gt;&gt;&gt;my_generator = (i*15 for i in xrange(100))
 
-<p>　　应设法降低训练集之间的相关性。<strong>随机森林</strong>是对Bagging的一种改进。</p>
+&gt;&gt;&gt;print &quot;my_set&quot;, type(my_set)
+my_set &lt;type &#39;set&#39;&gt;
+&gt;&gt;&gt;print &quot;my_list&quot;, type(my_list)
+my_list &lt;type &#39;list&#39;&gt;
+&gt;&gt;&gt;print &quot;my_generator&quot;, type(my_generator)
+my_generator &lt;type &#39;generator&#39;&gt;
+</code></pre>
+
+<h4 id="toc_1">枚举 (enumerate)</h4>
+
+<p>要在枚举过程中使用序号，可以采用<code>enumerate</code>优雅地实现：</p>
+
+<pre><code class="language-python">#i从0开始,每次加1
+for i, item in enumerate(iterable):
+    print i, item
+#i从2开始
+for i, item in enumerate(iterable, 2):
+    print i, item
+</code></pre>
+
+<h3 id="toc_2">强制浮点数除法</h3>
+
+<p>如果我们对两个整数做<code>/</code>除法，Python 2 返回的是一个整数，如需返回浮点数的结果，在Python 2.x中通常会这么做：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;1.0/2
+0.5
+</code></pre>
+
+<p>可以这样更漂亮地实现：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;from __future__ import division 
+&gt;&gt;&gt;1/2
+0.5
+</code></pre>
+
+<p>而在Python 3中，<code>/</code>是真除，默认精确到小数点后一位。</p>
+
+<h4 id="toc_3">使用literal_eval()</h4>
+
+<p>我们都知道eval:</p>
+
+<pre><code class="language-python">expr = &quot;[1, 2, 3]&quot; 
+my_list = eval(expr)
+</code></pre>
+
+<p>但估计没几个人知道literal_eval( ):</p>
+
+<pre><code class="language-python">import ast 
+my_list = ast.literal_eval(expr)
+</code></pre>
+
+<p>(看起来好像并没有变漂亮呢，但ast.literal_eval()更安全。)</p>
+
+<h4 id="toc_4">用dir( )查看一个Python对象</h4>
+
+<pre><code class="language-python">&gt;&gt;&gt; foo = [1, 2, 3, 4]
+&gt;&gt;&gt; dir(foo) 
+[&#39;__add__&#39;, &#39;__class__&#39;, &#39;__contains__&#39;, 
+&#39;__delattr__&#39;, &#39;__delitem__&#39;, &#39;__delslice__&#39;, ... , 
+&#39;extend&#39;, &#39;index&#39;, &#39;insert&#39;, &#39;pop&#39;, &#39;remove&#39;, 
+&#39;reverse&#39;, &#39;sort&#39;]
+</code></pre>
+
+<h4 id="toc_5">调试脚本</h4>
+
+<p>利用pdb模块可以轻松地在脚本中设置断点：</p>
+
+<pre><code class="language-python">import pdb
+pdb.set_trace()
+</code></pre>
+
+<p>你可以在脚本的任何位置加上<code>pdb.set_trace()</code>来设置断点。</p>
+
+<h4 id="toc_6">简化if 结构</h4>
+
+<p>当有多个值需要检验的时候，通常会这么写：</p>
+
+<pre><code class="language-python">if n==1 or n==4 or n==5 or n==6:
+</code></pre>
+
+<p>更漂亮的写法是：</p>
+
+<pre><code class="language-python">if n in [1,4,5,6]:
+</code></pre>
+
+<h4 id="toc_7">反转列表/字符串</h4>
+
+<p>你可以这样快速地反转一个列表：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;a=[1,2,3]
+&gt;&gt;&gt;a[::-1]
+[3,2,1]
+</code></pre>
+
+<p>这样会生成一个新的列表，原列表不变。如果你想在原地反转列表，可以这样：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; a.reverse()
+&gt;&gt;&gt; a
+[3, 2, 1]
+</code></pre>
+
+<p>字符串类型string是不可变类型，因此也就没有对应的reverse( )咯。</p>
+
+<h4 id="toc_8">行内if</h4>
+
+<pre><code class="language-python">a = 1 if b&gt;c else -1
+print a if b&gt;c else d
+</code></pre>
+
+<h4 id="toc_9">交换两个变量</h4>
+
+<pre><code class="language-python">a, b = b, a
+</code></pre>
+
+<h4 id="toc_10">连续赋值</h4>
+
+<pre><code class="language-python">a, b, c = 1, 2, 3
+</code></pre>
+
+<h3 id="toc_11">串联</h3>
+
+<pre><code class="language-python">&gt;&gt;&gt;a=[1,2]
+&gt;&gt;&gt;b=[3,4]
+&gt;&gt;&gt;a+b
+[1,2,3,4]
+&gt;&gt;&gt;print str(1) + &quot; a&quot;
+1 a
+&gt;&gt;&gt;print `1` + &quot; b&quot;
+1 b
+&gt;&gt;&gt;print 1, &quot; c&quot;
+1 c
+</code></pre>
+
+<h4 id="toc_12">地板除 (Python 2.2以后)</h4>
+
+<pre><code>&gt;&gt;&gt;5//2
+2
+&gt;&gt;&gt;5.0//2
+2.0
+</code></pre>
+
+<h4 id="toc_13">乘方</h4>
+
+<pre><code>#a**b, 得a的b次方
+&gt;&gt;&gt;2**5
+32
+</code></pre>
+
+<h4 id="toc_14">级联比较</h4>
+
+<pre><code class="language-python">if a&lt;b&lt;c:
+    blabla...
+if a&lt;b&gt;c:
+    blabla...
+</code></pre>
+
+<h4 id="toc_15">同时遍历两个列表：</h4>
+
+<pre><code class="language-python">names=[&#39;Tom&#39;,&#39;Jerry&#39;]
+ages=[23,17]
+for name, age in zip(names, ages):
+    print name, age
+</code></pre>
+
+<h4 id="toc_16">建立并初始化列表</h4>
+
+<pre><code class="language-python">#一维
+a=[0]*4
+#二维, 3行4列
+b=[[0]*4 for i in range(3)]
+</code></pre>
+
+<h4 id="toc_17">join( )</h4>
+
+<pre><code class="language-python">&gt;&gt;&gt;a=[&#39;my&#39;, &#39;life&#39;, &#39;is&#39;, &#39;awesome&#39;]
+&gt;&gt;&gt;print &#39;!&#39;.join(a)
+my!life!is!awesome
+</code></pre>
+
+<h4 id="toc_18">获取字典内的元素</h4>
+
+<pre><code class="language-python">#bad practice：
+dix = {&#39;Tom&#39;:23}
+try:
+    name = dix[&#39;Tom&#39;]
+except KeyError:
+    name = &#39;Default&#39;
+    
+#good practice：
+name = dix.get(&#39;Tom&#39;, &#39;Default&#39;)
+</code></pre>
+
+<h4 id="toc_19">截取列表的一部分</h4>
+
+<pre><code class="language-python">&gt;&gt;&gt;a = [1,2,3,4,5,6]
+&gt;&gt;&gt;a[:3]
+[1,2,3]
+&gt;&gt;&gt;a[1:5]
+[2,3,4,5]
+&gt;&gt;&gt;a[-3:]
+[4,5,6]
+&gt;&gt;&gt;a[::2]
+[1,3,5]
+&gt;&gt;&gt;a[1::2]
+[2,4,6]
+</code></pre>
+
+<p>对于a[x:y:z], x和y分别是下标起点和下标终点+1，z是间隔值。于是就能理解为啥a[::-1]能得到一个反转的列表了。</p>
+
+<h4 id="toc_20">向列表添加元素</h4>
+
+<pre><code class="language-python">my_list = [1,2,3]
+my_list += 4,
+#my_list变成了[1,2,3,4]
+my_list += [5]
+#my_list变成了[1,2,3,4,5]
+</code></pre>
+
+<h4 id="toc_21">不断更新中...</h4>
 
       </div>
 
@@ -151,16 +371,16 @@
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
-          <a href="14592400407522.html" 
-          title="Previous Post: Boosting">&laquo; Boosting</a>
+          <a href="14608736410354.html" 
+          title="Previous Post: 整数除法、取余、舍入，Python VS Java">&laquo; 整数除法、取余、舍入，Python VS Java</a>
       
         </p>
         </div>
         <div class="large-6 columns">
       <p class="text-right" style="padding:15px 0px;">
       
-          <a  href="14591708106411.html" 
-          title="Next Post: 随机森林">随机森林 &raquo;</a>
+          <a  href="14605499748686.html" 
+          title="Next Post: 粒子群优化算法">粒子群优化算法 &raquo;</a>
       
       </p>
         </div>
@@ -190,7 +410,7 @@ var jiathis_config={
           
 
           
-              <div class="ds-thread" data-thread-key="14592424184360.html" data-url="http://21stacks.top/14592424184360.html" data-title="Bagging"></div>
+              <div class="ds-thread" data-thread-key="14608664015957.html" data-url="http://21stacks.top/14608664015957.html" data-title="美好的Python"></div>
           
         </div>
       </div>

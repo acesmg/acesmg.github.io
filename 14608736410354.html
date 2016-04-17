@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-  
-  
+    
+  整数除法、取余、舍入，Python VS Java - 
   
   </title>
   
@@ -96,23 +96,38 @@
        
 
  <script type="text/javascript">
-	$(function(){
-		$('#menu_item_index').addClass('is_active');
-	});
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
 </script>
 <div class="row">
-	<div class="large-8 medium-8 columns">
-		<div class="markdown-body home-categories">
-		
-			<div class="article">
-                <a class="clearlink" href="14608736410354.html">
-                
-                  <h1>整数除法、取余、舍入，Python VS Java</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>　　关于除法，你也许觉得没什么值得谈论的，毕竟小学的时候体育老师就教过我们了。然而对于编程中使用的除法，我觉得还是有很多值得注意的细节的。为什么我想深究一下？因为我日常主要使用Java和Python编程，而它们的除法在细节上有很多不同之处，全是坑啊…所以接下来我也将着重于Java和Python，但是相信我，就算你不用Java和Python，也会有所收获的。</p>
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>整数除法、取余、舍入，Python VS Java</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2016/4/17</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='ProgrammingLanguage.html'>ProgrammingLanguage</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+              &nbsp;<a  class="ds-thread-count" data-thread-key="14608736410354.html" data-count-type="comments" href="14608736410354.html#ds-thread"></a>
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>　　关于除法，你也许觉得没什么值得谈论的，毕竟小学的时候体育老师就教过我们了。然而对于编程中使用的除法，我觉得还是有很多值得注意的细节的。为什么我想深究一下？因为我日常主要使用Java和Python编程，而它们的除法在细节上有很多不同之处，全是坑啊…所以接下来我也将着重于Java和Python，但是相信我，就算你不用Java和Python，也会有所收获的。</p>
 
 <h3 id="toc_0">1.整数除法</h3>
 
@@ -291,443 +306,57 @@ System.out.println(nd);
 
 <p>先写到这，有话好好说。</p>
 
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/4/17</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='ProgrammingLanguage.html'>ProgrammingLanguage</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="14608664015957.html" 
+          title="Next Post: 美好的Python">美好的Python &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<a class="jiathis_button_tsina"></a>
+<a class="jiathis_button_weixin"></a>
+<a class="jiathis_button_fb"></a>
+<a class="jiathis_button_twitter"></a>
+<a class="jiathis_button_googleplus"></a>
+<a class="jiathis_button_copy"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+	summary:"",
+	shortUrl:false,
+	hideMore:true
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+          
+
+          
+              <div class="ds-thread" data-thread-key="14608736410354.html" data-url="http://21stacks.top/14608736410354.html" data-title="整数除法、取余、舍入，Python VS Java"></div>
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
 
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14608736410354.html" data-count-type="comments" href="14608736410354.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14608664015957.html">
-                
-                  <h1>美好的Python</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>人生苦短，我用Python。本文旨在收集记录分享简洁漂亮的Python写法，欢迎补充。</p>
 
-<h4 id="toc_0">字典/集合推导式(dict/set comprehension)</h4>
 
-<p>类似于列表推导式：</p>
-
-<pre><code class="language-python">my_dict = {i: i * i for i in xrange(100)} 
-my_set = {i * 15 for i in xrange(100)}
-#这俩在写法上的区别只是字典推导式多了一个&#39;:&#39;
-</code></pre>
-
-<p><strong>Caution：</strong><br/>
-区别一下三种写法：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt;my_set = {i*15 for i in xrange(100)}
-&gt;&gt;&gt;my_list = [i*15 for i in xrange(100)]
-&gt;&gt;&gt;my_generator = (i*15 for i in xrange(100))
-
-&gt;&gt;&gt;print &quot;my_set&quot;, type(my_set)
-my_set &lt;type &#39;set&#39;&gt;
-&gt;&gt;&gt;print &quot;my_list&quot;, type(my_list)
-my_list &lt;type &#39;list&#39;&gt;
-&gt;&gt;&gt;print &quot;my_generator&quot;, type(my_generator)
-my_generator &lt;type &#39;generator&#39;&gt;
-</code></pre>
-
-<h4 id="toc_1">枚举 (enumerate)</h4>
-
-<p>要在枚举过程中使用序号，可以采用<code>enumerate</code>优雅地实现：</p>
-
-<pre><code class="language-python">#i从0开始,每次加1
-for i, item in enumerate(iterable):
-    print i, item
-#i从2开始
-for i, item in enumerate(iterable, 2):
-    print i, item
-</code></pre>
-
-<h3 id="toc_2">强制浮点数除法</h3>
-
-<p>如果我们对两个整数做<code>/</code>除法，Python 2 返回的是一个整数，如需返回浮点数的结果，在Python 2.x中通常会这么做：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt;1.0/2
-0.5
-</code></pre>
-
-<p>可以这样更漂亮地实现：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt;from __future__ import division 
-&gt;&gt;&gt;1/2
-0.5
-</code></pre>
-
-<p>而在Python 3中，<code>/</code>是真除，默认精确到小数点后一位。</p>
-
-<h4 id="toc_3">使用literal_eval()</h4>
-
-<p>我们都知道eval:</p>
-
-<pre><code class="language-python">expr = &quot;[1, 2, 3]&quot; 
-my_list = eval(expr)
-</code></pre>
-
-<p>但估计没几个人知道literal_eval( ):</p>
-
-<pre><code class="language-python">import ast 
-my_list = ast.literal_eval(expr)
-</code></pre>
-
-<p>(看起来好像并没有变漂亮呢，但ast.literal_eval()更安全。)</p>
-
-<h4 id="toc_4">用dir( )查看一个Python对象</h4>
-
-<pre><code class="language-python">&gt;&gt;&gt; foo = [1, 2, 3, 4]
-&gt;&gt;&gt; dir(foo) 
-[&#39;__add__&#39;, &#39;__class__&#39;, &#39;__contains__&#39;, 
-&#39;__delattr__&#39;, &#39;__delitem__&#39;, &#39;__delslice__&#39;, ... , 
-&#39;extend&#39;, &#39;index&#39;, &#39;insert&#39;, &#39;pop&#39;, &#39;remove&#39;, 
-&#39;reverse&#39;, &#39;sort&#39;]
-</code></pre>
-
-<h4 id="toc_5">调试脚本</h4>
-
-<p>利用pdb模块可以轻松地在脚本中设置断点：</p>
-
-<pre><code class="language-python">import pdb
-pdb.set_trace()
-</code></pre>
-
-<p>你可以在脚本的任何位置加上<code>pdb.set_trace()</code>来设置断点。</p>
-
-<h4 id="toc_6">简化if 结构</h4>
-
-<p>当有多个值需要检验的时候，通常会这么写：</p>
-
-<pre><code class="language-python">if n==1 or n==4 or n==5 or n==6:
-</code></pre>
-
-<p>更漂亮的写法是：</p>
-
-<pre><code class="language-python">if n in [1,4,5,6]:
-</code></pre>
-
-<h4 id="toc_7">反转列表/字符串</h4>
-
-<p>你可以这样快速地反转一个列表：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt;a=[1,2,3]
-&gt;&gt;&gt;a[::-1]
-[3,2,1]
-</code></pre>
-
-<p>这样会生成一个新的列表，原列表不变。如果你想在原地反转列表，可以这样：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; a.reverse()
-&gt;&gt;&gt; a
-[3, 2, 1]
-</code></pre>
-
-<p>字符串类型string是不可变类型，因此也就没有对应的reverse( )咯。</p>
-
-<h4 id="toc_8">行内if</h4>
-
-<pre><code class="language-python">a = 1 if b&gt;c else -1
-print a if b&gt;c else d
-</code></pre>
-
-<h4 id="toc_9">交换两个变量</h4>
-
-<pre><code class="language-python">a, b = b, a
-</code></pre>
-
-<h4 id="toc_10">连续赋值</h4>
-
-<pre><code class="language-python">a, b, c = 1, 2, 3
-</code></pre>
-
-<h3 id="toc_11">串联</h3>
-
-<pre><code class="language-python">&gt;&gt;&gt;a=[1,2]
-&gt;&gt;&gt;b=[3,4]
-&gt;&gt;&gt;a+b
-[1,2,3,4]
-&gt;&gt;&gt;print str(1) + &quot; a&quot;
-1 a
-&gt;&gt;&gt;print `1` + &quot; b&quot;
-1 b
-&gt;&gt;&gt;print 1, &quot; c&quot;
-1 c
-</code></pre>
-
-<h4 id="toc_12">地板除 (Python 2.2以后)</h4>
-
-<pre><code>&gt;&gt;&gt;5//2
-2
-&gt;&gt;&gt;5.0//2
-2.0
-</code></pre>
-
-<h4 id="toc_13">乘方</h4>
-
-<pre><code>#a**b, 得a的b次方
-&gt;&gt;&gt;2**5
-32
-</code></pre>
-
-<h4 id="toc_14">级联比较</h4>
-
-<pre><code class="language-python">if a&lt;b&lt;c:
-    blabla...
-if a&lt;b&gt;c:
-    blabla...
-</code></pre>
-
-<h4 id="toc_15">同时遍历两个列表：</h4>
-
-<pre><code class="language-python">names=[&#39;Tom&#39;,&#39;Jerry&#39;]
-ages=[23,17]
-for name, age in zip(names, ages):
-    print name, age
-</code></pre>
-
-<h4 id="toc_16">建立并初始化列表</h4>
-
-<pre><code class="language-python">#一维
-a=[0]*4
-#二维, 3行4列
-b=[[0]*4 for i in range(3)]
-</code></pre>
-
-<h4 id="toc_17">join( )</h4>
-
-<pre><code class="language-python">&gt;&gt;&gt;a=[&#39;my&#39;, &#39;life&#39;, &#39;is&#39;, &#39;awesome&#39;]
-&gt;&gt;&gt;print &#39;!&#39;.join(a)
-my!life!is!awesome
-</code></pre>
-
-<h4 id="toc_18">获取字典内的元素</h4>
-
-<pre><code class="language-python">#bad practice：
-dix = {&#39;Tom&#39;:23}
-try:
-    name = dix[&#39;Tom&#39;]
-except KeyError:
-    name = &#39;Default&#39;
-    
-#good practice：
-name = dix.get(&#39;Tom&#39;, &#39;Default&#39;)
-</code></pre>
-
-<h4 id="toc_19">截取列表的一部分</h4>
-
-<pre><code class="language-python">&gt;&gt;&gt;a = [1,2,3,4,5,6]
-&gt;&gt;&gt;a[:3]
-[1,2,3]
-&gt;&gt;&gt;a[1:5]
-[2,3,4,5]
-&gt;&gt;&gt;a[-3:]
-[4,5,6]
-&gt;&gt;&gt;a[::2]
-[1,3,5]
-&gt;&gt;&gt;a[1::2]
-[2,4,6]
-</code></pre>
-
-<p>对于a[x:y:z], x和y分别是下标起点和下标终点+1，z是间隔值。于是就能理解为啥a[::-1]能得到一个反转的列表了。</p>
-
-<h4 id="toc_20">向列表添加元素</h4>
-
-<pre><code class="language-python">my_list = [1,2,3]
-my_list += 4,
-#my_list变成了[1,2,3,4]
-my_list += [5]
-#my_list变成了[1,2,3,4,5]
-</code></pre>
-
-<h4 id="toc_21">不断更新中...</h4>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/4/17</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='ProgrammingLanguage.html'>ProgrammingLanguage</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14608664015957.html" data-count-type="comments" href="14608664015957.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14605499748686.html">
-                
-                  <h1>粒子群优化算法</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>　　粒子群优化算法(Partlcle Swarm Optimization, PSO)是一种基于群体智能的搜索算法。 PSO具有参数配置简单、搜索性能好、可适应性强等优势，因而得到了广泛的应用。本文将从优化问题的基本概念说起，介绍基本PSO算法原理以及它的一些变体。</p>
-
-<h2 id="toc_0">Motivation</h2>
-
-<h3 id="toc_1">什么是优化问题</h3>
-
-<p>　　优化，就是要在多种方案中寻找最好的方案。比如有的妹子们出门见男盆友之前恨不得把所有衣服都试一遍，以找到一种最满意的搭配。不过一般情况下她们可能看哪件衣服都觉得不完美，然后要么选择一件还算顺眼的凑活一下，要么愉快地开始了网购...就像妹子们选衣服那样，典型的优化问题通常是不太可能在可接受的时间之内找到一个全局最优解(Global Optimum)的，所以只能想办法在合理的时间内找到一个可接受的解(Local Optimum)。旅行商问题(TSP)、神经网络的训练、无线传感器网络(WSN)的任务调度等，都是常见的优化问题。</p>
-
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="14605499748686.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/4/13</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html'>Optimization</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14605499748686.html" data-count-type="comments" href="14605499748686.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14600116978074.html">
-                
-                  <h1>SSE的背后</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h3 id="toc_0">定义</h3>
-
-<p>　　Sum of Square Error (SSE)代价函数用于衡量一个模型对数据的拟合程度。其形式化的表述为<br/>
-\[C(\theta)=\frac{1}{2}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(1)\]</p>
-
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="14600116978074.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/4/7</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E9%9B%B6%E7%A2%8E.html'>零碎</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14600116978074.html" data-count-type="comments" href="14600116978074.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14598347945676.html">
-                
-                  <h1>梯度下降</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>　　梯度下降算法是一种常见的无约束优化问题求解算法。其主要特点有：<br/>
-　　1.迭代式，逐步逼近；<br/>
-　　2.只能在待优化函数的可导邻域内寻优；<br/>
-　　3.沿梯度的反方向搜索；<br/>
-　　3.实现相对简单。<br/>
-　　设优化目标为<br/>
-\[\min_{x}F(x)\qquad (1)\]<br/>
-　　\(F(x)\)是\(R^{n}\)上一阶可导函数。现在要求一个\(x\in R^{n}\)，使\(F(x)\)达到极小值。</p>
-
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="14598347945676.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/4/5</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html'>Optimization</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14598347945676.html" data-count-type="comments" href="14598347945676.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-              
-
-
-			<div class="row">
-			  <div class="large-6 columns">
-			  <p class="text-left" style="padding-top:25px;">
-			   
-			  </p>
-			  </div>
-			  <div class="large-6 columns">
-			<p class="text-right" style="padding-top:25px;">
-			 <a href="all_1.html">&raquo; Next Page</a> 
-			</p>
-			  </div>
-			</div>
-		</div>
-	</div><!-- large 8 -->
 
  <div class="large-4 medium-4 columns">
   <div class="hide-for-small">
