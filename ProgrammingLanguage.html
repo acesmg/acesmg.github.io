@@ -105,218 +105,6 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14608736410354.html">
-                
-                  <h1>整数除法、取余、舍入，Python VS Java</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>　　关于除法，你也许觉得没什么值得谈论的，毕竟小学的时候体育老师就教过我们了。然而对于编程中使用的除法，我觉得还是有很多值得注意的细节的。为什么我想深究一下？因为我日常主要使用Java和Python编程，而它们的除法在细节上有很多不同之处，全是坑啊…所以接下来我也将着重于Java和Python，但是相信我，就算你不用Java和Python，也会有所收获的。</p>
-
-<h3 id="toc_0">1.整数除法</h3>
-
-<p>　　对两个不能整除的整数做除法，就要面对舍入的问题。和大多数编程语言一样，Java的基本舍入策略是向零取整(round to zero)，也就是向绝对值变小的方向取整。举几个香甜的小栗子：3/2=1, -3/2=-1。而对于Python而言，情况就有所不同了，例如：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt;-1/10
--1
-</code></pre>
-
-<p>　　显然如果按照Java的取整策略，-1/10应该得0，而Python给出的结果是-1。事实上Python的取整方式是向下取整，也就是向着数轴上负无穷的方向取整。<br/>
-　　好吧，Java和Python的取整方式不同，那又怎样，夺大点事儿呀…<br/>
-　　那么如果我们要在Python下得到向零取整的结果，咋整？一种比较直接的方式是：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt;int(float(-1)/10)
-0
-</code></pre>
-
-<h3 id="toc_1">2.取余</h3>
-
-<p>　　Java和Python整数除法都遵循下面这个公式：<br/>
-\[(\frac{a}{b})*b+c=a\]<br/>
-　　也就是说：<br/>
-\[a \% b=c=a-(\frac{a}{b})*b\]<br/>
-　　这里用\(\frac{a}{b}\)表示整数除法。既然它们的取整方式不一样，那么取余也会受到影响。对Java，\(-2\%3=-2\)；而对于Python，\(-2\%3=1\)。<br/>
-在某些实际应用中，我们可能需要获得一个整数的各位的数字。如果输入的整数的正的，Java和Python都可以用相同的方法来解决： </p>
-
-<pre><code class="language-python">#Python
-def func(a):
-    pos, res=1, []
-    while a/pos:
-        res += (a/pos)%10,
-        pos *= 10
-    return res
-</code></pre>
-
-<p>　　Java代码也差不多就是这样了。但如果输入的整数是一个负数，Java版本的代码还是可以得到正确的结果，而Python不能。那怎样用Python正确地搞定这个问题嘞？可以先取绝对值和符号，当作正数来处理，最后再在结果里搭上符号。 </p>
-
-<h3 id="toc_2">3. Follow-ups</h3>
-
-<h4 id="toc_3">3.1 Python中的另一个除法操作</h4>
-
-<p>　　我们知道，在Python中，基本的除号<code>/</code>是被重载了的。当两个操作数都是整数时，进行整数除法，得到整数结果，否则进行浮点数除法（真除法），得到浮点数结果。从Python 2.2开始，另一个除号被引入：<code>//</code>，它只执行整数除法。注意，<code>//</code>的结果类型依操作数而定。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt;1.0/2
-0.0
-&gt;&gt;&gt;1.0//2.0
-0.0
-&gt;&gt;&gt;1//2
-&gt;0
-</code></pre>
-
-<p>另外，如果想同时得到商和余数，可以使用内建的函数divmod，结果是一个tuple。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt;divmod(7, 2)
-(3, 1)
-&gt;&gt;&gt;divmod(7.0, 2)
-(3.0, 1.0)
-</code></pre>
-
-<h4 id="toc_4">3.2 Python中的舍入</h4>
-
-<p>　　除了缺省的舍入方式，Python还有多种舍入可供选择。<br/>
-<strong>Floor rounding:</strong></p>
-
-<pre><code class="language-python">&gt;&gt;&gt;import math
-&gt;&gt;&gt;math.floor(1.2)
-1.0
-&gt;&gt;&gt;math.floor(-1.2)
--2.0
-</code></pre>
-
-<p><strong>Ceiling rounding:</strong></p>
-
-<pre><code class="language-python">&gt;&gt;&gt;math.ceil(1.2)
-2.0
-&gt;&gt;&gt;math.ceil(-1.2)
--1.0
-</code></pre>
-
-<p><strong>Round-off:</strong></p>
-
-<pre><code class="language-python">&gt;&gt;&gt;round(0.5)
-1.0
-&gt;&gt;&gt;round(-0.4)
--0.0
-&gt;&gt;&gt;round(-0.5)
--1.0
-</code></pre>
-
-<p>内嵌的<code>round</code>函数也可以指定一个保留小数位数的参数：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt;round(0.21, 1)
-0.2
-&gt;&gt;&gt;round(0.21, 2)
-0.21
-</code></pre>
-
-<p><strong>Caution !</strong></p>
-
-<pre><code class="language-python">&gt;&gt;&gt;round(2.675, 2)
-2.67
-</code></pre>
-
-<p>咦？bug啦？！当然不是。这里要明确一件事：计算机只认识0,1。就是说，我们输入的十进制数，在计算机内部都是用二进制来表示的。有的十进制数可以用二进制准确地表示，比如十进制的0.125可以表示为0b0.001；然而很多的小数是没法用二进制数精确表示的，计算机里存储的是它们的近似值，例如十进制的0.1，用二进制表示，可以近似为: <code>0b0.00011001100110011001100110011001100110011001100110011010</code>，所以当我们把它换回十进制数以输出或者使用，得到的值就是<code>0.1000000000000000055511151231257827021181583404541015625</code>。也就是说，0.1在计算机里并不是刚好等于1/10的。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt;0.1 + 0.2
-0.30000000000000004
-</code></pre>
-
-<p>同样，当我们运行<strong>round( )</strong>函数，也是对计算机中实际存储的值近似取舍。2.67实际上近似为<code>2.67499999999999982236431605997495353221893310546875</code>，你看第三位小数是4，那么<code>round(2.675, 2)</code>就相当于<code>round(2.674, 2)</code>，结果当然是2.67。值得注意的是，这种现象是广泛存在于各种计算机和各种编程语言的，不是bug。</p>
-
-<h4 id="toc_5">3.3 Java中的舍入</h4>
-
-<p>　　Java提供了floor和ceil方法来实现向下和向上取整。</p>
-
-<pre><code class="language-java">Math.floor(2.9)
-Math.ceil(2.1)
-</code></pre>
-
-<p>　　这俩函数简单方便，居家旅行必备。另外Java中也有个round函数，可以实现各种复杂的取整。</p>
-
-<pre><code class="language-Java">System.out.println(Math.round(0.5));
-//输出 1
-System.out.println(Math.round(-0.5));
-//输出 0
-System.out.println(Math.round(-0.51));
-//输出 -1
-</code></pre>
-
-<p>　　这什么鬼？<br/>
-　　Keep Calm and Carry On！<br/>
-　　数学上有多种不同的取整方法，比如我们体育老师教的四舍五入。各种取整方法的共同点就是要对真值作近似，于是就会引入偏差。四舍五入显然并不是一种公平的策略（想想0~4的舍和5~9的得）。<br/>
-　　有一个叫做银行家舍入(Banker’s Rounding)的东西，不造你听过没，反正我是最近才知道的。事实上.NET和VB6都是默认采用这种方式，而且IEEE 754默认采用之。Banker’s Rounding 也就是<strong>round to even</strong>策略。<br/>
-假设当前考虑那位的数字是d（d就是将不被保留的第一位），如果d<5，则舍(round to zero)；如果d>5，则入(round away from zero)；而当d==5时，就要根据d前后的数位来确定往哪边取了。<br/>
-1) 如果d之后存在非零的数位，则入；<br/>
-2) 如果d之后不存在非零的数位，则看d之前的一位，用c表示：<br/>
-　　a.如果c是奇数，则入；<br/>
-　　b.如果c是偶数，则舍。</p>
-
-<p>再来一把栗子，对下列数保留0位小数，则第一位小数就是d，整数位就是c：</p>
-
-<pre><code class="language-java">BankRound(0.4)==0,　　BankRound(0.6)==1
-BankRound(-0.4)==0,　　BankRound(-0.6)==-1
-BankRound(1.5)==2.0,　　BankRound(-1.5)==-2.0
-BankRound(2.5)==2.0,　　BankRound(-2.5)==-2.0
-BankRound(1.51)==2.0,　　BankRound(-1.51)==-2.0
-BankRound(2.51)==3.0,　　BankRound(-2.51)==-3.0
-</code></pre>
-
-<p>　　可以看出，Banker’s Rounding对正数和负数的处理是对称的，因此不会引入符号带来的偏差。另外它以均等的几率来舍入数位（考虑c, c有各一半的几率为奇数和偶数），所以多次舍入后与真值的差别较小。<br/>
-　　扯了这么多，跟Java的<strong>Math.round( )</strong>有什么关系呢？我也是写到这才发现，好像没什么软关系。因为它并没有遵循Banker’s rounding。而是按照以下策略进行取整：</p>
-
-<p>1)当考虑的数位d不是5，d<5就舍，d>5则入。<br/>
-2)当d是5：<br/>
-　　a.如果d的右边有非零数位，则入；<br/>
-　　b.如果d的右边没有非零数位，则** round to ceiling**，即对负数舍，对正数入。</p>
-
-<p><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Math.html">Java文档里是这么表述的</a></p>
-
-<p>还有, 在Java里可以使用<strong>BigDecimal</strong>和<strong>RoundingMode</strong>实现更通用的取整方式。</p>
-
-<pre><code class="language-java">double d = -2.5;
-BigDecimal bd = new BigDecimal(d);
-double nd = bd.setScale(0, RoundingMode.HALF_EVEN).doubleValue();
-System.out.println(nd);
-//输出 -2.0
-</code></pre>
-
-<p><strong>setScale</strong>的第一个参数是保留的小数位数，第二个参数是舍入模式。可选的舍入模式有：<br/>
-<strong>HALF_EVEN</strong>, 也就是<strong>银行家</strong>舍入；<br/>
-<strong>HALF_UP</strong>, 四舍五入；<br/>
-<strong>HALF_DOWN</strong>, 五舍六入；<br/>
-<strong>CEILING、FLOOR</strong>, 向正无穷、负无穷方向；<br/>
-<strong>UP、DOWN</strong>*, 向零和远离零；<br/>
-<strong>UNNECESSARY</strong>, 断言舍入后的值和原值相等，也就是不需要舍入。如果断言错了，抛出<strong>ArithmeticException</strong>异常。</p>
-
-<p>先写到这，有话好好说。</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/4/17</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='ProgrammingLanguage.html'>ProgrammingLanguage</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14608736410354.html" data-count-type="comments" href="14608736410354.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
                 <a class="clearlink" href="14608664015957.html">
                 
                   <h1>美好的Python</h1>
@@ -587,6 +375,218 @@ my_list += [5]
                 </div>
               </div><!-- article -->
         
+			<div class="article">
+                <a class="clearlink" href="14608736410354.html">
+                
+                  <h1>整数除法、取余、舍入，Python VS Java</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>　　关于除法，你也许觉得没什么值得谈论的，毕竟小学的时候体育老师就教过我们了。然而对于编程中使用的除法，我觉得还是有很多值得注意的细节的。为什么我想深究一下？因为我日常主要使用Java和Python编程，而它们的除法在细节上有很多不同之处，全是坑啊…所以接下来我也将着重于Java和Python，但是相信我，就算你不用Java和Python，也会有所收获的。</p>
+
+<h3 id="toc_0">1.整数除法</h3>
+
+<p>　　对两个不能整除的整数做除法，就要面对舍入的问题。和大多数编程语言一样，Java的基本舍入策略是向零取整(round to zero)，也就是向绝对值变小的方向取整。举几个香甜的小栗子：3/2=1, -3/2=-1。而对于Python而言，情况就有所不同了，例如：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;-1/10
+-1
+</code></pre>
+
+<p>　　显然如果按照Java的取整策略，-1/10应该得0，而Python给出的结果是-1。事实上Python的取整方式是向下取整，也就是向着数轴上负无穷的方向取整。<br/>
+　　好吧，Java和Python的取整方式不同，那又怎样，夺大点事儿呀…<br/>
+　　那么如果我们要在Python下得到向零取整的结果，咋整？一种比较直接的方式是：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;int(float(-1)/10)
+0
+</code></pre>
+
+<h3 id="toc_1">2.取余</h3>
+
+<p>　　Java和Python整数除法都遵循下面这个公式：<br/>
+\[(\frac{a}{b})*b+c=a\]<br/>
+　　也就是说：<br/>
+\[a \% b=c=a-(\frac{a}{b})*b\]<br/>
+　　这里用\(\frac{a}{b}\)表示整数除法。既然它们的取整方式不一样，那么取余也会受到影响。对Java，\(-2\%3=-2\)；而对于Python，\(-2\%3=1\)。<br/>
+在某些实际应用中，我们可能需要获得一个整数的各位的数字。如果输入的整数的正的，Java和Python都可以用相同的方法来解决： </p>
+
+<pre><code class="language-python">#Python
+def func(a):
+    pos, res=1, []
+    while a/pos:
+        res += (a/pos)%10,
+        pos *= 10
+    return res
+</code></pre>
+
+<p>　　Java代码也差不多就是这样了。但如果输入的整数是一个负数，Java版本的代码还是可以得到正确的结果，而Python不能。那怎样用Python正确地搞定这个问题嘞？可以先取绝对值和符号，当作正数来处理，最后再在结果里搭上符号。 </p>
+
+<h3 id="toc_2">3. Follow-ups</h3>
+
+<h4 id="toc_3">3.1 Python中的另一个除法操作</h4>
+
+<p>　　我们知道，在Python中，基本的除号<code>/</code>是被重载了的。当两个操作数都是整数时，进行整数除法，得到整数结果，否则进行浮点数除法（真除法），得到浮点数结果。从Python 2.2开始，另一个除号被引入：<code>//</code>，它只执行整数除法。注意，<code>//</code>的结果类型依操作数而定。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;1.0/2
+0.0
+&gt;&gt;&gt;1.0//2.0
+0.0
+&gt;&gt;&gt;1//2
+&gt;0
+</code></pre>
+
+<p>另外，如果想同时得到商和余数，可以使用内建的函数divmod，结果是一个tuple。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;divmod(7, 2)
+(3, 1)
+&gt;&gt;&gt;divmod(7.0, 2)
+(3.0, 1.0)
+</code></pre>
+
+<h4 id="toc_4">3.2 Python中的舍入</h4>
+
+<p>　　除了缺省的舍入方式，Python还有多种舍入可供选择。<br/>
+<strong>Floor rounding:</strong></p>
+
+<pre><code class="language-python">&gt;&gt;&gt;import math
+&gt;&gt;&gt;math.floor(1.2)
+1.0
+&gt;&gt;&gt;math.floor(-1.2)
+-2.0
+</code></pre>
+
+<p><strong>Ceiling rounding:</strong></p>
+
+<pre><code class="language-python">&gt;&gt;&gt;math.ceil(1.2)
+2.0
+&gt;&gt;&gt;math.ceil(-1.2)
+-1.0
+</code></pre>
+
+<p><strong>Round-off:</strong></p>
+
+<pre><code class="language-python">&gt;&gt;&gt;round(0.5)
+1.0
+&gt;&gt;&gt;round(-0.4)
+-0.0
+&gt;&gt;&gt;round(-0.5)
+-1.0
+</code></pre>
+
+<p>内嵌的<code>round</code>函数也可以指定一个保留小数位数的参数：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;round(0.21, 1)
+0.2
+&gt;&gt;&gt;round(0.21, 2)
+0.21
+</code></pre>
+
+<p><strong>Caution !</strong></p>
+
+<pre><code class="language-python">&gt;&gt;&gt;round(2.675, 2)
+2.67
+</code></pre>
+
+<p>咦？bug啦？！当然不是。这里要明确一件事：计算机只认识0,1。就是说，我们输入的十进制数，在计算机内部都是用二进制来表示的。有的十进制数可以用二进制准确地表示，比如十进制的0.125可以表示为0b0.001；然而很多的小数是没法用二进制数精确表示的，计算机里存储的是它们的近似值，例如十进制的0.1，用二进制表示，可以近似为: <code>0b0.00011001100110011001100110011001100110011001100110011010</code>，所以当我们把它换回十进制数以输出或者使用，得到的值就是<code>0.1000000000000000055511151231257827021181583404541015625</code>。也就是说，0.1在计算机里并不是刚好等于1/10的。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;0.1 + 0.2
+0.30000000000000004
+</code></pre>
+
+<p>同样，当我们运行<strong>round( )</strong>函数，也是对计算机中实际存储的值近似取舍。2.67实际上近似为<code>2.67499999999999982236431605997495353221893310546875</code>，你看第三位小数是4，那么<code>round(2.675, 2)</code>就相当于<code>round(2.674, 2)</code>，结果当然是2.67。值得注意的是，这种现象是广泛存在于各种计算机和各种编程语言的，不是bug。</p>
+
+<h4 id="toc_5">3.3 Java中的舍入</h4>
+
+<p>　　Java提供了floor和ceil方法来实现向下和向上取整。</p>
+
+<pre><code class="language-java">Math.floor(2.9)
+Math.ceil(2.1)
+</code></pre>
+
+<p>　　这俩函数简单方便，居家旅行必备。另外Java中也有个round函数，可以实现各种复杂的取整。</p>
+
+<pre><code class="language-Java">System.out.println(Math.round(0.5));
+//输出 1
+System.out.println(Math.round(-0.5));
+//输出 0
+System.out.println(Math.round(-0.51));
+//输出 -1
+</code></pre>
+
+<p>　　这什么鬼？<br/>
+　　Keep Calm and Carry On！<br/>
+　　数学上有多种不同的取整方法，比如我们体育老师教的四舍五入。各种取整方法的共同点就是要对真值作近似，于是就会引入偏差。四舍五入显然并不是一种公平的策略（想想0~4的舍和5~9的得）。<br/>
+　　有一个叫做银行家舍入(Banker’s Rounding)的东西，不造你听过没，反正我是最近才知道的。事实上.NET和VB6都是默认采用这种方式，而且IEEE 754默认采用之。Banker’s Rounding 也就是<strong>round to even</strong>策略。<br/>
+假设当前考虑那位的数字是d（d就是将不被保留的第一位），如果d<5，则舍(round to zero)；如果d>5，则入(round away from zero)；而当d==5时，就要根据d前后的数位来确定往哪边取了。<br/>
+1) 如果d之后存在非零的数位，则入；<br/>
+2) 如果d之后不存在非零的数位，则看d之前的一位，用c表示：<br/>
+　　a.如果c是奇数，则入；<br/>
+　　b.如果c是偶数，则舍。</p>
+
+<p>再来一把栗子，对下列数保留0位小数，则第一位小数就是d，整数位就是c：</p>
+
+<pre><code class="language-java">BankRound(0.4)==0,　　BankRound(0.6)==1
+BankRound(-0.4)==0,　　BankRound(-0.6)==-1
+BankRound(1.5)==2.0,　　BankRound(-1.5)==-2.0
+BankRound(2.5)==2.0,　　BankRound(-2.5)==-2.0
+BankRound(1.51)==2.0,　　BankRound(-1.51)==-2.0
+BankRound(2.51)==3.0,　　BankRound(-2.51)==-3.0
+</code></pre>
+
+<p>　　可以看出，Banker’s Rounding对正数和负数的处理是对称的，因此不会引入符号带来的偏差。另外它以均等的几率来舍入数位（考虑c, c有各一半的几率为奇数和偶数），所以多次舍入后与真值的差别较小。<br/>
+　　扯了这么多，跟Java的<strong>Math.round( )</strong>有什么关系呢？我也是写到这才发现，好像没什么软关系。因为它并没有遵循Banker’s rounding。而是按照以下策略进行取整：</p>
+
+<p>1)当考虑的数位d不是5，d<5就舍，d>5则入。<br/>
+2)当d是5：<br/>
+　　a.如果d的右边有非零数位，则入；<br/>
+　　b.如果d的右边没有非零数位，则** round to ceiling**，即对负数舍，对正数入。</p>
+
+<p><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Math.html">Java文档里是这么表述的</a></p>
+
+<p>还有, 在Java里可以使用<strong>BigDecimal</strong>和<strong>RoundingMode</strong>实现更通用的取整方式。</p>
+
+<pre><code class="language-java">double d = -2.5;
+BigDecimal bd = new BigDecimal(d);
+double nd = bd.setScale(0, RoundingMode.HALF_EVEN).doubleValue();
+System.out.println(nd);
+//输出 -2.0
+</code></pre>
+
+<p><strong>setScale</strong>的第一个参数是保留的小数位数，第二个参数是舍入模式。可选的舍入模式有：<br/>
+<strong>HALF_EVEN</strong>, 也就是<strong>银行家</strong>舍入；<br/>
+<strong>HALF_UP</strong>, 四舍五入；<br/>
+<strong>HALF_DOWN</strong>, 五舍六入；<br/>
+<strong>CEILING、FLOOR</strong>, 向正无穷、负无穷方向；<br/>
+<strong>UP、DOWN</strong>*, 向零和远离零；<br/>
+<strong>UNNECESSARY</strong>, 断言舍入后的值和原值相等，也就是不需要舍入。如果断言错了，抛出<strong>ArithmeticException</strong>异常。</p>
+
+<p>先写到这，有话好好说。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/4/17</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='ProgrammingLanguage.html'>ProgrammingLanguage</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                      
+                        &nbsp;<a  class="ds-thread-count" data-thread-key="14608736410354.html" data-count-type="comments" href="14608736410354.html#ds-thread"></a>
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
               
 
 
@@ -663,7 +663,13 @@ my_list += [5]
 	      
 		      
 			      <li class="post">
-			        <a href="14608736410354.html">整数除法、取余、舍入，Python VS Java</a>
+			        <a href="14605499748686.html">粒子群优化算法</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="14600116978074.html">SSE的背后</a>
 			      </li>
 		     
 		  
@@ -675,13 +681,7 @@ my_list += [5]
 		  
 		      
 			      <li class="post">
-			        <a href="14605499748686.html">粒子群优化算法</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="14600116978074.html">SSE的背后</a>
+			        <a href="14608736410354.html">整数除法、取余、舍入，Python VS Java</a>
 			      </li>
 		     
 		  

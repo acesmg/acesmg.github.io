@@ -4,7 +4,7 @@
   <title><![CDATA[]]></title>
   <link href="http://21stacks.top/atom.xml" rel="self"/>
   <link href="http://21stacks.top/"/>
-  <updated>2016-04-17T11:34:31+08:00</updated>
+  <updated>2016-04-17T15:02:50+08:00</updated>
   <id>http://21stacks.top/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -13,189 +13,173 @@
   <generator uri="http://www.mweb.im/">MWeb</generator>
   
   <entry>
-    <title type="html"><![CDATA[整数除法、取余、舍入，Python VS Java]]></title>
-    <link href="http://21stacks.top/14608736410354.html"/>
-    <updated>2016-04-17T14:14:01+08:00</updated>
-    <id>http://21stacks.top/14608736410354.html</id>
+    <title type="html"><![CDATA[粒子群优化算法]]></title>
+    <link href="http://21stacks.top/14605499748686.html"/>
+    <updated>2016-04-13T20:19:34+08:00</updated>
+    <id>http://21stacks.top/14605499748686.html</id>
     <content type="html"><![CDATA[
-<p>　　关于除法，你也许觉得没什么值得谈论的，毕竟小学的时候体育老师就教过我们了。然而对于编程中使用的除法，我觉得还是有很多值得注意的细节的。为什么我想深究一下？因为我日常主要使用Java和Python编程，而它们的除法在细节上有很多不同之处，全是坑啊…所以接下来我也将着重于Java和Python，但是相信我，就算你不用Java和Python，也会有所收获的。</p>
+<p>　　粒子群优化算法(Partlcle Swarm Optimization, PSO)是一种基于群体智能的搜索算法。 PSO具有参数配置简单、搜索性能好、可适应性强等优势，因而得到了广泛的应用。本文将从优化问题的基本概念说起，介绍基本PSO算法原理以及它的一些变体。</p>
 
-<h3 id="toc_0">1.整数除法</h3>
+<h2 id="toc_0">Motivation</h2>
 
-<p>　　对两个不能整除的整数做除法，就要面对舍入的问题。和大多数编程语言一样，Java的基本舍入策略是向零取整(round to zero)，也就是向绝对值变小的方向取整。举几个香甜的小栗子：3/2=1, -3/2=-1。而对于Python而言，情况就有所不同了，例如：</p>
+<h3 id="toc_1">什么是优化问题</h3>
 
-<pre><code class="language-python">&gt;&gt;&gt;-1/10
--1
+<p>　　优化，就是要在多种方案中寻找最好的方案。比如有的妹子们出门见男盆友之前恨不得把所有衣服都试一遍，以找到一种最满意的搭配。不过一般情况下她们可能看哪件衣服都觉得不完美，然后要么选择一件还算顺眼的凑活一下，要么愉快地开始了网购...就像妹子们选衣服那样，典型的优化问题通常是不太可能在可接受的时间之内找到一个全局最优解(Global Optimum)的，所以只能想办法在合理的时间内找到一个可接受的解(Local Optimum)。旅行商问题(TSP)、神经网络的训练、无线传感器网络(WSN)的任务调度等，都是常见的优化问题。</p>
+
+<span id="more"></span><!-- more -->
+
+<h3 id="toc_2">优化算法</h3>
+
+<p>　　先明确几个概念。<br/>
+　　什么是<strong>可行解</strong>？回到妹子挑衣服的问题，只要还能穿的衣服，不管好不好看挨不挨冻，都算是可行解。<br/>
+　　什么是<strong>解空间</strong>？所有可行解所构成的集合就是解空间，这个“空间”是抽象的，可能很多维，甚至可能是离散而非连续的。优化算法要做的，就是在解空间中的各个可行解中，尽可能地找到更好的解。这是一个搜索过程，所以优化算法也叫搜索算法(不是Searching Engine那种搜索)。<br/>
+　　什么是<strong>目标函数</strong>？不同的优化算法有着不同的搜索策略，因此可能在不同的问题上表现出各自的优越性。另外需要明确，怎样的解算是一个好的解？我们必须确定一个标准来评价解的好坏。这通常要根据问题本身的特性来建立一个目标函数(Objective Function)。相比于试衣服时的标准(好看)而言，我们的目标函数是要有明确的数学定义的。因此或许对于前面这个例子，可以改用回头率、男朋友的心跳频率等可量化的标准来作为目标函数。于是优化算法要做的就是对目标函数的解空间寻优。在训练神经网络时，以损失函数(Cost Function)\(J(W,b)\)为目标函数，优化目标就是要极小化损失函数的值。<br/>
+　　典型的优化算法有经典的模拟退火、梯度下降等。还有遗传算法、蚁群算法、粒子群优化算法等群智能算法，它们基于对生物群体行为的认知、抽象、借鉴。啊...神奇的大自然...</p>
+
+<h2 id="toc_3">粒子群优化算法简介</h2>
+
+<h3 id="toc_4">起源</h3>
+
+<p>　　粒子群算法源于对鸟群行为的研究。群居的鸟类通常要倾巢出动去寻找食物。对于在鸟群中的一只小小鸟(它名叫Birdy)来说，它处在空间中的某个位置(可以用经度，维度，海拔来定位)；它在飞行着，因此有速度(包括速率大小和方向)；它当前的速度和位置，决定了它下一时刻会处在什么位置。Birdy是一只有主见的鸟，它有着自己的当前飞行速度；它很聪明，能记住自己曾经到过的位置中哪些可能有丰富的食物；而且它是跟着三姑四婆七舅姥爷一起出门的，它也知道大家各自找到的位置中哪个是食物最丰富的。Birdy的飞行就依靠着三个信息的指引，最终它和亲戚们合力找到了一个可以满足它们食物需求的地方。对以上的描述做一个抽象。在解空间中随机放置一定数量的粒子，每一个粒子所在的位置就是它所代表的解；同时粒子是在运动的，它有速度，会在解空间中移动。每个粒子的移动过程就是根据当前速度和位置去往下一刻的位置。粒子们作为一个群体是相互协同和制约的。每一个粒子要根据三个因素来确定它下一刻的速度：自己当前的速度，这代表了它本身的搜索能力；自己目前为止找到的最好位置，这是它的认知部分；目前为止整个群体所能找到的最好位置，这是社会部分。 </p>
+
+<h3 id="toc_5">细节</h3>
+
+<p>　　粒子群优化(PSO)中单个粒子速度和位置的更新可以用下面两式表达：<br/>
+\[V^{(i+1)}=\omega V^{(i)}+c_1r_1(pbest-X^{(i)})+c_2r_2(gbest-X^{(i)})\qquad(1)\\<br/>
+X^{(i+1)}=X^{(i)}+V^{(i+1)}\qquad(2)\]<br/>
+　　其中\(V\)是粒子的速度，\(X\)则是粒子的位置，它们都是多维的向量或矩阵；\(i\)表示迭代次数。公式(1)右边的多项式中的三项分别是粒子当前速度，代表粒子本身的搜索能力；粒子当前位置与粒子自身的历史最佳位置(\(pbest\))的差距，代表其自我认知；当前位置与整个群体的历史最佳位置(\(gbest\))的差距，代表粒子的社会性。粒子下一刻的速度是这个三个者的和。\(\omega\)、\(c_1\)和\(c_2\)是预先设置的参数，改变它们的大小可以调整这三项的影响力(权重)。\(r_1\)和\(r_2\)是两个\((0,1)\)之间的随机数，每次更新速度都要重新生成。粒子的位置更新由公式(2)表示，这一步只需给当前位置加上一个更新后的速度。粒子群算法的执行过程要经历多次迭代，每一次迭代的过程就是更新粒子速度和位置的过程、获取新的适应函数值；并且如果产生了更好的位置，还要更新\(pbest\)和\(gbest\)。所谓更好的位置，如果目标是极小化适应值函数，则在适应值函数上有更小值的位置是更好的位置。下面两图分别表示二维平面上粒子的速度和位置更新过程。<br/>
+<img src="http://7xrz9i.com1.z0.glb.clouddn.com/psoPSO%E9%80%9F%E5%BA%A6%E6%9B%B4%E6%96%B0.jpg?imageView/2/w/500" alt=""/><br/>
+<img src="http://7xrz9i.com1.z0.glb.clouddn.com/psoPSO%E4%BD%8D%E7%BD%AE%E6%9B%B4%E6%96%B0.jpg?imageView/2/w/500" alt="&quot;图1&quot;"/><br/>
+　　\(c_1\)、\(c_2\)通常都设置为2.0。\(\omega\) 的值设为\((0,1)\)之间的一个实数，它可以是确定的，也可以随着迭代次数增加而不断减小。随着迭代的进行，个体位置\(X\)与\(pbest\)和\(gbest\)的差距会越来越小。也就是说，后两项对速度的影响会越来越小。而且速度在每一次迭代都会被乘以一个小于1的\(\omega\) ，因此速度会趋于零。当速度不断趋于零的时候，粒子的位置变动也越来越慢，直至停滞不动。这就是粒子群的收敛过程。<br/>
+下面的伪代码概括了PSO的执行过程。</p>
+
+<p><strong>输入</strong>：适应值函数\(F(X)\)；种群规模 SwarmSize；最大迭代次数 MaxIter；\(c_1\)、\(c_2\)、\(\omega\)。<br/>
+<strong>输出</strong>：\(X=arg\min_{X}F(X)\)。</p>
+
+<pre><code>初始化: 生成SwarmSize个粒子，随机初始化它们的位置和速度。 
+Get fitness for each particle
+Get gbest
+Set pbest as the current position for each particle
+for IterNum = 1, 2,...,MaxIter
+    for each particle
+        renew V
+        renew X
+        renew Fitness
+        renew pbest
+    renew gbest
+return gbest
 </code></pre>
 
-<p>　　显然如果按照Java的取整策略，-1/10应该得0，而Python给出的结果是-1。事实上Python的取整方式是向下取整，也就是向着数轴上负无穷的方向取整。<br/>
-　　好吧，Java和Python的取整方式不同，那又怎样，夺大点事儿呀…<br/>
-　　那么如果我们要在Python下得到向零取整的结果，咋整？一种比较直接的方式是：</p>
+<p>　　对于PSO这类基于群体智能的搜索算法，应该尽量保证个体间的多样性。所谓多样性，就是说个体之间存在着差异，就像生物多样性那样。公式(1)中的随机数\(r_1\)和\(r_2\)就是一种提高多样性的机制。个体的多样性越好，它们在解空间中的分布就越广，群体的搜索能力就越强，陷入局部最优解的可能性就越小。这里存在着一对矛盾：一方面我们希望尽可能地保持粒子的多样性，以提高群体都搜索能力；另一方面我们希望粒子的运动是趋于收敛的，也就是希望粒子的位置会在合理的时间内逐渐趋同。很多对于PSO算法的改进就是着眼于对这对矛盾之间的均衡。</p>
 
-<pre><code class="language-python">&gt;&gt;&gt;int(float(-1)/10)
-0
-</code></pre>
+<h2 id="toc_6">改进</h2>
 
-<h3 id="toc_1">2.取余</h3>
+<p>　　对PSO的改进大多围绕提高粒子多样性和保证收敛速度来进行。这里主要介绍三种：引入变异、邻域PSO、综合学习(Comprehensive Learning)。</p>
 
-<p>　　Java和Python整数除法都遵循下面这个公式：<br/>
-\[(\frac{a}{b})*b+c=a\]<br/>
-　　也就是说：<br/>
-\[a \% b=c=a-(\frac{a}{b})*b\]<br/>
-　　这里用\(\frac{a}{b}\)表示整数除法。既然它们的取整方式不一样，那么取余也会受到影响。对Java，\(-2\%3=-2\)；而对于Python，\(-2\%3=1\)。<br/>
-在某些实际应用中，我们可能需要获得一个整数的各位的数字。如果输入的整数的正的，Java和Python都可以用相同的方法来解决： </p>
+<h3 id="toc_7">引入变异</h3>
 
-<pre><code class="language-python">#Python
-def func(a):
-    pos, res=1, []
-    while a/pos:
-        res += (a/pos)%10,
-        pos *= 10
-    return res
-</code></pre>
+<p>　　变异的概念来源于生物进化(依旧是神奇的大自然)。在物种进化的过程中主要起作用的因素有：自然选择，适者生存，优胜劣汰；个体之间的基因交流，重组出新的基因；个体自身的变异产生新的基因。变异发生的概率很低，但对于物种多样性有着非常重要的意义。对于生物进化的认知、抽象、运用，得出了著名的遗传算法(Genetic Algorithm, GA)。我们可以从GA中借鉴变异操作，来提高PSO中群体的多样性。我们预先设定一个较小的变异率参数muRate(比如0.02)，在每次迭代中随机产生一个数，如果这个数小于muRate，则进行变异操作。具体的变异操作可以是对位置X增减一个随机值，可以随机重置某些维度，甚至可以重新随机初始化整个粒子。变异操作为陷入局部最优解的群体提供了跳变的可能，从而可以提高群体的搜索能力。</p>
 
-<p>　　Java代码也差不多就是这样了。但如果输入的整数是一个负数，Java版本的代码还是可以得到正确的结果，而Python不能。那怎样用Python正确地搞定这个问题嘞？可以先取绝对值和符号，当作正数来处理，最后再在结果里搭上符号。 </p>
+<h3 id="toc_8">邻域PSO</h3>
 
-<h3 id="toc_2">3. Follow-ups</h3>
+<p>　　实验表明，公式(1)中的最后一项，即历史最优解，对于整个群体的影响力非常大。它很有可能把群体带向一个并不是很好的位置，使得群体陷于局部最优解。可以通过减缓历史最优解信息的传递速度，来保持粒子多样性。由这个思想产生了各种基于邻域的PSO算法。它们的共同特点是，把最后一项的群体历史最优改成个体邻域内的历史最优解:<br/>
+\[V^{(i+1)}=\omega V^{(i)}+c_1r_1(pbest-X^{(i)})+c_2r_2(lbest-X^{(i)})\qquad(3)\]<br/>
+对于一个粒子来说，\(lbest\)就是它处在的邻域范围内的各个粒子目前为止所得到的最优解。常见的邻域有环形邻域、随机邻域、von Neumann邻域等。</p>
 
-<h4 id="toc_3">3.1 Python中的另一个除法操作</h4>
+<h3 id="toc_9">综合学习</h3>
 
-<p>　　我们知道，在Python中，基本的除号<code>/</code>是被重载了的。当两个操作数都是整数时，进行整数除法，得到整数结果，否则进行浮点数除法（真除法），得到浮点数结果。从Python 2.2开始，另一个除号被引入：<code>//</code>，它只执行整数除法。注意，<code>//</code>的结果类型依操作数而定。</p>
+<p>　　综合学习策略(Comprehensive Learning，CL)同样认为在基本PSO算法中，gbest的影响力过于强大，容易很快把群体带到一个局部最优解位置，因此应该想办法限制gbest的影响。怎么限制？直接把它去掉。于是就得到了一个右边只有两项的速度更新公式:<br/>
+\[V^{(i+1)}=\omega V^{(i)}+cr(pbest_f-X^{(i)})\qquad(4)\]<br/>
+这里的\(pbest\)也不再是原来的\(pbest\)，它是一个组合体，虽然形态和普通的\(pbest\)还是一样的，但它的不同维度可能来自不同的粒子。通过把较好的粒子的某些维度重组在一起，得到了新的\(pbest_f\)。它掌握着来自整个群体的好的信息，因此有能力指引着群体去往更好的位置。而当种群中个体越来越接近，它们的速度也逐渐趋于零，于是慢慢地收敛了。关于CL的更多细节请参考附录[1]。<br/>
+　　以上的改进都会在一定程度上使群体的收敛速度变慢，因此需要更多的迭代次数。对于解空间不复杂的问题，综合学习的优势并不突出。而当被用来解决各种复杂多峰的优化问题时，它在寻优能力方面的优势就很明显了。</p>
 
-<pre><code class="language-python">&gt;&gt;&gt;1.0/2
-0.0
-&gt;&gt;&gt;1.0//2.0
-0.0
-&gt;&gt;&gt;1//2
-&gt;0
-</code></pre>
+<h2 id="toc_10">组合优化</h2>
 
-<p>另外，如果想同时得到商和余数，可以使用内建的函数divmod，结果是一个tuple。</p>
+<p>　　以上描述的都是对于连续问题的优化算法。针对离散问题，PSO也有对应的版本。对于离散PSO(BPSO)，粒子的位置是离散的值。基本BPSO的粒子的编码为0-1编码，即粒子中的每一维度非0即1。而速度的各个维度依然是连续的，因此我们需要一个函数，将连续的速度值映射成离散的位置值。最常用的映射函数是\(sigmoid\)函数，原始的BPSO使用以下两个公式更新粒子的位置：<br/>
+\[S({V_j}^{(i)})=\frac{1}{1+e^{-{V_j}^{(i)}}}\qquad(5)\]<br/>
+\[{X_j}^{(i+1)}=\begin{cases}<br/>
+0 &amp; \text{ if } random\geqslant S({V_j}^{(i)}) \\<br/>
+1 &amp; \text{ if } random&lt; S({V_j}^{(i)})<br/>
+\end{cases}\qquad(6)\]  </p>
 
-<pre><code class="language-python">&gt;&gt;&gt;divmod(7, 2)
-(3, 1)
-&gt;&gt;&gt;divmod(7.0, 2)
-(3.0, 1.0)
-</code></pre>
+<p>这里\(V^{(i)}_{j}\)表示在第\(i\)次迭代时粒子速度的第\(j\)维。\(sigmoid\)函数的形态如下图所示：<br/>
+<img src="http://7xrz9i.com1.z0.glb.clouddn.com/psoSigmoid.png" alt=""/><br/>
+观察其函数形态可以发现，当速度趋于0的时候，其函数值趋于0.5。这也就是说，对应维度的位置值是0还是1，是等可能的。这并不符合我们所预期的目标：当速度趋于收敛的时候位置也趋于不变。<br/>
+　　一个更合理的方案是采用一种在输入为0时其函数值也为0的函数，例如\(T(X)=\left | tanh(X) \right |\)。这类函数的形态像一个V形：<br/>
+<img src="http://7xrz9i.com1.z0.glb.clouddn.com/psoVshaped.png" alt=""/><br/>
+如果采用V形函数，则位置更新方式也要跟着改为下式，使得当速度趋于0时，位置趋于不变：<br/>
+\[{X_j}^{i+1}=\begin{cases}<br/>
+0 &amp; \text{ if } random\leqslant T({V_j}^{i}) and {V_j}^{i}\leqslant 0\\\ <br/>
+1 &amp; \text{ if } random\leqslant T({V_j}^{i}) and {V_j}^{i}&gt; 0 \\\ <br/>
+{X_j}^{i} &amp; \text{ if } random&gt; T({V_j}^{i}) <br/>
+\end{cases}\]<br/>
+　　这里还要重点安利一种神奇的离散PSO框架，基于集合的离散PSO(Set-based PSO，SPSO)。SPSO的框架非常灵活，可以很好地整合其他算法思想，比如结合综合学习策略；且其编码方式可以自如地根据实际问题来设计。详见参考文献[2]。<br/>
+　　</p>
 
-<h4 id="toc_4">3.2 Python中的舍入</h4>
+<h2 id="toc_11">Reference</h2>
 
-<p>　　除了缺省的舍入方式，Python还有多种舍入可供选择。<br/>
-<strong>Floor rounding:</strong></p>
+<blockquote>
+<p><a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1637688&amp;newsearch=true&amp;queryText=comprehensive%20learning%20particle%20swarm">1. Comprehensive Learing PSO</a><br/>
+<a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=5299261&amp;newsearch=true&amp;queryText=set-based%20particle%20swarm">2. Set-based PSO</a></p>
+</blockquote>
 
-<pre><code class="language-python">&gt;&gt;&gt;import math
-&gt;&gt;&gt;math.floor(1.2)
-1.0
-&gt;&gt;&gt;math.floor(-1.2)
--2.0
-</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SSE的背后]]></title>
+    <link href="http://21stacks.top/14600116978074.html"/>
+    <updated>2016-04-07T14:48:17+08:00</updated>
+    <id>http://21stacks.top/14600116978074.html</id>
+    <content type="html"><![CDATA[
+<h3 id="toc_0">定义</h3>
 
-<p><strong>Ceiling rounding:</strong></p>
+<p>　　Sum of Square Error (SSE)代价函数用于衡量一个模型对数据的拟合程度。其形式化的表述为<br/>
+\[C(\theta)=\frac{1}{2}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(1)\]</p>
 
-<pre><code class="language-python">&gt;&gt;&gt;math.ceil(1.2)
-2.0
-&gt;&gt;&gt;math.ceil(-1.2)
--1.0
-</code></pre>
+<span id="more"></span><!-- more -->
 
-<p><strong>Round-off:</strong></p>
+<p>　　其中\((x_i, y_i)\)是数据样本，\(x_i\in R^n\)；\(h_{\theta}(x)\)是以\(\theta\)为参数的模型，假设(hypothesis)。在前面加一个系数\(\frac{1}{2}\)的为了方便处理某些运算。注意还有一个常见的概念，平均平方误差(Mean Square Error, MSE)，它是SSE在数据集上的均值，是以平方损失函数为基础的经验风险函数。MSE是一种与数据集大小无关的误差衡量，本质上跟SSE并没有什么软区别。<br/>
+\[MSE=\frac{1}{2N}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(2)\]</p>
 
-<pre><code class="language-python">&gt;&gt;&gt;round(0.5)
-1.0
-&gt;&gt;&gt;round(-0.4)
--0.0
-&gt;&gt;&gt;round(-0.5)
--1.0
-</code></pre>
+<h3 id="toc_1">直观含义</h3>
 
-<p>内嵌的<code>round</code>函数也可以指定一个保留小数位数的参数：</p>
+<p>　　从式(1)可以清楚地看到，SSE直观地表示了模型\(h_{\theta}(x)\)对\(y\)的拟合程度的好坏。\(SSE\geq 0\)，且拟合程度越好SSE越小，一个完美拟合的模型会使SSE为0。在对数据集建立分类或回归模型时，我们追求的目标是尽可能地找到一个模型，使得<br/>
+\[y=h_{\theta}(x)\qquad(3)\]<br/>
+　　很多算法对模型的学习策略都是通过极小化SSE来实现的。不幸的是，我们总不能完美找到一个这样的模型。不能的意思有两层。一是说能力不够，受制于所选模型特性等因素，并不总能得到一个完美的拟合，例如无法用感知机模型对线性不可分的数据完美地划分。 二是说不应该，在训练数据集上完美拟合的模型通常是过拟合的泛化能力不好的模型。后者的主要原因是训练数据中存在的噪声，以及模型自身的缺陷。因此通常情况下，由模型得出的预测值与\(y\)之间的关系是这样的<br/>
+\[y=h_{\theta}(x)+\epsilon\qquad(4)\]<br/>
+　　\(\epsilon\)表示\(\hat{y}=h_{\theta}(x)\)对\(y\)的误差。在回归分析中称\(\epsilon=y-h_{\theta}(x)\)为残差，而式(1)也被称为残差平方和(Residual Sum of Square, RSS)。可以采用最小二乘法来求解极小化RSS问题。若模型是参数\(\theta\)的线性函数，可以求得封闭解；否则可以采用迭代方式求解。</p>
 
-<pre><code class="language-python">&gt;&gt;&gt;round(0.21, 1)
-0.2
-&gt;&gt;&gt;round(0.21, 2)
-0.21
-</code></pre>
+<h3 id="toc_2">从参数估计的角度来看</h3>
 
-<p><strong>Caution !</strong></p>
+<p>　　为什么通过极小化SSE得到的模型是好的？除了直观感觉，我们也可以从参数估计的角度做一些推理。这里我们关注的是式(4)中的误差<br/>
+\[\epsilon=y-h_{\theta}(x)\qquad(5)\]<br/>
+　　对于一组数据\(\{(x_1,y_1),(x_2,y_2),...,(x_i,y_i),...,(x_N,y_N)\}\)，可以得到一组误差值\(\{\epsilon_1,\epsilon_2,...,\epsilon_i,...,\epsilon_N \}\)。通常认为这个误差集里的数据是源于总体分布\(f(x;\theta)\)的抽样，它们独立同分布。因此所有\(\epsilon\)的联合概率密度为<br/>
+\[f(\epsilon_1,...,\epsilon_N;\theta)=f(\epsilon_1;\theta)f(\epsilon_2;\theta)\cdot\cdot\cdot f(\epsilon_N;\theta)\qquad(6)\]<br/>
+　　记\(L(\epsilon_1,...,\epsilon_N;\theta)=f(\epsilon_1,...,\epsilon_N;\theta)\)为似然函数，\(\theta\)是待估计的参数。若\(L(\epsilon_1,...,\epsilon_N;\theta_1)&gt;L(\epsilon_1,...,\epsilon_N;\theta_2)\)，我们说当已知\(\{\epsilon_1,...,\epsilon_N\}\)时，待估计参数\(\theta\)是\(\theta_1\)的可能性大于\(\theta_2\)。因此我们有了一个优化目标：要寻求一个\(\theta&#39;\)，使\(L\)尽可能大。<br/>
+　　进一步假设\(\epsilon_i\)是均值为0的高斯噪声(Or, what else can it be ?)；其方差为某\(\sigma^2\)。即\(\epsilon\)的分布的概率密度函数为<br/>
+\[f(\epsilon|\theta)=(\frac{1}{2\pi\sigma^2})^{\frac{1}{2}}exp(-\frac{\epsilon^2}{2\sigma^2})\qquad(7)\]<br/>
+于是，似然函数可写成<br/>
+\[L(\theta)=\prod_{i=1}^{N}(\frac{1}{2\pi\sigma^2})^{\frac{1}{2}}exp(-\frac{\epsilon_i^2}{2\sigma^2})\qquad(8)\]<br/>
+为了方便处理，对式(8)左右两边去自然对数，\(g(z)=lnz\)是\(z\)的单调递增函数，因此优化目标不变。整理得<br/>
+\[lnL(\theta)=-\frac{1}{2\sigma^2}\sum_{i=1}^{N}\epsilon^2-\frac{N}{2}ln(2\pi\sigma^2)\qquad(9)\]<br/>
+将式(5)代入(9)，得<br/>
+\[lnL(\theta)=-\frac{1}{2\sigma^2}\sum_{i=1}^{N}(y_i-h_{\theta(x_i)})^2-\frac{N}{2}ln(2\pi\sigma^2)\qquad(10)\]<br/>
+式(10)中，等号右边的第二项与\(\theta\)无关，因此要极大化\(lnL(\theta)\)就是要极大化等号右边第一项。由于\(\sigma^2\)是某个正实数，因此我们的优化目标就相当于求<br/>
+\[\theta&#39;=arg\min_{\theta}\frac{1}{2}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(11)\]<br/>
+式(11)正是极小化SSE的方法所寻求的，也就是说，极小化SSE等价于极大似然估计。前文假设\(\epsilon\)服从高斯分布。高斯分布属于指数族分布。参考文献[4]指出，当观测样本来源于指数族分布，辅以适当条件，最小二乘法就等价于极大似然估计。<br/>
+　　对于线性回归模型，\(h_{\theta}(x)=\theta^Tx\)，代入(11)得<br/>
+\[\theta&#39;=arg\min_{\theta}\frac{1}{2}\sum_{i=1}^{N}(y_i-\theta^Tx_i)^2\qquad(12)\]<br/>
+求解(12)式既可以采用求导函数零点求封闭解，也可以使用迭代式的解法如<a href="http://acesmg.github.io/14598347945676.html">梯度下降法</a>。</p>
 
-<pre><code class="language-python">&gt;&gt;&gt;round(2.675, 2)
-2.67
-</code></pre>
+<h3 id="toc_3">Reference</h3>
 
-<p>咦？bug啦？！当然不是。这里要明确一件事：计算机只认识0,1。就是说，我们输入的十进制数，在计算机内部都是用二进制来表示的。有的十进制数可以用二进制准确地表示，比如十进制的0.125可以表示为0b0.001；然而很多的小数是没法用二进制数精确表示的，计算机里存储的是它们的近似值，例如十进制的0.1，用二进制表示，可以近似为: <code>0b0.00011001100110011001100110011001100110011001100110011010</code>，所以当我们把它换回十进制数以输出或者使用，得到的值就是<code>0.1000000000000000055511151231257827021181583404541015625</code>。也就是说，0.1在计算机里并不是刚好等于1/10的。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt;0.1 + 0.2
-0.30000000000000004
-</code></pre>
-
-<p>同样，当我们运行<strong>round( )</strong>函数，也是对计算机中实际存储的值近似取舍。2.67实际上近似为<code>2.67499999999999982236431605997495353221893310546875</code>，你看第三位小数是4，那么<code>round(2.675, 2)</code>就相当于<code>round(2.674, 2)</code>，结果当然是2.67。值得注意的是，这种现象是广泛存在于各种计算机和各种编程语言的，不是bug。</p>
-
-<h4 id="toc_5">3.3 Java中的舍入</h4>
-
-<p>　　Java提供了floor和ceil方法来实现向下和向上取整。</p>
-
-<pre><code class="language-java">Math.floor(2.9)
-Math.ceil(2.1)
-</code></pre>
-
-<p>　　这俩函数简单方便，居家旅行必备。另外Java中也有个round函数，可以实现各种复杂的取整。</p>
-
-<pre><code class="language-Java">System.out.println(Math.round(0.5));
-//输出 1
-System.out.println(Math.round(-0.5));
-//输出 0
-System.out.println(Math.round(-0.51));
-//输出 -1
-</code></pre>
-
-<p>　　这什么鬼？<br/>
-　　Keep Calm and Carry On！<br/>
-　　数学上有多种不同的取整方法，比如我们体育老师教的四舍五入。各种取整方法的共同点就是要对真值作近似，于是就会引入偏差。四舍五入显然并不是一种公平的策略（想想0~4的舍和5~9的得）。<br/>
-　　有一个叫做银行家舍入(Banker’s Rounding)的东西，不造你听过没，反正我是最近才知道的。事实上.NET和VB6都是默认采用这种方式，而且IEEE 754默认采用之。Banker’s Rounding 也就是<strong>round to even</strong>策略。<br/>
-假设当前考虑那位的数字是d（d就是将不被保留的第一位），如果d<5，则舍(round to zero)；如果d>5，则入(round away from zero)；而当d==5时，就要根据d前后的数位来确定往哪边取了。<br/>
-1) 如果d之后存在非零的数位，则入；<br/>
-2) 如果d之后不存在非零的数位，则看d之前的一位，用c表示：<br/>
-　　a.如果c是奇数，则入；<br/>
-　　b.如果c是偶数，则舍。</p>
-
-<p>再来一把栗子，对下列数保留0位小数，则第一位小数就是d，整数位就是c：</p>
-
-<pre><code class="language-java">BankRound(0.4)==0,　　BankRound(0.6)==1
-BankRound(-0.4)==0,　　BankRound(-0.6)==-1
-BankRound(1.5)==2.0,　　BankRound(-1.5)==-2.0
-BankRound(2.5)==2.0,　　BankRound(-2.5)==-2.0
-BankRound(1.51)==2.0,　　BankRound(-1.51)==-2.0
-BankRound(2.51)==3.0,　　BankRound(-2.51)==-3.0
-</code></pre>
-
-<p>　　可以看出，Banker’s Rounding对正数和负数的处理是对称的，因此不会引入符号带来的偏差。另外它以均等的几率来舍入数位（考虑c, c有各一半的几率为奇数和偶数），所以多次舍入后与真值的差别较小。<br/>
-　　扯了这么多，跟Java的<strong>Math.round( )</strong>有什么关系呢？我也是写到这才发现，好像没什么软关系。因为它并没有遵循Banker’s rounding。而是按照以下策略进行取整：</p>
-
-<p>1)当考虑的数位d不是5，d<5就舍，d>5则入。<br/>
-2)当d是5：<br/>
-　　a.如果d的右边有非零数位，则入；<br/>
-　　b.如果d的右边没有非零数位，则** round to ceiling**，即对负数舍，对正数入。</p>
-
-<p><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Math.html">Java文档里是这么表述的</a></p>
-
-<p>还有, 在Java里可以使用<strong>BigDecimal</strong>和<strong>RoundingMode</strong>实现更通用的取整方式。</p>
-
-<pre><code class="language-java">double d = -2.5;
-BigDecimal bd = new BigDecimal(d);
-double nd = bd.setScale(0, RoundingMode.HALF_EVEN).doubleValue();
-System.out.println(nd);
-//输出 -2.0
-</code></pre>
-
-<p><strong>setScale</strong>的第一个参数是保留的小数位数，第二个参数是舍入模式。可选的舍入模式有：<br/>
-<strong>HALF_EVEN</strong>, 也就是<strong>银行家</strong>舍入；<br/>
-<strong>HALF_UP</strong>, 四舍五入；<br/>
-<strong>HALF_DOWN</strong>, 五舍六入；<br/>
-<strong>CEILING、FLOOR</strong>, 向正无穷、负无穷方向；<br/>
-<strong>UP、DOWN</strong>*, 向零和远离零；<br/>
-<strong>UNNECESSARY</strong>, 断言舍入后的值和原值相等，也就是不需要舍入。如果断言错了，抛出<strong>ArithmeticException</strong>异常。</p>
-
-<p>先写到这，有话好好说。</p>
+<blockquote>
+<p>[1] 陈希孺，概率论与数理统计<br/>
+[2] Wikipedia: <a href="https://en.wikipedia.org/wiki/Maximum_likelihood">Maximum Likelihood</a><br/>
+[3] Murphy, Machine Learning: A Probabilistic Perspective.<br/>
+[4] A.Charnes etc, <a href="http://www.tandfonline.com/doi/abs/10.1080/01621459.1976.10481508">The Equivalence of Generalized Least Squares and Maximum Likelihood Estimates in the Exponential Family</a></p>
+</blockquote>
 
 ]]></content>
   </entry>
@@ -448,173 +432,189 @@ my_list += [5]
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[粒子群优化算法]]></title>
-    <link href="http://21stacks.top/14605499748686.html"/>
-    <updated>2016-04-13T20:19:34+08:00</updated>
-    <id>http://21stacks.top/14605499748686.html</id>
+    <title type="html"><![CDATA[整数除法、取余、舍入，Python VS Java]]></title>
+    <link href="http://21stacks.top/14608736410354.html"/>
+    <updated>2016-04-17T14:14:01+08:00</updated>
+    <id>http://21stacks.top/14608736410354.html</id>
     <content type="html"><![CDATA[
-<p>　　粒子群优化算法(Partlcle Swarm Optimization, PSO)是一种基于群体智能的搜索算法。 PSO具有参数配置简单、搜索性能好、可适应性强等优势，因而得到了广泛的应用。本文将从优化问题的基本概念说起，介绍基本PSO算法原理以及它的一些变体。</p>
+<p>　　关于除法，你也许觉得没什么值得谈论的，毕竟小学的时候体育老师就教过我们了。然而对于编程中使用的除法，我觉得还是有很多值得注意的细节的。为什么我想深究一下？因为我日常主要使用Java和Python编程，而它们的除法在细节上有很多不同之处，全是坑啊…所以接下来我也将着重于Java和Python，但是相信我，就算你不用Java和Python，也会有所收获的。</p>
 
-<h2 id="toc_0">Motivation</h2>
+<h3 id="toc_0">1.整数除法</h3>
 
-<h3 id="toc_1">什么是优化问题</h3>
+<p>　　对两个不能整除的整数做除法，就要面对舍入的问题。和大多数编程语言一样，Java的基本舍入策略是向零取整(round to zero)，也就是向绝对值变小的方向取整。举几个香甜的小栗子：3/2=1, -3/2=-1。而对于Python而言，情况就有所不同了，例如：</p>
 
-<p>　　优化，就是要在多种方案中寻找最好的方案。比如有的妹子们出门见男盆友之前恨不得把所有衣服都试一遍，以找到一种最满意的搭配。不过一般情况下她们可能看哪件衣服都觉得不完美，然后要么选择一件还算顺眼的凑活一下，要么愉快地开始了网购...就像妹子们选衣服那样，典型的优化问题通常是不太可能在可接受的时间之内找到一个全局最优解(Global Optimum)的，所以只能想办法在合理的时间内找到一个可接受的解(Local Optimum)。旅行商问题(TSP)、神经网络的训练、无线传感器网络(WSN)的任务调度等，都是常见的优化问题。</p>
-
-<span id="more"></span><!-- more -->
-
-<h3 id="toc_2">优化算法</h3>
-
-<p>　　先明确几个概念。<br/>
-　　什么是<strong>可行解</strong>？回到妹子挑衣服的问题，只要还能穿的衣服，不管好不好看挨不挨冻，都算是可行解。<br/>
-　　什么是<strong>解空间</strong>？所有可行解所构成的集合就是解空间，这个“空间”是抽象的，可能很多维，甚至可能是离散而非连续的。优化算法要做的，就是在解空间中的各个可行解中，尽可能地找到更好的解。这是一个搜索过程，所以优化算法也叫搜索算法(不是Searching Engine那种搜索)。<br/>
-　　什么是<strong>目标函数</strong>？不同的优化算法有着不同的搜索策略，因此可能在不同的问题上表现出各自的优越性。另外需要明确，怎样的解算是一个好的解？我们必须确定一个标准来评价解的好坏。这通常要根据问题本身的特性来建立一个目标函数(Objective Function)。相比于试衣服时的标准(好看)而言，我们的目标函数是要有明确的数学定义的。因此或许对于前面这个例子，可以改用回头率、男朋友的心跳频率等可量化的标准来作为目标函数。于是优化算法要做的就是对目标函数的解空间寻优。在训练神经网络时，以损失函数(Cost Function)\(J(W,b)\)为目标函数，优化目标就是要极小化损失函数的值。<br/>
-　　典型的优化算法有经典的模拟退火、梯度下降等。还有遗传算法、蚁群算法、粒子群优化算法等群智能算法，它们基于对生物群体行为的认知、抽象、借鉴。啊...神奇的大自然...</p>
-
-<h2 id="toc_3">粒子群优化算法简介</h2>
-
-<h3 id="toc_4">起源</h3>
-
-<p>　　粒子群算法源于对鸟群行为的研究。群居的鸟类通常要倾巢出动去寻找食物。对于在鸟群中的一只小小鸟(它名叫Birdy)来说，它处在空间中的某个位置(可以用经度，维度，海拔来定位)；它在飞行着，因此有速度(包括速率大小和方向)；它当前的速度和位置，决定了它下一时刻会处在什么位置。Birdy是一只有主见的鸟，它有着自己的当前飞行速度；它很聪明，能记住自己曾经到过的位置中哪些可能有丰富的食物；而且它是跟着三姑四婆七舅姥爷一起出门的，它也知道大家各自找到的位置中哪个是食物最丰富的。Birdy的飞行就依靠着三个信息的指引，最终它和亲戚们合力找到了一个可以满足它们食物需求的地方。对以上的描述做一个抽象。在解空间中随机放置一定数量的粒子，每一个粒子所在的位置就是它所代表的解；同时粒子是在运动的，它有速度，会在解空间中移动。每个粒子的移动过程就是根据当前速度和位置去往下一刻的位置。粒子们作为一个群体是相互协同和制约的。每一个粒子要根据三个因素来确定它下一刻的速度：自己当前的速度，这代表了它本身的搜索能力；自己目前为止找到的最好位置，这是它的认知部分；目前为止整个群体所能找到的最好位置，这是社会部分。 </p>
-
-<h3 id="toc_5">细节</h3>
-
-<p>　　粒子群优化(PSO)中单个粒子速度和位置的更新可以用下面两式表达：<br/>
-\[V^{(i+1)}=\omega V^{(i)}+c_1r_1(pbest-X^{(i)})+c_2r_2(gbest-X^{(i)})\qquad(1)\\<br/>
-X^{(i+1)}=X^{(i)}+V^{(i+1)}\qquad(2)\]<br/>
-　　其中\(V\)是粒子的速度，\(X\)则是粒子的位置，它们都是多维的向量或矩阵；\(i\)表示迭代次数。公式(1)右边的多项式中的三项分别是粒子当前速度，代表粒子本身的搜索能力；粒子当前位置与粒子自身的历史最佳位置(\(pbest\))的差距，代表其自我认知；当前位置与整个群体的历史最佳位置(\(gbest\))的差距，代表粒子的社会性。粒子下一刻的速度是这个三个者的和。\(\omega\)、\(c_1\)和\(c_2\)是预先设置的参数，改变它们的大小可以调整这三项的影响力(权重)。\(r_1\)和\(r_2\)是两个\((0,1)\)之间的随机数，每次更新速度都要重新生成。粒子的位置更新由公式(2)表示，这一步只需给当前位置加上一个更新后的速度。粒子群算法的执行过程要经历多次迭代，每一次迭代的过程就是更新粒子速度和位置的过程、获取新的适应函数值；并且如果产生了更好的位置，还要更新\(pbest\)和\(gbest\)。所谓更好的位置，如果目标是极小化适应值函数，则在适应值函数上有更小值的位置是更好的位置。下面两图分别表示二维平面上粒子的速度和位置更新过程。<br/>
-<img src="http://7xrz9i.com1.z0.glb.clouddn.com/psoPSO%E9%80%9F%E5%BA%A6%E6%9B%B4%E6%96%B0.jpg?imageView/2/w/500" alt=""/><br/>
-<img src="http://7xrz9i.com1.z0.glb.clouddn.com/psoPSO%E4%BD%8D%E7%BD%AE%E6%9B%B4%E6%96%B0.jpg?imageView/2/w/500" alt="&quot;图1&quot;"/><br/>
-　　\(c_1\)、\(c_2\)通常都设置为2.0。\(\omega\) 的值设为\((0,1)\)之间的一个实数，它可以是确定的，也可以随着迭代次数增加而不断减小。随着迭代的进行，个体位置\(X\)与\(pbest\)和\(gbest\)的差距会越来越小。也就是说，后两项对速度的影响会越来越小。而且速度在每一次迭代都会被乘以一个小于1的\(\omega\) ，因此速度会趋于零。当速度不断趋于零的时候，粒子的位置变动也越来越慢，直至停滞不动。这就是粒子群的收敛过程。<br/>
-下面的伪代码概括了PSO的执行过程。</p>
-
-<p><strong>输入</strong>：适应值函数\(F(X)\)；种群规模 SwarmSize；最大迭代次数 MaxIter；\(c_1\)、\(c_2\)、\(\omega\)。<br/>
-<strong>输出</strong>：\(X=arg\min_{X}F(X)\)。</p>
-
-<pre><code>初始化: 生成SwarmSize个粒子，随机初始化它们的位置和速度。 
-Get fitness for each particle
-Get gbest
-Set pbest as the current position for each particle
-for IterNum = 1, 2,...,MaxIter
-    for each particle
-        renew V
-        renew X
-        renew Fitness
-        renew pbest
-    renew gbest
-return gbest
+<pre><code class="language-python">&gt;&gt;&gt;-1/10
+-1
 </code></pre>
 
-<p>　　对于PSO这类基于群体智能的搜索算法，应该尽量保证个体间的多样性。所谓多样性，就是说个体之间存在着差异，就像生物多样性那样。公式(1)中的随机数\(r_1\)和\(r_2\)就是一种提高多样性的机制。个体的多样性越好，它们在解空间中的分布就越广，群体的搜索能力就越强，陷入局部最优解的可能性就越小。这里存在着一对矛盾：一方面我们希望尽可能地保持粒子的多样性，以提高群体都搜索能力；另一方面我们希望粒子的运动是趋于收敛的，也就是希望粒子的位置会在合理的时间内逐渐趋同。很多对于PSO算法的改进就是着眼于对这对矛盾之间的均衡。</p>
+<p>　　显然如果按照Java的取整策略，-1/10应该得0，而Python给出的结果是-1。事实上Python的取整方式是向下取整，也就是向着数轴上负无穷的方向取整。<br/>
+　　好吧，Java和Python的取整方式不同，那又怎样，夺大点事儿呀…<br/>
+　　那么如果我们要在Python下得到向零取整的结果，咋整？一种比较直接的方式是：</p>
 
-<h2 id="toc_6">改进</h2>
+<pre><code class="language-python">&gt;&gt;&gt;int(float(-1)/10)
+0
+</code></pre>
 
-<p>　　对PSO的改进大多围绕提高粒子多样性和保证收敛速度来进行。这里主要介绍三种：引入变异、邻域PSO、综合学习(Comprehensive Learning)。</p>
+<h3 id="toc_1">2.取余</h3>
 
-<h3 id="toc_7">引入变异</h3>
+<p>　　Java和Python整数除法都遵循下面这个公式：<br/>
+\[(\frac{a}{b})*b+c=a\]<br/>
+　　也就是说：<br/>
+\[a \% b=c=a-(\frac{a}{b})*b\]<br/>
+　　这里用\(\frac{a}{b}\)表示整数除法。既然它们的取整方式不一样，那么取余也会受到影响。对Java，\(-2\%3=-2\)；而对于Python，\(-2\%3=1\)。<br/>
+在某些实际应用中，我们可能需要获得一个整数的各位的数字。如果输入的整数的正的，Java和Python都可以用相同的方法来解决： </p>
 
-<p>　　变异的概念来源于生物进化(依旧是神奇的大自然)。在物种进化的过程中主要起作用的因素有：自然选择，适者生存，优胜劣汰；个体之间的基因交流，重组出新的基因；个体自身的变异产生新的基因。变异发生的概率很低，但对于物种多样性有着非常重要的意义。对于生物进化的认知、抽象、运用，得出了著名的遗传算法(Genetic Algorithm, GA)。我们可以从GA中借鉴变异操作，来提高PSO中群体的多样性。我们预先设定一个较小的变异率参数muRate(比如0.02)，在每次迭代中随机产生一个数，如果这个数小于muRate，则进行变异操作。具体的变异操作可以是对位置X增减一个随机值，可以随机重置某些维度，甚至可以重新随机初始化整个粒子。变异操作为陷入局部最优解的群体提供了跳变的可能，从而可以提高群体的搜索能力。</p>
+<pre><code class="language-python">#Python
+def func(a):
+    pos, res=1, []
+    while a/pos:
+        res += (a/pos)%10,
+        pos *= 10
+    return res
+</code></pre>
 
-<h3 id="toc_8">邻域PSO</h3>
+<p>　　Java代码也差不多就是这样了。但如果输入的整数是一个负数，Java版本的代码还是可以得到正确的结果，而Python不能。那怎样用Python正确地搞定这个问题嘞？可以先取绝对值和符号，当作正数来处理，最后再在结果里搭上符号。 </p>
 
-<p>　　实验表明，公式(1)中的最后一项，即历史最优解，对于整个群体的影响力非常大。它很有可能把群体带向一个并不是很好的位置，使得群体陷于局部最优解。可以通过减缓历史最优解信息的传递速度，来保持粒子多样性。由这个思想产生了各种基于邻域的PSO算法。它们的共同特点是，把最后一项的群体历史最优改成个体邻域内的历史最优解:<br/>
-\[V^{(i+1)}=\omega V^{(i)}+c_1r_1(pbest-X^{(i)})+c_2r_2(lbest-X^{(i)})\qquad(3)\]<br/>
-对于一个粒子来说，\(lbest\)就是它处在的邻域范围内的各个粒子目前为止所得到的最优解。常见的邻域有环形邻域、随机邻域、von Neumann邻域等。</p>
+<h3 id="toc_2">3. Follow-ups</h3>
 
-<h3 id="toc_9">综合学习</h3>
+<h4 id="toc_3">3.1 Python中的另一个除法操作</h4>
 
-<p>　　综合学习策略(Comprehensive Learning，CL)同样认为在基本PSO算法中，gbest的影响力过于强大，容易很快把群体带到一个局部最优解位置，因此应该想办法限制gbest的影响。怎么限制？直接把它去掉。于是就得到了一个右边只有两项的速度更新公式:<br/>
-\[V^{(i+1)}=\omega V^{(i)}+cr(pbest_f-X^{(i)})\qquad(4)\]<br/>
-这里的\(pbest\)也不再是原来的\(pbest\)，它是一个组合体，虽然形态和普通的\(pbest\)还是一样的，但它的不同维度可能来自不同的粒子。通过把较好的粒子的某些维度重组在一起，得到了新的\(pbest_f\)。它掌握着来自整个群体的好的信息，因此有能力指引着群体去往更好的位置。而当种群中个体越来越接近，它们的速度也逐渐趋于零，于是慢慢地收敛了。关于CL的更多细节请参考附录[1]。<br/>
-　　以上的改进都会在一定程度上使群体的收敛速度变慢，因此需要更多的迭代次数。对于解空间不复杂的问题，综合学习的优势并不突出。而当被用来解决各种复杂多峰的优化问题时，它在寻优能力方面的优势就很明显了。</p>
+<p>　　我们知道，在Python中，基本的除号<code>/</code>是被重载了的。当两个操作数都是整数时，进行整数除法，得到整数结果，否则进行浮点数除法（真除法），得到浮点数结果。从Python 2.2开始，另一个除号被引入：<code>//</code>，它只执行整数除法。注意，<code>//</code>的结果类型依操作数而定。</p>
 
-<h2 id="toc_10">组合优化</h2>
+<pre><code class="language-python">&gt;&gt;&gt;1.0/2
+0.0
+&gt;&gt;&gt;1.0//2.0
+0.0
+&gt;&gt;&gt;1//2
+&gt;0
+</code></pre>
 
-<p>　　以上描述的都是对于连续问题的优化算法。针对离散问题，PSO也有对应的版本。对于离散PSO(BPSO)，粒子的位置是离散的值。基本BPSO的粒子的编码为0-1编码，即粒子中的每一维度非0即1。而速度的各个维度依然是连续的，因此我们需要一个函数，将连续的速度值映射成离散的位置值。最常用的映射函数是\(sigmoid\)函数，原始的BPSO使用以下两个公式更新粒子的位置：<br/>
-\[S({V_j}^{(i)})=\frac{1}{1+e^{-{V_j}^{(i)}}}\qquad(5)\]<br/>
-\[{X_j}^{(i+1)}=\begin{cases}<br/>
-0 &amp; \text{ if } random\geqslant S({V_j}^{(i)}) \\<br/>
-1 &amp; \text{ if } random&lt; S({V_j}^{(i)})<br/>
-\end{cases}\qquad(6)\]  </p>
+<p>另外，如果想同时得到商和余数，可以使用内建的函数divmod，结果是一个tuple。</p>
 
-<p>这里\(V^{(i)}_{j}\)表示在第\(i\)次迭代时粒子速度的第\(j\)维。\(sigmoid\)函数的形态如下图所示：<br/>
-<img src="http://7xrz9i.com1.z0.glb.clouddn.com/psoSigmoid.png" alt=""/><br/>
-观察其函数形态可以发现，当速度趋于0的时候，其函数值趋于0.5。这也就是说，对应维度的位置值是0还是1，是等可能的。这并不符合我们所预期的目标：当速度趋于收敛的时候位置也趋于不变。<br/>
-　　一个更合理的方案是采用一种在输入为0时其函数值也为0的函数，例如\(T(X)=\left | tanh(X) \right |\)。这类函数的形态像一个V形：<br/>
-<img src="http://7xrz9i.com1.z0.glb.clouddn.com/psoVshaped.png" alt=""/><br/>
-如果采用V形函数，则位置更新方式也要跟着改为下式，使得当速度趋于0时，位置趋于不变：<br/>
-\[{X_j}^{i+1}=\begin{cases}<br/>
-0 &amp; \text{ if } random\leqslant T({V_j}^{i}) and {V_j}^{i}\leqslant 0\\\ <br/>
-1 &amp; \text{ if } random\leqslant T({V_j}^{i}) and {V_j}^{i}&gt; 0 \\\ <br/>
-{X_j}^{i} &amp; \text{ if } random&gt; T({V_j}^{i}) <br/>
-\end{cases}\]<br/>
-　　这里还要重点安利一种神奇的离散PSO框架，基于集合的离散PSO(Set-based PSO，SPSO)。SPSO的框架非常灵活，可以很好地整合其他算法思想，比如结合综合学习策略；且其编码方式可以自如地根据实际问题来设计。详见参考文献[2]。<br/>
-　　</p>
+<pre><code class="language-python">&gt;&gt;&gt;divmod(7, 2)
+(3, 1)
+&gt;&gt;&gt;divmod(7.0, 2)
+(3.0, 1.0)
+</code></pre>
 
-<h2 id="toc_11">Reference</h2>
+<h4 id="toc_4">3.2 Python中的舍入</h4>
 
-<blockquote>
-<p><a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1637688&amp;newsearch=true&amp;queryText=comprehensive%20learning%20particle%20swarm">1. Comprehensive Learing PSO</a><br/>
-<a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=5299261&amp;newsearch=true&amp;queryText=set-based%20particle%20swarm">2. Set-based PSO</a></p>
-</blockquote>
+<p>　　除了缺省的舍入方式，Python还有多种舍入可供选择。<br/>
+<strong>Floor rounding:</strong></p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[SSE的背后]]></title>
-    <link href="http://21stacks.top/14600116978074.html"/>
-    <updated>2016-04-07T14:48:17+08:00</updated>
-    <id>http://21stacks.top/14600116978074.html</id>
-    <content type="html"><![CDATA[
-<h3 id="toc_0">定义</h3>
+<pre><code class="language-python">&gt;&gt;&gt;import math
+&gt;&gt;&gt;math.floor(1.2)
+1.0
+&gt;&gt;&gt;math.floor(-1.2)
+-2.0
+</code></pre>
 
-<p>　　Sum of Square Error (SSE)代价函数用于衡量一个模型对数据的拟合程度。其形式化的表述为<br/>
-\[C(\theta)=\frac{1}{2}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(1)\]</p>
+<p><strong>Ceiling rounding:</strong></p>
 
-<span id="more"></span><!-- more -->
+<pre><code class="language-python">&gt;&gt;&gt;math.ceil(1.2)
+2.0
+&gt;&gt;&gt;math.ceil(-1.2)
+-1.0
+</code></pre>
 
-<p>　　其中\((x_i, y_i)\)是数据样本，\(x_i\in R^n\)；\(h_{\theta}(x)\)是以\(\theta\)为参数的模型，假设(hypothesis)。在前面加一个系数\(\frac{1}{2}\)的为了方便处理某些运算。注意还有一个常见的概念，平均平方误差(Mean Square Error, MSE)，它是SSE在数据集上的均值，是以平方损失函数为基础的经验风险函数。MSE是一种与数据集大小无关的误差衡量，本质上跟SSE并没有什么软区别。<br/>
-\[MSE=\frac{1}{2N}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(2)\]</p>
+<p><strong>Round-off:</strong></p>
 
-<h3 id="toc_1">直观含义</h3>
+<pre><code class="language-python">&gt;&gt;&gt;round(0.5)
+1.0
+&gt;&gt;&gt;round(-0.4)
+-0.0
+&gt;&gt;&gt;round(-0.5)
+-1.0
+</code></pre>
 
-<p>　　从式(1)可以清楚地看到，SSE直观地表示了模型\(h_{\theta}(x)\)对\(y\)的拟合程度的好坏。\(SSE\geq 0\)，且拟合程度越好SSE越小，一个完美拟合的模型会使SSE为0。在对数据集建立分类或回归模型时，我们追求的目标是尽可能地找到一个模型，使得<br/>
-\[y=h_{\theta}(x)\qquad(3)\]<br/>
-　　很多算法对模型的学习策略都是通过极小化SSE来实现的。不幸的是，我们总不能完美找到一个这样的模型。不能的意思有两层。一是说能力不够，受制于所选模型特性等因素，并不总能得到一个完美的拟合，例如无法用感知机模型对线性不可分的数据完美地划分。 二是说不应该，在训练数据集上完美拟合的模型通常是过拟合的泛化能力不好的模型。后者的主要原因是训练数据中存在的噪声，以及模型自身的缺陷。因此通常情况下，由模型得出的预测值与\(y\)之间的关系是这样的<br/>
-\[y=h_{\theta}(x)+\epsilon\qquad(4)\]<br/>
-　　\(\epsilon\)表示\(\hat{y}=h_{\theta}(x)\)对\(y\)的误差。在回归分析中称\(\epsilon=y-h_{\theta}(x)\)为残差，而式(1)也被称为残差平方和(Residual Sum of Square, RSS)。可以采用最小二乘法来求解极小化RSS问题。若模型是参数\(\theta\)的线性函数，可以求得封闭解；否则可以采用迭代方式求解。</p>
+<p>内嵌的<code>round</code>函数也可以指定一个保留小数位数的参数：</p>
 
-<h3 id="toc_2">从参数估计的角度来看</h3>
+<pre><code class="language-python">&gt;&gt;&gt;round(0.21, 1)
+0.2
+&gt;&gt;&gt;round(0.21, 2)
+0.21
+</code></pre>
 
-<p>　　为什么通过极小化SSE得到的模型是好的？除了直观感觉，我们也可以从参数估计的角度做一些推理。这里我们关注的是式(4)中的误差<br/>
-\[\epsilon=y-h_{\theta}(x)\qquad(5)\]<br/>
-　　对于一组数据\(\{(x_1,y_1),(x_2,y_2),...,(x_i,y_i),...,(x_N,y_N)\}\)，可以得到一组误差值\(\{\epsilon_1,\epsilon_2,...,\epsilon_i,...,\epsilon_N \}\)。通常认为这个误差集里的数据是源于总体分布\(f(x;\theta)\)的抽样，它们独立同分布。因此所有\(\epsilon\)的联合概率密度为<br/>
-\[f(\epsilon_1,...,\epsilon_N;\theta)=f(\epsilon_1;\theta)f(\epsilon_2;\theta)\cdot\cdot\cdot f(\epsilon_N;\theta)\qquad(6)\]<br/>
-　　记\(L(\epsilon_1,...,\epsilon_N;\theta)=f(\epsilon_1,...,\epsilon_N;\theta)\)为似然函数，\(\theta\)是待估计的参数。若\(L(\epsilon_1,...,\epsilon_N;\theta_1)&gt;L(\epsilon_1,...,\epsilon_N;\theta_2)\)，我们说当已知\(\{\epsilon_1,...,\epsilon_N\}\)时，待估计参数\(\theta\)是\(\theta_1\)的可能性大于\(\theta_2\)。因此我们有了一个优化目标：要寻求一个\(\theta&#39;\)，使\(L\)尽可能大。<br/>
-　　进一步假设\(\epsilon_i\)是均值为0的高斯噪声(Or, what else can it be ?)；其方差为某\(\sigma^2\)。即\(\epsilon\)的分布的概率密度函数为<br/>
-\[f(\epsilon|\theta)=(\frac{1}{2\pi\sigma^2})^{\frac{1}{2}}exp(-\frac{\epsilon^2}{2\sigma^2})\qquad(7)\]<br/>
-于是，似然函数可写成<br/>
-\[L(\theta)=\prod_{i=1}^{N}(\frac{1}{2\pi\sigma^2})^{\frac{1}{2}}exp(-\frac{\epsilon_i^2}{2\sigma^2})\qquad(8)\]<br/>
-为了方便处理，对式(8)左右两边去自然对数，\(g(z)=lnz\)是\(z\)的单调递增函数，因此优化目标不变。整理得<br/>
-\[lnL(\theta)=-\frac{1}{2\sigma^2}\sum_{i=1}^{N}\epsilon^2-\frac{N}{2}ln(2\pi\sigma^2)\qquad(9)\]<br/>
-将式(5)代入(9)，得<br/>
-\[lnL(\theta)=-\frac{1}{2\sigma^2}\sum_{i=1}^{N}(y_i-h_{\theta(x_i)})^2-\frac{N}{2}ln(2\pi\sigma^2)\qquad(10)\]<br/>
-式(10)中，等号右边的第二项与\(\theta\)无关，因此要极大化\(lnL(\theta)\)就是要极大化等号右边第一项。由于\(\sigma^2\)是某个正实数，因此我们的优化目标就相当于求<br/>
-\[\theta&#39;=arg\min_{\theta}\frac{1}{2}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(11)\]<br/>
-式(11)正是极小化SSE的方法所寻求的，也就是说，极小化SSE等价于极大似然估计。前文假设\(\epsilon\)服从高斯分布。高斯分布属于指数族分布。参考文献[4]指出，当观测样本来源于指数族分布，辅以适当条件，最小二乘法就等价于极大似然估计。<br/>
-　　对于线性回归模型，\(h_{\theta}(x)=\theta^Tx\)，代入(11)得<br/>
-\[\theta&#39;=arg\min_{\theta}\frac{1}{2}\sum_{i=1}^{N}(y_i-\theta^Tx_i)^2\qquad(12)\]<br/>
-求解(12)式既可以采用求导函数零点求封闭解，也可以使用迭代式的解法如<a href="http://acesmg.github.io/14598347945676.html">梯度下降法</a>。</p>
+<p><strong>Caution !</strong></p>
 
-<h3 id="toc_3">Reference</h3>
+<pre><code class="language-python">&gt;&gt;&gt;round(2.675, 2)
+2.67
+</code></pre>
 
-<blockquote>
-<p>[1] 陈希孺，概率论与数理统计<br/>
-[2] Wikipedia: <a href="https://en.wikipedia.org/wiki/Maximum_likelihood">Maximum Likelihood</a><br/>
-[3] Murphy, Machine Learning: A Probabilistic Perspective.<br/>
-[4] A.Charnes etc, <a href="http://www.tandfonline.com/doi/abs/10.1080/01621459.1976.10481508">The Equivalence of Generalized Least Squares and Maximum Likelihood Estimates in the Exponential Family</a></p>
-</blockquote>
+<p>咦？bug啦？！当然不是。这里要明确一件事：计算机只认识0,1。就是说，我们输入的十进制数，在计算机内部都是用二进制来表示的。有的十进制数可以用二进制准确地表示，比如十进制的0.125可以表示为0b0.001；然而很多的小数是没法用二进制数精确表示的，计算机里存储的是它们的近似值，例如十进制的0.1，用二进制表示，可以近似为: <code>0b0.00011001100110011001100110011001100110011001100110011010</code>，所以当我们把它换回十进制数以输出或者使用，得到的值就是<code>0.1000000000000000055511151231257827021181583404541015625</code>。也就是说，0.1在计算机里并不是刚好等于1/10的。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt;0.1 + 0.2
+0.30000000000000004
+</code></pre>
+
+<p>同样，当我们运行<strong>round( )</strong>函数，也是对计算机中实际存储的值近似取舍。2.67实际上近似为<code>2.67499999999999982236431605997495353221893310546875</code>，你看第三位小数是4，那么<code>round(2.675, 2)</code>就相当于<code>round(2.674, 2)</code>，结果当然是2.67。值得注意的是，这种现象是广泛存在于各种计算机和各种编程语言的，不是bug。</p>
+
+<h4 id="toc_5">3.3 Java中的舍入</h4>
+
+<p>　　Java提供了floor和ceil方法来实现向下和向上取整。</p>
+
+<pre><code class="language-java">Math.floor(2.9)
+Math.ceil(2.1)
+</code></pre>
+
+<p>　　这俩函数简单方便，居家旅行必备。另外Java中也有个round函数，可以实现各种复杂的取整。</p>
+
+<pre><code class="language-Java">System.out.println(Math.round(0.5));
+//输出 1
+System.out.println(Math.round(-0.5));
+//输出 0
+System.out.println(Math.round(-0.51));
+//输出 -1
+</code></pre>
+
+<p>　　这什么鬼？<br/>
+　　Keep Calm and Carry On！<br/>
+　　数学上有多种不同的取整方法，比如我们体育老师教的四舍五入。各种取整方法的共同点就是要对真值作近似，于是就会引入偏差。四舍五入显然并不是一种公平的策略（想想0~4的舍和5~9的得）。<br/>
+　　有一个叫做银行家舍入(Banker’s Rounding)的东西，不造你听过没，反正我是最近才知道的。事实上.NET和VB6都是默认采用这种方式，而且IEEE 754默认采用之。Banker’s Rounding 也就是<strong>round to even</strong>策略。<br/>
+假设当前考虑那位的数字是d（d就是将不被保留的第一位），如果d<5，则舍(round to zero)；如果d>5，则入(round away from zero)；而当d==5时，就要根据d前后的数位来确定往哪边取了。<br/>
+1) 如果d之后存在非零的数位，则入；<br/>
+2) 如果d之后不存在非零的数位，则看d之前的一位，用c表示：<br/>
+　　a.如果c是奇数，则入；<br/>
+　　b.如果c是偶数，则舍。</p>
+
+<p>再来一把栗子，对下列数保留0位小数，则第一位小数就是d，整数位就是c：</p>
+
+<pre><code class="language-java">BankRound(0.4)==0,　　BankRound(0.6)==1
+BankRound(-0.4)==0,　　BankRound(-0.6)==-1
+BankRound(1.5)==2.0,　　BankRound(-1.5)==-2.0
+BankRound(2.5)==2.0,　　BankRound(-2.5)==-2.0
+BankRound(1.51)==2.0,　　BankRound(-1.51)==-2.0
+BankRound(2.51)==3.0,　　BankRound(-2.51)==-3.0
+</code></pre>
+
+<p>　　可以看出，Banker’s Rounding对正数和负数的处理是对称的，因此不会引入符号带来的偏差。另外它以均等的几率来舍入数位（考虑c, c有各一半的几率为奇数和偶数），所以多次舍入后与真值的差别较小。<br/>
+　　扯了这么多，跟Java的<strong>Math.round( )</strong>有什么关系呢？我也是写到这才发现，好像没什么软关系。因为它并没有遵循Banker’s rounding。而是按照以下策略进行取整：</p>
+
+<p>1)当考虑的数位d不是5，d<5就舍，d>5则入。<br/>
+2)当d是5：<br/>
+　　a.如果d的右边有非零数位，则入；<br/>
+　　b.如果d的右边没有非零数位，则** round to ceiling**，即对负数舍，对正数入。</p>
+
+<p><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Math.html">Java文档里是这么表述的</a></p>
+
+<p>还有, 在Java里可以使用<strong>BigDecimal</strong>和<strong>RoundingMode</strong>实现更通用的取整方式。</p>
+
+<pre><code class="language-java">double d = -2.5;
+BigDecimal bd = new BigDecimal(d);
+double nd = bd.setScale(0, RoundingMode.HALF_EVEN).doubleValue();
+System.out.println(nd);
+//输出 -2.0
+</code></pre>
+
+<p><strong>setScale</strong>的第一个参数是保留的小数位数，第二个参数是舍入模式。可选的舍入模式有：<br/>
+<strong>HALF_EVEN</strong>, 也就是<strong>银行家</strong>舍入；<br/>
+<strong>HALF_UP</strong>, 四舍五入；<br/>
+<strong>HALF_DOWN</strong>, 五舍六入；<br/>
+<strong>CEILING、FLOOR</strong>, 向正无穷、负无穷方向；<br/>
+<strong>UP、DOWN</strong>*, 向零和远离零；<br/>
+<strong>UNNECESSARY</strong>, 断言舍入后的值和原值相等，也就是不需要舍入。如果断言错了，抛出<strong>ArithmeticException</strong>异常。</p>
+
+<p>先写到这，有话好好说。</p>
 
 ]]></content>
   </entry>
