@@ -4,7 +4,7 @@
   <title><![CDATA[]]></title>
   <link href="http://21stacks.top/atom.xml" rel="self"/>
   <link href="http://21stacks.top/"/>
-  <updated>2016-04-18T16:06:05+08:00</updated>
+  <updated>2016-04-19T14:43:46+08:00</updated>
   <id>http://21stacks.top/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -29,6 +29,8 @@
 \[P(A)=\sum_{j}P(B_j)P(A|B_j)\qquad(2)\]<br/>
 进而可以得到贝叶斯定律，当事件\(A\)发生时，事件\(B_k\)发生的概率为<br/>
 \[P(B_k|A)=\frac{P(A|B_k)P(B_k)}{\sum_{j}P(B_j)P(A|B_j)}\qquad(3)\]</p>
+
+<span id="more"></span><!-- more -->
 
 <h3 id="toc_1">朴素贝叶斯模型的学习</h3>
 
