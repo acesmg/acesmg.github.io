@@ -4,13 +4,84 @@
   <title><![CDATA[]]></title>
   <link href="http://21stacks.top/atom.xml" rel="self"/>
   <link href="http://21stacks.top/"/>
-  <updated>2016-04-17T15:02:50+08:00</updated>
+  <updated>2016-04-18T16:06:05+08:00</updated>
   <id>http://21stacks.top/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[朴素贝叶斯模型]]></title>
+    <link href="http://21stacks.top/14609672251727.html"/>
+    <updated>2016-04-18T16:13:45+08:00</updated>
+    <id>http://21stacks.top/14609672251727.html</id>
+    <content type="html"><![CDATA[
+<p>　　朴素贝叶斯是一种生成模型，基于贝叶斯定律和特征条件独立性假设，通过先验概率求后验概率。</p>
+
+<h3 id="toc_0">贝叶斯定律</h3>
+
+<p>　　在事件\(A\)发生的情况下，事件\(B\)发生的概率为<br/>
+\[P(B|A)=\frac{P(A,B)}{P(A)}\qquad(1)\]<br/>
+　　并且有\(P(A,B)=P(AB)=P(B|A)P(A)=P(A|B)P(B)\)。<br/>
+　　设有事件群\({B_1,B_2,...}\)，它们两两互斥，且\(B_1+B_2+···=\Omega\)为必然事件，则对任意事件\(A\)有\(P(A)=\sum_{j}P(A,B_j)\)，代入式(1)，得全概率公式<br/>
+\[P(A)=\sum_{j}P(B_j)P(A|B_j)\qquad(2)\]<br/>
+进而可以得到贝叶斯定律，当事件\(A\)发生时，事件\(B_k\)发生的概率为<br/>
+\[P(B_k|A)=\frac{P(A|B_k)P(B_k)}{\sum_{j}P(B_j)P(A|B_j)}\qquad(3)\]</p>
+
+<h3 id="toc_1">朴素贝叶斯模型的学习</h3>
+
+<p>　　作为一种生成模型，朴素贝叶斯模型对给定输入\(X\)，求条件概率分布\(P(Y|X)\)。设输入空间为\(\chi\subseteq R^n\)，输出空间为集合\(\psi=\{c_1,c_2,...c_K\}\)，训练样本集合为\(T={(x_1,y_1),(x_2,y_2),...(x_N,y_N),}\)。贝叶斯模型首先要求的是先验概率分布<br/>
+\[P(Y=c_k),\qquad k=1,2,...,K\]<br/>
+以及条件概率分布<br/>
+\[P(X=x|Y=c_k),\qquad k=1,2,...,K\]<br/>
+然后由贝叶斯公式可得<br/>
+\[P(Y=c_k|X=x)=\frac{P(X=x|Y=c_k)P(Y=c_k)}{\sum_{k}P(X=x|Y=c_k)P(Y=c_k)}\qquad (4)\]<br/>
+在分类时，若输入为\(X=x\)时，朴素贝叶斯的输出是最大化后验概率的类标签<br/>
+\[y=arg\max_{c_k}\frac{P(X=x|Y=c_k)P(Y=c_k)}{\sum_{k}P(X=x|Y=c_k)P(Y=c_k)}\qquad(5)\]<br/>
+上式的分母对于不同的类标签\(c_k\)是一样的，因此输出等价于<br/>
+\[y=arg\max_{c_k}P(X=x|Y=c_k)P(Y=c_k)\qquad(6)\]<br/>
+　　注意到\(P(X=x|Y=c_k)=P(X^{(1)}=x^{(1)},X^{(2)}=x^{(2)},...,X^{(n)}=x^{(n)}|Y=c_k)\)。对于离散的多项分布数据样本，假设\(x^{(j)}\)有\(S_j\)种可能的值，那么要求\(P(X=x|Y=c_k)\)，就要求\(K\prod_{j=1}^{n}S_j\)个参数，what a disaster. <strong>朴素</strong>贝叶斯的朴素(Naive)就在于对特征的条件概率作了独立性假设，即假设对于给定的\(X\)，特征各维度之间是独立的。于是由概率的乘法定律有<br/>
+\[P(X=x|Y=c_k)=\prod_{j=1}^{n}P(X=x^{(j)}|Y=c_k)\qquad(7)\]<br/>
+代入(6)得<br/>
+\[y=arg\max_{c_k}P(Y=c_k)\prod_{j=1}^{n}P(X=x^{(j)}|Y=c_k)\qquad(8)\]</p>
+
+<h3 id="toc_2">参数估计</h3>
+
+<p>　　对于朴素贝叶斯模型而已，模型的参数就是前面提到的先验概率和条件概率。朴素贝叶斯模型的学习就是通过训练数据集对这些参数的估计。<br/>
+首先是先验概率\(P(Y=c_k)\)。可以直接假设各类别等概率出现，即令\(P(Y=c_k)=\frac{1}{K}\)。也可以从训练样本中各类样本占比得出一个经验估计<br/>
+\[P(Y=c_k)=\frac{\sum_{i=1}^{N}I(y_i=c_k)}{N}\qquad(9)\]<br/>
+求条件概率\(P(X^{(j)}|Y=c_k)\)的方法因特征类型不同而不同。</p>
+
+<h4 id="toc_3">高斯分布</h4>
+
+<p>　　对于特征值连续的数据集，可以假设各特征符合单变量的高斯分布，因此得到<br/>
+\[P(X^{(i)}=x^{(i)}|Y=c_k)=\frac{1}{\sqrt{2\pi\sigma_{c_k}^2}}exp(-\frac{(x^{(i)}-\mu_{c_k})^2}{2\sigma_{c_k}^2})\qquad(10)\]</p>
+
+<h4 id="toc_4">多项分布</h4>
+
+<p>　　对于特征值是离散的，多项分布的情况，假设\(x^{(j)}\)有\(S_j\)种可能的取值\(\{v_{j1},v_{j2},...,v_{jm},...,v_{jS_j}\}\)，则<br/>
+\[P(X^{(j)}=v_{jm}|Y=c_k)=\frac{\sum_{i=1}^{N}I(x_i^{(j)}=v_{jm},y_i=c_k)}{\sum_{i=1}^{N}I(y_i=c_k)}\qquad(11)\]<br/>
+式(11)在训练集上采用极大似然估计求条件概率。可能某些类标签和特征值的组合并不存在，则对应的条件概率为零，这会抵消其他特征的条件概率，影响模型的准确性。可以加入平滑来解决这一问题，具体的，上式改为<br/>
+\[P(X^{(j)}=v_{jm}|Y=c_k)=\frac{\sum_{i=1}^{N}I(x_i^{(j)}=v_{jm},y_i=c_k)+\alpha}{\sum_{i=1}^{N}I(y_i=c_k)+S_j\alpha}\qquad(12)\]<br/>
+其中\(\alpha\ge0\)。当取\(\alpha=1\)时，就是拉普拉斯平滑，当\(\alpha&lt;1\)时是Lidstone平滑。相应的，式(9)也加入平滑，得<br/>
+\[P(Y=c_k)=\frac{\sum_{i=1}^{N}I(y_i=c_k)+\alpha}{N+K\alpha}\qquad(13)\]</p>
+
+<h4 id="toc_5">二项分布</h4>
+
+<p>　　如果数据集的特征值是符合二项(0-1)分布的，则条件概率\(P(X^{(j)}|Y=c_k)\)可表示为<br/>
+\[P(X^{(j)}|Y=c_k)=P(x^{(j)}|c_k)x^{(j)}+(1-P(x^{(j)}|c_k)(1-x^{(j)}))(14)\]</p>
+
+<h3 id="toc_6">Reference</h3>
+
+<blockquote>
+<p>[1] 李航，统计学习方法<br/>
+[2] Scikit-Learn, <a href="http://scikit-learn.org/stable/modules/naive_bayes.html">Naive Bayes</a></p>
+</blockquote>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[粒子群优化算法]]></title>
@@ -1000,26 +1071,6 @@ Z_m=\sum_{i=1}^{N} w_{m,i}exp(-y_i \alpha_m h_m(x_i))\]<br/>
 　　1.可以用整个训练集分别训练C1和C2，然后将C1和C2作用于测试集。就像上图2那样。<br/>
 　　2.也可以把上图1中得到的两个(多个)C1都作用于测试集，投票或求评价得到TF1；用同样的方法得到TF2。<br/>
 　　3.组合TF1，TF2，生成TF，含两种属性。 </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Logistic 回归]]></title>
-    <link href="http://21stacks.top/14591708106259.html"/>
-    <updated>2016-03-28T21:13:30+08:00</updated>
-    <id>http://21stacks.top/14591708106259.html</id>
-    <content type="html"><![CDATA[
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[线性回归]]></title>
-    <link href="http://21stacks.top/14591708105958.html"/>
-    <updated>2016-03-28T21:13:30+08:00</updated>
-    <id>http://21stacks.top/14591708105958.html</id>
-    <content type="html"><![CDATA[
 
 ]]></content>
   </entry>

@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-  
-  
+    
+  Misc - 
   
   </title>
   
@@ -105,21 +105,17 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="14598347945676.html">
+                <a class="clearlink" href="14600116978074.html">
                 
-                  <h1>梯度下降</h1>
+                  <h1>SSE的背后</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<p>　　梯度下降算法是一种常见的无约束优化问题求解算法。其主要特点有：<br/>
-　　1.迭代式，逐步逼近；<br/>
-　　2.只能在待优化函数的可导邻域内寻优；<br/>
-　　3.沿梯度的反方向搜索；<br/>
-　　3.实现相对简单。<br/>
-　　设优化目标为<br/>
-\[\min_{x}F(x)\qquad (1)\]<br/>
-　　\(F(x)\)是\(R^{n}\)上一阶可导函数。现在要求一个\(x\in R^{n}\)，使\(F(x)\)达到极小值。</p>
+                        	<h3 id="toc_0">定义</h3>
+
+<p>　　Sum of Square Error (SSE)代价函数用于衡量一个模型对数据的拟合程度。其形式化的表述为<br/>
+\[C(\theta)=\frac{1}{2}\sum_{i=1}^{N}(y_i-h_{\theta}(x_i))^2\qquad(1)\]</p>
 
 
                         
@@ -128,11 +124,11 @@
                 </a>
                 <div class="read-more clearfix">
                   <div class="more-left left">
-                   <a href="14598347945676.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/4/5</span>
+                   <a href="14600116978074.html">Read more</a>&nbsp;&nbsp; 
+                    <span class="date">2016/4/7</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95.html'>Optimization</a></span>
+          					    <span class="posted-in"><a href='Misc.html'>Misc</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -140,160 +136,7 @@
                       
 
                       
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14598347945676.html" data-count-type="comments" href="14598347945676.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14592400407522.html">
-                
-                  <h1>Boosting</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>　　Boosting是一种Adaptive Basis-function Model (ABM)。ABM模型可以用式(1)高度概括：<br/>
-\[f(x)=w_0+\sum_{m=1}^{M} w_m \phi_m(x) \qquad(1)\]<br/>
-　　这里的\(\phi_m(x)\)是从数据中学习而来的第\(m\)个基本模型(基函数)。ABM通过多个模型的线性组合来得到<strong>非线性</strong>的模型。事实上，决策树就是一种ABM。一棵具有\(M\)个叶子节点的决策树可以表示为：<br/>
-\[T(x)=\sum_{m=1}^{M}w_mI(x\in R_m)\qquad (2)\]<br/>
-　　\(R_m\)是决策树的第\(m\)个叶节点；\(w_m\)表示第\(m\)个叶节点的标示值(输出)；当样本x属于第\(m\)个叶节点时，函数\(I(x \in R_m)\)输出1，否则输出0。<br/>
-　　Boosting是除了决策树以外的另一种常见的ABM模型。Boosting中的基本模型也叫做weak learner。被使用最多的基本模型是CART。</p>
-
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="14592400407522.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/3/29</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>EnsembledModels</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14592400407522.html" data-count-type="comments" href="14592400407522.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14592424184360.html">
-                
-                  <h1>Bagging</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>　　一种组合学习模型。通过从原始训练数据集里有放回(with replacement)地抽取数据样本，来构造新的训练集。每得到一个新的训练集就在其上训练一个模型。重复多次，得数个模型。采用求平均或Major Vote来组合这些模型，得到最终的输出模型。<br/>
-　　新构造的训练集与原始训练集有着相同数量的样本，设为\(N\)。则每构造一个新训练集，原始训练集中的单个样本被抽取(即至少被抽中一次)的概率是：<br/>
-　　\[p=1-(1-\frac{1}{N})^{N}\]</p>
-
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="14592424184360.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/3/29</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>EnsembledModels</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14592424184360.html" data-count-type="comments" href="14592424184360.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14591708106411.html">
-                
-                  <h1>随机森林</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>　　随机森林是以决策树为基本模型的Bagging策略。通过两个层次的随机性来降低基本模型的相关性，从而提高组合模型的性能。<br/>
-　　1.在训练每棵树时，从训练数据集中有放回地抽取样本；<br/>
-　　2.每次分裂时随机选取一个特征子集(随机子空间).</p>
-
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="14591708106411.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/3/28</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>EnsembledModels</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14591708106411.html" data-count-type="comments" href="14591708106411.html#ds-thread"></a>
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14591708106532.html">
-                
-                  <h1>Stacked Generalization</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>　　使用多层模型，前一层的输出作为特征，当作后一层的输入。以两层模型为例。第一层使用两种分类器，生成两种meta-feature；第二层使用一个分类器，以这些meta-features为特征生成分类结果。训练集和测试集都要经历这两个层次。在第一层，对于单个分类器，可以采用k-fold来生成这个分类器对应的meta-feature。整个过程可以用以下两图表示，这里采用了2-fold。</p>
-
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="14591708106532.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2016/3/28</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95.html'>EnsembledModels</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                      
-                        &nbsp;<a  class="ds-thread-count" data-thread-key="14591708106532.html" data-count-type="comments" href="14591708106532.html#ds-thread"></a>
+                        &nbsp;<a  class="ds-thread-count" data-thread-key="14600116978074.html" data-count-type="comments" href="14600116978074.html#ds-thread"></a>
                        
                   </span>
                   </div>
@@ -306,7 +149,7 @@
 			<div class="row">
 			  <div class="large-6 columns">
 			  <p class="text-left" style="padding-top:25px;">
-			   <a href="all.html">&laquo; Prev Page</a>  
+			   
 			  </p>
 			  </div>
 			  <div class="large-6 columns">
