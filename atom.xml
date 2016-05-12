@@ -4,7 +4,7 @@
   <title><![CDATA[]]></title>
   <link href="http://21stacks.top/atom.xml" rel="self"/>
   <link href="http://21stacks.top/"/>
-  <updated>2016-04-19T14:43:46+08:00</updated>
+  <updated>2016-04-19T14:50:06+08:00</updated>
   <id>http://21stacks.top/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -289,6 +289,8 @@ my_list &lt;type &#39;list&#39;&gt;
 my_generator &lt;type &#39;generator&#39;&gt;
 </code></pre>
 
+<span id="more"></span><!-- more -->
+
 <h4 id="toc_1">枚举 (enumerate)</h4>
 
 <p>要在枚举过程中使用序号，可以采用<code>enumerate</code>优雅地实现：</p>
@@ -527,6 +529,8 @@ my_list += [5]
 <pre><code class="language-python">&gt;&gt;&gt;int(float(-1)/10)
 0
 </code></pre>
+
+<span id="more"></span><!-- more -->
 
 <h3 id="toc_1">2.取余</h3>
 
@@ -1073,6 +1077,60 @@ Z_m=\sum_{i=1}^{N} w_{m,i}exp(-y_i \alpha_m h_m(x_i))\]<br/>
 　　1.可以用整个训练集分别训练C1和C2，然后将C1和C2作用于测试集。就像上图2那样。<br/>
 　　2.也可以把上图1中得到的两个(多个)C1都作用于测试集，投票或求评价得到TF1；用同样的方法得到TF2。<br/>
 　　3.组合TF1，TF2，生成TF，含两种属性。 </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[得见东江湖]]></title>
+    <link href="http://21stacks.top/14598276464760.html"/>
+    <updated>2016-04-05T11:40:46+08:00</updated>
+    <id>http://21stacks.top/14598276464760.html</id>
+    <content type="html"><![CDATA[
+<p><img src="http://7xrz9i.com1.z0.glb.clouddn.com/%E4%B8%9C%E6%B1%9F%E6%B9%96.jpg" alt=""/></p>
+
+<span id="more"></span><!-- more -->
+
+<blockquote>
+<p>2015年9月12日 手机摄于东江湖.</p>
+</blockquote>
+
+<p>　　我总认为，近处的风景随时去看都可以，因此在长春待了四年，从未到过长白山。我还认为，太远的风景不值得为之舟车劳累长途跋涉，如今身在广州，长白山不去也罢。<br/>
+　　生于湘南林邑，而这是我首次得以近览东江湖，若不是亲人邀请盛情难却，也不得成行。九月的天气已近秋，加之数日的连绵细雨，湖上竟刮起凛冽寒风。我们一群老少爷们在这风中冻得瑟瑟发抖，唯年近八旬的三姨奶奶一人岿然屹立，迎风眺望，那意气风发的劲头着实让人惊叹。她年轻时在南车工作，吃了很多苦；退休后学起了国画、京剧；还独自一人览遍大江南北，在广袤的草原上跃马扬鞭，在翻腾的大海上引吭高歌。这种气质，我羡慕，学不来。<br/>
+　　等我不搬砖了，就找条小街，开个照相馆，就叫老曾照相馆。你看，人老去的样子千姿百态，也不知道会有几人光顾我的照相馆。管他呢，到那时候老子肯定很有钱。<br/>
+　　<br/>
+　　<br/>
+　　<br/>
+　　<br/>
+　　</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[广美的气质]]></title>
+    <link href="http://21stacks.top/14598440012972.html"/>
+    <updated>2016-04-05T16:13:21+08:00</updated>
+    <id>http://21stacks.top/14598440012972.html</id>
+    <content type="html"><![CDATA[
+<p><img src="http://7xrz9i.com1.z0.glb.clouddn.com/cold-guangmeiDSCF1485%E5%89%AF%E6%9C%AC.jpg" alt=""/></p>
+
+<span id="more"></span><!-- more -->
+
+<p><img src="http://7xrz9i.com1.z0.glb.clouddn.com/cold-guangmeiDSCF1490%E5%89%AF%E6%9C%AC.jpg" alt=""/></p>
+
+<p><img src="http://7xrz9i.com1.z0.glb.clouddn.com/cold-guangmeiDSCF1480%E5%89%AF%E6%9C%AC.jpg" alt=""/></p>
+
+<blockquote>
+<p>2014年12月13日 摄于广州美术学院.</p>
+</blockquote>
+
+<p>　　十多年前我在一所县级中学里上初中，经常莫名其妙地考年级第一，那时候我梦想成为画家。后来去了市里读高中，我努力了好几把都没能考进前十，所以那时候我喜欢去网吧玩游戏。上大学了，班上同学的通信原理课都特认真，但我还是觉得编程更有意思。<br/>
+　　人都各有成长，但总会在某个时期，痴迷于一种和别人不一样的自我。<br/>
+　　<br/>
+　　<br/>
+　　<br/>
+　　</p>
 
 ]]></content>
   </entry>
